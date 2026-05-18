@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>زُبَد — منهج اللفظي المكثّف لاختبار قياس</title>
+  <meta name="description" content="منصة سعودية تفاعلية تدرّبك على اللفظي في قياس بـ ١٥ درس مكثّف، ٨٠٠+ سؤال محلول، ومحاكاة كاملة للاختبار.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Design Tokens ===== */
+    :root {
+      /* Colors — clean, calm, with butter accent */
+      --bg: #FAFAF7;          /* near-white, slight warm */
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;         /* near-black, soft */
+      --ink-soft: #4A4A47;    /* secondary text */
+      --ink-mute: #8A8A85;    /* tertiary, captions */
+      --line: #E8E6DE;        /* hairline borders */
+      --line-soft: #F0EEE6;
+      --accent: #E8B84A;      /* butter gold — used sparingly */
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --red: #B84545;
+
+      /* Type */
+      --font-sans: 'Tajawal', system-ui, -apple-system, sans-serif;
+
+      /* Spacing scale */
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 32px;
+      --space-5: 48px;
+      --space-6: 64px;
+      --space-7: 96px;
+      --space-8: 128px;
+
+      /* Radii */
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+
+      /* Shadows — restrained */
+      --shadow-1: 0 1px 2px rgba(15,15,14,0.04);
+      --shadow-2: 0 4px 16px rgba(15,15,14,0.06);
+      --shadow-3: 0 12px 40px rgba(15,15,14,0.08);
+    }
+
+    /* ===== Reset ===== */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      font-weight: 400;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    img, svg { display: block; max-width: 100%; }
+    button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== Layout ===== */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-3);
+    }
+    @media (min-width: 768px) {
+      .container { padding: 0 var(--space-5); }
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease, background .3s ease;
+    }
+    .nav.scrolled {
+      border-bottom-color: var(--line);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo-mark {
+      width: 32px;
+      height: 32px;
+    }
+    .nav-links {
+      display: none;
+      gap: var(--space-4);
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+    .nav-links a {
+      transition: color .2s ease;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    @media (min-width: 900px) {
+      .nav-links { display: flex; }
+    }
+
+    /* ===== Buttons ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(15,15,14,0.18);
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: var(--ink);
+      box-shadow: 0 4px 14px rgba(232,184,74,0.35);
+    }
+    .btn-accent:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(232,184,74,0.45);
+      background: #F0C155;
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-soft);
+      padding: 10px 16px;
+    }
+    .btn-ghost:hover { color: var(--ink); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .btn-outline:hover {
+      border-color: var(--ink);
+      background: var(--surface);
+    }
+    .btn-lg {
+      padding: 18px 32px;
+      font-size: 17px;
+    }
+    .btn .arrow {
+      transition: transform .25s ease;
+    }
+    .btn:hover .arrow {
+      transform: translateX(-4px); /* RTL: arrow on right, moves right on hover */
+    }
+
+    /* ===== Sections ===== */
+    section {
+      padding: var(--space-7) 0;
+    }
+    @media (min-width: 768px) {
+      section { padding: var(--space-8) 0; }
+    }
+    .section-head {
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto var(--space-6);
+    }
+    .section-eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: var(--space-2);
+    }
+    .section-title {
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin: 0 0 var(--space-2);
+    }
+    .section-sub {
+      font-size: 17px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: var(--space-6) 0 var(--space-8);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      align-items: center;
+    }
+    @media (min-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: var(--space-7);
+      }
+    }
+    .hero-content {
+      text-align: center;
+    }
+    @media (min-width: 900px) {
+      .hero-content { text-align: right; }
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: var(--accent-glow);
+      border: 1px solid #F2E5B8;
+      color: var(--accent-deep);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: var(--space-3);
+      animation: fadeUp .8s .1s both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--accent-deep);
+    }
+    .hero h1 {
+      font-size: clamp(38px, 6.5vw, 68px);
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      margin: 0 0 var(--space-3);
+      animation: fadeUp .8s .2s both;
+    }
+    .hero h1 .highlight {
+      position: relative;
+      display: inline-block;
+      color: var(--accent-deep);
+    }
+    .hero h1 .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 0.08em;
+      right: 0;
+      width: 100%;
+      height: 0.18em;
+      background: var(--accent);
+      opacity: 0.35;
+      z-index: -1;
+      border-radius: 2px;
+    }
+    .hero-sub {
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--ink-soft);
+      max-width: 520px;
+      margin: 0 0 var(--space-4);
+      line-height: 1.65;
+      animation: fadeUp .8s .35s both;
+    }
+    @media (min-width: 900px) {
+      .hero-sub { margin-right: 0; }
+    }
+    .hero-content:not(.text-right) .hero-sub {
+      margin-right: auto;
+      margin-left: auto;
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      justify-content: center;
+      margin-bottom: var(--space-3);
+      animation: fadeUp .8s .5s both;
+    }
+    @media (min-width: 900px) {
+      .hero-cta-row { justify-content: flex-start; }
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      justify-content: center;
+      font-size: 13.5px;
+      color: var(--ink-mute);
+      animation: fadeUp .8s .65s both;
+    }
+    @media (min-width: 900px) {
+      .hero-meta { justify-content: flex-start; }
+    }
+    .hero-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hero-meta-item::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+    }
+    .hero-visual {
+      position: relative;
+      animation: fadeIn 1s .4s both;
+    }
+
+    /* Hero illustration container */
+    .hero-card {
+      position: relative;
+      aspect-ratio: 1 / 1.05;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    /* ===== PROBLEM SECTION ===== */
+    .problem {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .problem-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+    @media (min-width: 768px) {
+      .problem-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-4);
+      }
+    }
+    .problem-card {
+      padding: var(--space-4);
+      border-radius: var(--r-lg);
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .problem-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-2);
+    }
+    .problem-icon {
+      width: 44px; height: 44px;
+      border-radius: var(--r-md);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      margin-bottom: var(--space-3);
+      color: var(--accent-deep);
+    }
+    .problem-card h3 {
+      font-size: 19px;
+      font-weight: 800;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+    .problem-card p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ===== SOLUTION SECTION ===== */
+    .solution-list {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .solution-item {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: var(--space-3);
+      align-items: start;
+      padding: var(--space-4);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      transition: all .3s ease;
+    }
+    .solution-item:hover {
+      border-color: var(--accent);
+      transform: translateX(-4px); /* RTL */
+    }
+    .solution-num {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--bg);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+    .solution-body h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 0 6px;
+      letter-spacing: -0.01em;
+    }
+    .solution-body p {
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 15.5px;
+      line-height: 1.7;
+    }
+
+    /* ===== CURRICULUM SECTION ===== */
+    .curriculum {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .curriculum-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-2);
+      max-width: 760px;
+      margin: 0 auto var(--space-5);
+    }
+    @media (min-width: 600px) {
+      .curriculum-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .chapter {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-2);
+      align-items: center;
+      padding: 18px 20px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      transition: all .25s ease;
+    }
+    .chapter:hover {
+      border-color: var(--ink);
+      transform: translateY(-2px);
+    }
+    .chapter-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .chapter-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+    .chapter-count {
+      font-size: 13px;
+      color: var(--ink-mute);
+      font-weight: 500;
+      font-feature-settings: "tnum";
+    }
+    .curriculum-cta {
+      text-align: center;
+    }
+    .curriculum-total {
+      text-align: center;
+      margin-top: var(--space-4);
+      padding: var(--space-3);
+      background: var(--accent-glow);
+      border-radius: var(--r-md);
+      max-width: 320px;
+      margin: var(--space-4) auto;
+    }
+    .curriculum-total-num {
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--accent-deep);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      font-feature-settings: "tnum";
+    }
+    .curriculum-total-label {
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-top: 6px;
+    }
+
+    /* ===== COVERAGE SECTION ===== */
+    .coverage-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .coverage-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--space-3);
+      align-items: center;
+      padding: var(--space-3) var(--space-4);
+      background: var(--surface);
+      border-radius: var(--r-md);
+      border: 1px solid var(--line);
+      transition: all .25s ease;
+    }
+    .coverage-item:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+    .coverage-check {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .coverage-title {
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .coverage-detail {
+      font-size: 13.5px;
+      color: var(--ink-mute);
+      font-weight: 500;
+    }
+    @media (max-width: 600px) {
+      .coverage-item { grid-template-columns: auto 1fr; }
+      .coverage-detail { grid-column: 2; }
+    }
+
+    /* ===== PRICING SECTION ===== */
+    .pricing {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .price-card {
+      max-width: 520px;
+      margin: 0 auto;
+      padding: var(--space-5);
+      background: var(--bg);
+      border: 2px solid var(--ink);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-3);
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle at top right, var(--accent-glow), transparent 70%);
+      pointer-events: none;
+    }
+    .price-tag {
+      display: inline-block;
+      padding: 6px 14px;
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--space-3);
+    }
+    .price-old {
+      font-size: 22px;
+      color: var(--ink-mute);
+      text-decoration: line-through;
+      text-decoration-thickness: 2px;
+      margin-bottom: 4px;
+    }
+    .price-main {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-bottom: var(--space-2);
+    }
+    .price-num {
+      font-size: clamp(56px, 9vw, 88px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--ink);
+      font-feature-settings: "tnum";
+    }
+    .price-currency {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--ink-soft);
+    }
+    .price-period {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin-bottom: var(--space-4);
+    }
+    .price-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .price-features li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 10px;
+      align-items: center;
+      font-size: 15.5px;
+    }
+    .price-features li::before {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%232D7D5F'%3E%3Cpath fill-rule='evenodd' d='M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    .price-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .price-secondary {
+      text-align: center;
+      font-size: 14px;
+      color: var(--ink-mute);
+      margin-top: 4px;
+    }
+    .price-secondary a {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1px dashed var(--ink-mute);
+    }
+
+    /* ===== FAQ SECTION ===== */
+    .faq-list {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--line); }
+    .faq-q {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      padding: var(--space-3) 0;
+      text-align: right;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ink);
+      transition: color .2s ease;
+    }
+    .faq-q:hover { color: var(--accent-deep); }
+    .faq-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      transition: all .3s ease;
+      color: var(--ink-soft);
+    }
+    .faq-item.open .faq-icon {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--bg);
+      transform: rotate(45deg);
+    }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease, padding .3s ease;
+    }
+    .faq-item.open .faq-a {
+      max-height: 320px;
+      padding-bottom: var(--space-3);
+    }
+    .faq-a-inner {
+      color: var(--ink-soft);
+      font-size: 15.5px;
+      line-height: 1.8;
+      padding-left: 38px;
+      padding-right: 0;
+    }
+
+    /* ===== CTA FINAL ===== */
+    .cta-final {
+      text-align: center;
+      padding: var(--space-7) 0;
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .cta-final h2 {
+      font-size: clamp(28px, 4.5vw, 48px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin: 0 0 var(--space-2);
+    }
+    .cta-final p {
+      font-size: 17px;
+      color: rgba(250,250,247,0.7);
+      margin: 0 0 var(--space-4);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: var(--space-5) 0 var(--space-4);
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+    @media (min-width: 700px) {
+      .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
+    }
+    .footer-brand p {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      max-width: 320px;
+      margin: 12px 0 0;
+    }
+    .footer-col h4 {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin: 0 0 14px;
+    }
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-col a {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      transition: color .2s ease;
+    }
+    .footer-col a:hover { color: var(--ink); }
+    .footer-bottom {
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      color: var(--ink-mute);
+    }
+    .footer-social {
+      display: flex;
+      gap: 10px;
+    }
+    .footer-social a {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      color: var(--ink-soft);
+      transition: all .2s ease;
+    }
+    .footer-social a:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    /* ===== Scroll reveal ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Mobile menu (simple) ===== */
+    .nav-mobile-toggle {
+      display: grid;
+      place-items: center;
+      width: 40px; height: 40px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--line);
+      color: var(--ink);
+    }
+    @media (min-width: 900px) {
+      .nav-mobile-toggle { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="زُبَد — الصفحة الرئيسية">
+        <!-- Logo Mark: a stylized butter dot -->
+        <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
+          <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
+          <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>زُبَد</span>
+      </a>
+
+      <nav class="nav-links" aria-label="القائمة الرئيسية">
+        <a href="curriculum.html">المنهج</a>
+        <a href="#coverage">المحتوى</a>
+        <a href="#pricing">السعر</a>
+        <a href="about.html">عن زُبَد</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost">دخول</a>
+        <a href="signup.html" class="btn btn-primary">ابدأ مجاناً</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <span class="hero-badge">منصة سعودية • إطلاق ٢٠٢٦</span>
+
+          <h1>
+            تعبت من اللفظي؟<br>
+            <span class="highlight">طبيعي.</span>
+            بدون منهج صعب.
+          </h1>
+
+          <p class="hero-sub">
+            زُبَد منصة تفاعلية تدرّبك على اللفظي بـ ١٥ درس مكثّف،
+            تحفظ أخطاءك، وتمحّكها بمحاكاة قياس حقيقية —
+            بدون حشو، بدون لف.
+          </p>
+
+          <div class="hero-cta-row">
+            <a href="signup.html" class="btn btn-accent btn-lg">
+              جرّب الدرس الأول مجاناً
+              <span class="arrow">←</span>
+            </a>
+            <a href="curriculum.html" class="btn btn-outline btn-lg">شاهد المنهج</a>
+          </div>
+
+          <div class="hero-meta">
+            <span class="hero-meta-item">تفاعلي بالكامل</span>
+            <span class="hero-meta-item">يتعلّم من أخطائك</span>
+            <span class="hero-meta-item">محاكاة قياس</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="hero-card">
+            <!-- Hero illustration: minimal abstract composition -->
+            <svg viewBox="0 0 480 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="width:100%;height:auto">
+              <defs>
+                <linearGradient id="butterGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#F5D078"/>
+                  <stop offset="100%" stop-color="#E8B84A"/>
+                </linearGradient>
+                <linearGradient id="darkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#1A1A18"/>
+                  <stop offset="100%" stop-color="#0F0F0E"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Background soft shape -->
+              <circle cx="240" cy="250" r="220" fill="#FBF3DA" opacity="0.6"/>
+              <circle cx="240" cy="250" r="180" fill="#F7E9B8" opacity="0.4"/>
+
+              <!-- Main card: a lesson preview -->
+              <g transform="translate(80, 80)">
+                <rect x="0" y="0" width="320" height="200" rx="20" fill="url(#darkGrad)"/>
+                <!-- Title bar -->
+                <rect x="24" y="24" width="120" height="10" rx="5" fill="#E8B84A"/>
+                <rect x="24" y="44" width="200" height="8" rx="4" fill="rgba(255,255,255,0.3)"/>
+                <!-- Question stem -->
+                <rect x="24" y="80" width="272" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
+                <rect x="24" y="94" width="220" height="6" rx="3" fill="rgba(255,255,255,0.5)"/>
+                <!-- Options -->
+                <rect x="24" y="118" width="130" height="32" rx="8" fill="rgba(232,184,74,0.25)" stroke="#E8B84A" stroke-width="1.5"/>
+                <rect x="166" y="118" width="130" height="32" rx="8" fill="rgba(255,255,255,0.08)"/>
+                <rect x="24" y="156" width="130" height="32" rx="8" fill="rgba(255,255,255,0.08)"/>
+                <rect x="166" y="156" width="130" height="32" rx="8" fill="rgba(255,255,255,0.08)"/>
+              </g>
+
+              <!-- Floating check badge -->
+              <g transform="translate(360, 100)" style="animation: float 3s ease-in-out infinite">
+                <circle cx="0" cy="0" r="32" fill="#2D7D5F"/>
+                <path d="M-12 0 L-4 8 L12 -8" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </g>
+
+              <!-- Floating progress chip -->
+              <g transform="translate(60, 320)" style="animation: float 3.5s ease-in-out .5s infinite">
+                <rect x="0" y="0" width="160" height="64" rx="16" fill="white" stroke="#E8E6DE"/>
+                <rect x="14" y="14" width="36" height="36" rx="10" fill="#FBF3DA"/>
+                <text x="32" y="38" text-anchor="middle" font-family="Tajawal" font-weight="900" font-size="16" fill="#B8902F">٧٠</text>
+                <rect x="60" y="20" width="80" height="6" rx="3" fill="#0F0F0E"/>
+                <rect x="60" y="34" width="50" height="5" rx="2.5" fill="#E8E6DE"/>
+                <rect x="60" y="45" width="65" height="5" rx="2.5" fill="#E8E6DE"/>
+              </g>
+
+              <!-- Floating "mistake review" chip -->
+              <g transform="translate(280, 350)" style="animation: float 3.2s ease-in-out 1s infinite">
+                <rect x="0" y="0" width="140" height="56" rx="14" fill="#0F0F0E"/>
+                <circle cx="20" cy="28" r="10" fill="#E8B84A"/>
+                <text x="20" y="33" text-anchor="middle" font-family="Tajawal" font-weight="900" font-size="12" fill="#0F0F0E">!</text>
+                <rect x="40" y="18" width="80" height="6" rx="3" fill="rgba(255,255,255,0.9)"/>
+                <rect x="40" y="32" width="60" height="5" rx="2.5" fill="rgba(255,255,255,0.4)"/>
+              </g>
+
+              <!-- Sparkle dots -->
+              <circle cx="50" cy="100" r="4" fill="#E8B84A" style="animation: pulse-soft 2s ease-in-out infinite"/>
+              <circle cx="430" cy="380" r="5" fill="#E8B84A" style="animation: pulse-soft 2.4s ease-in-out .3s infinite"/>
+              <circle cx="420" cy="200" r="3" fill="#0F0F0E" style="animation: pulse-soft 2.8s ease-in-out .6s infinite"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROBLEM ===== -->
+  <section class="problem">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">لماذا اللفظي؟</span>
+        <h2 class="section-title">أكثر قسم يخسر فيه الطالب درجاته</h2>
+        <p class="section-sub">واللي يخلّيه صعب — مو السؤال نفسه — هو طريقة المذاكرة.</p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-card reveal">
+          <div class="problem-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16v16H4z"/>
+              <path d="M9 9h6M9 13h6M9 17h4"/>
+            </svg>
+          </div>
+          <h3>تذاكر بدون منهج واضح</h3>
+          <p>تفتح ملازم، تشوف فيديوهات، وتحس دايماً إن في شي ناقص بدون ما تعرف وش هو.</p>
+        </div>
+
+        <div class="problem-card reveal">
+          <div class="problem-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9"/>
+              <path d="M3 4v5h5"/>
+            </svg>
+          </div>
+          <h3>تحفظ بدون فهم</h3>
+          <p>تحفظ مفردات وتنساها بعد يومين. تحفظ علاقات، تنساها في الاختبار. حفظ بلا أساس.</p>
+        </div>
+
+        <div class="problem-card reveal">
+          <div class="problem-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+          </div>
+          <h3>تختبر وتفاجأ</h3>
+          <p>تدخل قياس وتلقى أنواع أسئلة ما درستها — تناظر، شاذة، استيعاب — كل واحد له لعبته.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOLUTION ===== -->
+  <section class="solution">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">الحل</span>
+        <h2 class="section-title">في زُبَد، تتعلّم اللفظي<br>بطريقة قياس نفسها</h2>
+      </div>
+
+      <div class="solution-list">
+        <div class="solution-item reveal">
+          <div class="solution-num">١</div>
+          <div class="solution-body">
+            <h3>تفهم العلاقة، مو تحفظ الكلمة</h3>
+            <p>نوعّمك على ١٧ علاقة لفظية تحلّ ٩٠٪ من أسئلة التناظر — مرة وحدة، تنفعك دايماً.</p>
+          </div>
+        </div>
+
+        <div class="solution-item reveal">
+          <div class="solution-num">٢</div>
+          <div class="solution-body">
+            <h3>تتدرّب على ٨٠٠+ سؤال محلول</h3>
+            <p>كل سؤال له شرح: ليش الإجابة صح، وليش الباقي فخّ. تتعلم التفكير، مو الجواب.</p>
+          </div>
+        </div>
+
+        <div class="solution-item reveal">
+          <div class="solution-num">٣</div>
+          <div class="solution-body">
+            <h3>تختبر نفسك بمحاكاة قياس حقيقية</h3>
+            <p>اختبار نهائي ٧٠ سؤال، ٣٠ دقيقة، بنفس صعوبة الاختبار الفعلي — وتمحّك نتيجتك قبل اليوم.</p>
+          </div>
+        </div>
+
+        <div class="solution-item reveal">
+          <div class="solution-num">٤</div>
+          <div class="solution-body">
+            <h3>المنصة تحفظ أخطاءك</h3>
+            <p>تشخيص ذكي يقول لك: "غلطت ١٢ مرة في سؤال يخصّ هالعلاقة" — وتعرف وش تراجع بالضبط.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CURRICULUM ===== -->
+  <section class="curriculum" id="curriculum">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">المنهج</span>
+        <h2 class="section-title">١٥ درس. ٦ أبواب. منهج كامل.</h2>
+        <p class="section-sub">منظّم على نفس ترتيب قياس — من الأساسيات للمحاكاة النهائية.</p>
+      </div>
+
+      <div class="curriculum-grid">
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#3B82F6"></span>
+          <span class="chapter-title">التأسيس</span>
+          <span class="chapter-count">٢ دروس</span>
+        </div>
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#10B981"></span>
+          <span class="chapter-title">التناظر اللفظي</span>
+          <span class="chapter-count">١ درس</span>
+        </div>
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#E8B84A"></span>
+          <span class="chapter-title">إكمال الجمل</span>
+          <span class="chapter-count">٣ دروس</span>
+        </div>
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#A855F7"></span>
+          <span class="chapter-title">الخطأ والشاذة</span>
+          <span class="chapter-count">٢ دروس</span>
+        </div>
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#F97316"></span>
+          <span class="chapter-title">استيعاب المقروء</span>
+          <span class="chapter-count">٣ دروس</span>
+        </div>
+        <div class="chapter reveal">
+          <span class="chapter-dot" style="background:#B84545"></span>
+          <span class="chapter-title">المراجعة والاختبار</span>
+          <span class="chapter-count">٤ دروس</span>
+        </div>
+      </div>
+
+      <div class="curriculum-total reveal">
+        <div class="curriculum-total-num">١٥</div>
+        <div class="curriculum-total-label">درس متكامل</div>
+      </div>
+
+      <div class="curriculum-cta reveal">
+        <a href="curriculum.html" class="btn btn-outline">شاهد المنهج بالتفصيل <span class="arrow">←</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== COVERAGE ===== -->
+  <section class="coverage" id="coverage">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">المحتوى</span>
+        <h2 class="section-title">تغطية كاملة لكل نوع سؤال</h2>
+        <p class="section-sub">ما فيه نوع أسئلة في قياس ما درسته في زُبَد.</p>
+      </div>
+
+      <div class="coverage-list">
+        <div class="coverage-item reveal">
+          <div class="coverage-check">✓</div>
+          <div class="coverage-title">التناظر اللفظي</div>
+          <div class="coverage-detail">١٧ علاقة + ٣٠٠ زوج محلول</div>
+        </div>
+        <div class="coverage-item reveal">
+          <div class="coverage-check">✓</div>
+          <div class="coverage-title">إكمال الجمل</div>
+          <div class="coverage-detail">فراغ • فراغان • ثلاثة فراغات</div>
+        </div>
+        <div class="coverage-item reveal">
+          <div class="coverage-check">✓</div>
+          <div class="coverage-title">الخطأ السياقي</div>
+          <div class="coverage-detail">٨ أنواع + ٤١ مثال</div>
+        </div>
+        <div class="coverage-item reveal">
+          <div class="coverage-check">✓</div>
+          <div class="coverage-title">المفردة الشاذة</div>
+          <div class="coverage-detail">٨ ترابطات + ٤١ مفردة</div>
+        </div>
+        <div class="coverage-item reveal">
+          <div class="coverage-check">✓</div>
+          <div class="coverage-title">استيعاب المقروء</div>
+          <div class="coverage-detail">٢٤ نص + ١٢٠ سؤال</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRICING ===== -->
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">السعر</span>
+        <h2 class="section-title">سعر إطلاق محدود</h2>
+        <p class="section-sub">سعر اليوم لن يستمر — بعد الإطلاق يرجع للسعر الأصلي.</p>
+      </div>
+
+      <div class="price-card reveal">
+        <span class="price-tag">عرض الإطلاق</span>
+        <div class="price-old">~~٥٩ ريال~~</div>
+        <div class="price-main">
+          <span class="price-num">٢٩</span>
+          <span class="price-currency">ريال</span>
+        </div>
+        <div class="price-period">دفعة واحدة • وصول كامل لـ ٦ شهور</div>
+
+        <ul class="price-features">
+          <li>١٥ درس كامل (الدرس ١ و ٢ مجاناً)</li>
+          <li>٨٠٠+ سؤال محلول بشرح مفصّل</li>
+          <li>محاكاة قياس النهائية (٧٠ سؤال)</li>
+          <li>مراجعة ذكية لأخطائك</li>
+          <li>وصول من الجوال والحاسب</li>
+          <li>تحديثات مجانية طول فترة الاشتراك</li>
+        </ul>
+
+        <div class="price-actions">
+          <a href="signup.html" class="btn btn-primary btn-lg">اشترك الآن — ٢٩ ريال</a>
+        </div>
+
+        <div class="price-secondary">
+          أو <a href="signup.html">جرّب الدرس الأول مجاناً</a> قبل ما تشترك
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq" id="faq">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="section-eyebrow">الأسئلة الشائعة</span>
+        <h2 class="section-title">أسئلة قد تدور في بالك</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>هل المنهج كافٍ للوصول لـ ٩٠+ في اللفظي؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            المنهج يغطّي ١٠٠٪ من محاور اللفظي في قياس (تناظر، إكمال جمل، خطأ، شاذة، استيعاب). الوصول لـ ٩٠+ يعتمد على التزامك بالمنهج وحلّك لكل التمارين والمحاكاة النهائية.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>كم وقت أحتاج لأنهي المنهج؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            الوقت المتوسط ~٣٠ ساعة دراسة. لو سويتها بالجد، تخلّص المنهج في ١٥-٢٠ يوم بمعدّل ساعة ونصف يومياً. عندك ٦ شهور وصول، تقدر تأخذ راحتك.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>هل أقدر أرجع للدروس بعد ما أخلصها؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            نعم. كل الدروس متاحة طول فترة الاشتراك (٦ شهور). تقدر تراجع أي درس، وتعيد أي اختبار، وتشوف أخطاءك السابقة.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>هل المحتوى مناسب للمبتدئ؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            نعم. أول درسين تأسيس كامل من الصفر. مو شرط تكون عندك خلفية مسبقة باللفظي.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>هل يعمل على الجوال؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            نعم. زُبَد يشتغل على الجوال والآيباد والحاسب. ما تحتاج تنزّل تطبيق، فقط افتح المتصفّح.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>كيف أدفع؟ ما عندي فيزا</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            ندعم: مدى، فيزا، ماستركارد، Apple Pay، وSTC Pay. خيارات متعددة تناسب الجميع.
+          </div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span>ماذا لو ما عجبني المحتوى؟</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-a"><div class="faq-a-inner">
+            عشان كذا الدرسين الأولين مجاناً — تجرّب قبل ما تدفع. ولو اشتركت وحسّيت إنه ما يناسبك، تواصل معنا خلال ٧ أيام وراح نسترجع المبلغ كاملاً.
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="cta-final">
+    <div class="container">
+      <h2>اللفظي ما يستحق هالقلق.</h2>
+      <p>ابدأ بالدرس الأول مجاناً، وشوف الفرق بنفسك.</p>
+      <a href="signup.html" class="btn btn-accent btn-lg">جرّب مجاناً الآن <span class="arrow">←</span></a>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-size:24px">
+            <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
+              <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
+              <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span>زُبَد</span>
+          </a>
+          <p>منصة سعودية تفاعلية للتدرّب على القسم اللفظي في اختبار قياس.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>المنصة</h4>
+          <ul>
+            <li><a href="curriculum.html">المنهج</a></li>
+            <li><a href="#pricing">السعر</a></li>
+            <li><a href="#faq">الأسئلة</a></li>
+            <li><a href="signup.html">جرّب مجاناً</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>الشركة</h4>
+          <ul>
+            <li><a href="about.html">عن زُبَد</a></li>
+            <li><a href="#contact">تواصل معنا</a></li>
+            <li><a href="#terms">الشروط</a></li>
+            <li><a href="#privacy">الخصوصية</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© ٢٠٢٦ زُبَد. جميع الحقوق محفوظة.</span>
+        <div class="footer-social">
+          <a href="#" aria-label="تويتر">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <a href="#" aria-label="انستغرام">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+          </a>
+          <a href="#" aria-label="واتساب">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q => {
+      q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const isOpen = item.classList.contains('open');
+        // Optional: close others
+        // document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+        item.classList.toggle('open', !isOpen);
+      });
+    });
+
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 12) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
