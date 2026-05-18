@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول — زُبَد</title>
+  <meta name="description" content="سجّل دخولك في زُبَد وأكمل رحلتك في إتقان اللفظي.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;
+      --ink-soft: #4A4A47;
+      --ink-mute: #8A8A85;
+      --line: #E8E6DE;
+      --line-soft: #F0EEE6;
+      --accent: #E8B84A;
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --red: #B84545;
+      --font-sans: 'Tajawal', system-ui, -apple-system, sans-serif;
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --shadow-2: 0 4px 16px rgba(15,15,14,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+    a { color: inherit; text-decoration: none; }
+    input { font-family: inherit; }
+
+    /* ===== Layout: split screen ===== */
+    .auth-shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 980px) {
+      .auth-shell { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* === Left: Form === */
+    .auth-form-col {
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px;
+      min-height: 100vh;
+    }
+    @media (min-width: 980px) {
+      .auth-form-col { padding: 40px 64px; }
+    }
+
+    .auth-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 64px;
+    }
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .auth-logo svg {
+      width: 32px;
+      height: 32px;
+    }
+    .auth-top-link {
+      font-size: 14.5px;
+      color: var(--ink-soft);
+    }
+    .auth-top-link a {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1px;
+    }
+    .auth-top-link a:hover { border-bottom-color: var(--ink); }
+
+    .auth-form-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 420px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .auth-eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: 12px;
+    }
+    .auth-title {
+      font-size: clamp(32px, 4.5vw, 42px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin: 0 0 12px;
+    }
+    .auth-sub {
+      font-size: 16px;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+      line-height: 1.7;
+    }
+
+    /* === Google button === */
+    .btn-google {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      transition: all .25s ease;
+      margin-bottom: 22px;
+    }
+    .btn-google:hover {
+      border-color: var(--ink);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-2);
+    }
+    .btn-google svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* === Divider === */
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 22px;
+      color: var(--ink-mute);
+      font-size: 13px;
+    }
+    .auth-divider::before, .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* === Form fields === */
+    .field {
+      margin-bottom: 18px;
+    }
+    .field-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .field-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-md);
+      font-size: 15.5px;
+      color: var(--ink);
+      transition: all .2s ease;
+      direction: ltr;
+      text-align: right;
+    }
+    .field-input::placeholder { color: var(--ink-mute); }
+    .field-input:focus {
+      outline: none;
+      border-color: var(--ink);
+      background: var(--bg);
+    }
+    .field-input.has-error {
+      border-color: var(--red);
+    }
+
+    /* Password field with toggle */
+    .field-password {
+      position: relative;
+    }
+    .password-toggle {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--r-sm);
+      display: grid;
+      place-items: center;
+      color: var(--ink-mute);
+      transition: color .2s ease;
+    }
+    .password-toggle:hover { color: var(--ink); }
+
+    .field-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: -6px 0 24px;
+      font-size: 14px;
+    }
+    .checkbox-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ink-soft);
+      cursor: pointer;
+      user-select: none;
+    }
+    .checkbox-wrap input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--ink);
+      cursor: pointer;
+    }
+    .forgot-link {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1px dashed var(--ink-mute);
+      padding-bottom: 1px;
+    }
+    .forgot-link:hover { border-bottom-color: var(--ink); }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(15,15,14,0.2);
+    }
+    .btn-submit .arrow { transition: transform .25s ease; }
+    .btn-submit:hover .arrow { transform: translateX(-4px); }
+
+    .auth-footnote {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 14px;
+      color: var(--ink-mute);
+    }
+    .auth-footnote a {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--accent);
+    }
+
+    /* === Right: Visual side === */
+    .auth-visual-col {
+      display: none;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 980px) {
+      .auth-visual-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+    }
+
+    .auth-visual-col::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,184,74,0.18), transparent 60%);
+      pointer-events: none;
+    }
+    .auth-visual-col::after {
+      content: '';
+      position: absolute;
+      bottom: -300px;
+      right: -200px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(232,184,74,0.1), transparent 60%);
+      pointer-events: none;
+    }
+
+    .visual-content {
+      position: relative;
+      z-index: 1;
+      max-width: 480px;
+    }
+    .visual-quote {
+      font-size: clamp(24px, 2.6vw, 32px);
+      font-weight: 800;
+      line-height: 1.4;
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+    }
+    .visual-quote .accent {
+      color: var(--accent);
+    }
+    .visual-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 28px 0;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      position: relative;
+      z-index: 1;
+    }
+    .stat-num {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+      font-feature-settings: "tnum";
+    }
+    .stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .visual-content { animation: fadeUp .8s .2s both; }
+    .visual-illustration { animation: fadeUp .8s .4s both; }
+  </style>
+</head>
+<body>
+
+  <main class="auth-shell">
+
+    <!-- ===== LEFT: FORM ===== -->
+    <div class="auth-form-col">
+      <div class="auth-top">
+        <a href="index.html" class="auth-logo" aria-label="زُبَد — الرئيسية">
+          <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
+            <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
+            <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span>زُبَد</span>
+        </a>
+        <span class="auth-top-link">
+          ما عندك حساب؟ <a href="signup.html">سجّل الآن</a>
+        </span>
+      </div>
+
+      <div class="auth-form-wrap">
+        <span class="auth-eyebrow">تسجيل الدخول</span>
+        <h1 class="auth-title">أهلاً مرة ثانية 👋</h1>
+        <p class="auth-sub">كمّل من حيث وقفت. دروسك في انتظارك.</p>
+
+        <!-- Google sign-in -->
+        <button class="btn-google" type="button" onclick="signInWithGoogle()">
+          <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+            <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
+            <path fill="#FBBC05" d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z"/>
+            <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+          </svg>
+          الدخول عبر Google
+        </button>
+
+        <div class="auth-divider">أو سجّل بإيميلك</div>
+
+        <form id="loginForm" onsubmit="return handleLogin(event)">
+          <div class="field">
+            <label class="field-label" for="email">البريد الإلكتروني</label>
+            <input
+              class="field-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="password">كلمة المرور</label>
+            <div class="field-password">
+              <input
+                class="field-input"
+                type="password"
+                id="password"
+                name="password"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password"
+                style="padding-left: 52px"
+              >
+              <button class="password-toggle" type="button" onclick="togglePassword()" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <label class="checkbox-wrap">
+              <input type="checkbox" name="remember" checked>
+              <span>تذكّرني</span>
+            </label>
+            <a href="forgot.html" class="forgot-link">نسيت كلمة المرور؟</a>
+          </div>
+
+          <button class="btn-submit" type="submit">
+            تسجيل الدخول
+            <span class="arrow">←</span>
+          </button>
+        </form>
+
+        <p class="auth-footnote">
+          بدخولك، أنت توافق على
+          <a href="#terms">شروط الاستخدام</a>
+          و
+          <a href="#privacy">سياسة الخصوصية</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT: VISUAL ===== -->
+    <aside class="auth-visual-col" aria-hidden="true">
+      <div class="visual-content">
+        <div class="visual-quote">
+          "اللفظي مش لغز —<br>
+          <span class="accent">يحتاج طريقة فقط.</span>"
+        </div>
+        <p style="color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.7; margin: 0;">
+          منهج مكثّف يدرّبك على كل نوع سؤال في قياس، يحفظ أخطاءك، ويمحّكها بمحاكاة كاملة.
+        </p>
+      </div>
+
+      <!-- Illustration -->
+      <div class="visual-illustration" style="position: relative; height: 280px; margin: 32px 0;">
+        <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%" aria-hidden="true">
+          <!-- Main card -->
+          <g transform="translate(60, 30)">
+            <rect x="0" y="0" width="280" height="180" rx="18" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)"/>
+            <rect x="20" y="22" width="100" height="9" rx="4.5" fill="#E8B84A"/>
+            <rect x="20" y="40" width="180" height="6" rx="3" fill="rgba(255,255,255,0.25)"/>
+            <rect x="20" y="72" width="240" height="5" rx="2.5" fill="rgba(255,255,255,0.4)"/>
+            <rect x="20" y="84" width="200" height="5" rx="2.5" fill="rgba(255,255,255,0.4)"/>
+            <rect x="20" y="108" width="110" height="28" rx="7" fill="rgba(232,184,74,0.2)" stroke="#E8B84A" stroke-width="1.2"/>
+            <rect x="140" y="108" width="110" height="28" rx="7" fill="rgba(255,255,255,0.05)"/>
+            <rect x="20" y="142" width="110" height="28" rx="7" fill="rgba(255,255,255,0.05)"/>
+            <rect x="140" y="142" width="110" height="28" rx="7" fill="rgba(255,255,255,0.05)"/>
+          </g>
+
+          <!-- Floating check -->
+          <g transform="translate(350, 60)" style="animation: float 3s ease-in-out infinite">
+            <circle cx="0" cy="0" r="26" fill="#2D7D5F"/>
+            <path d="M-10 0 L-3 7 L10 -7" stroke="white" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </g>
+
+          <!-- Floating progress -->
+          <g transform="translate(40, 200)" style="animation: float 3.5s ease-in-out .5s infinite">
+            <rect x="0" y="0" width="130" height="52" rx="13" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)"/>
+            <rect x="12" y="12" width="28" height="28" rx="8" fill="rgba(232,184,74,0.25)"/>
+            <text x="26" y="32" text-anchor="middle" font-family="Tajawal" font-weight="900" font-size="13" fill="#E8B84A">٧٠</text>
+            <rect x="48" y="16" width="70" height="5" rx="2.5" fill="rgba(255,255,255,0.7)"/>
+            <rect x="48" y="28" width="50" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+            <rect x="48" y="36" width="60" height="4" rx="2" fill="rgba(255,255,255,0.3)"/>
+          </g>
+
+          <!-- Dots -->
+          <circle cx="380" cy="180" r="4" fill="#E8B84A" style="animation: pulse-soft 2s ease-in-out infinite"/>
+          <circle cx="420" cy="40" r="3" fill="#E8B84A" style="animation: pulse-soft 2.4s ease-in-out .3s infinite"/>
+        </svg>
+      </div>
+
+      <div class="visual-stats">
+        <div>
+          <div class="stat-num">١٥</div>
+          <div class="stat-label">درس متكامل</div>
+        </div>
+        <div>
+          <div class="stat-num">٨٠٠+</div>
+          <div class="stat-label">سؤال محلول</div>
+        </div>
+        <div>
+          <div class="stat-num">٧٠</div>
+          <div class="stat-label">سؤال محاكاة</div>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <script>
+    function togglePassword() {
+      const input = document.getElementById('password');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function signInWithGoogle() {
+      // Placeholder — Firebase Auth integration later
+      console.log('[auth] Google sign-in clicked');
+      alert('قريباً — تسجيل الدخول عبر Google. الآن استخدم البريد وكلمة المرور.');
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      console.log('[auth] login attempt:', email);
+      // Placeholder — redirect to dashboard
+      window.location.href = 'dashboard.html';
+      return false;
+    }
+  </script>
+
+</body>
+</html>
