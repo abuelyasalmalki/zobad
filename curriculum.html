@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المنهج الكامل — زُبَد</title>
+  <meta name="description" content="١٥ درس مكثّف، ٦ أبواب، ٨٠٠+ سؤال. كل ما تحتاجه لإتقان اللفظي في قياس.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;
+      --ink-soft: #4A4A47;
+      --ink-mute: #8A8A85;
+      --line: #E8E6DE;
+      --line-soft: #F0EEE6;
+      --accent: #E8B84A;
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --red: #B84545;
+      --blue: #3B82F6;
+      --purple: #A855F7;
+      --orange: #F97316;
+      --font-sans: 'Tajawal', system-ui, -apple-system, sans-serif;
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --r-xl: 28px;
+      --shadow-2: 0 4px 16px rgba(15,15,14,0.06);
+      --shadow-3: 0 12px 40px rgba(15,15,14,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    @media (min-width: 768px) {
+      .container { padding: 0 48px; }
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s ease;
+    }
+    .nav.scrolled { border-bottom-color: var(--line); }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-links {
+      display: none;
+      gap: 32px;
+      font-size: 15px;
+      color: var(--ink-soft);
+    }
+    .nav-links a {
+      transition: color .2s ease;
+      font-weight: 500;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a.active { color: var(--ink); font-weight: 700; }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    @media (min-width: 900px) {
+      .nav-links { display: flex; }
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 22px;
+      border-radius: 999px;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(15,15,14,0.18);
+    }
+    .btn-accent {
+      background: var(--accent);
+      color: var(--ink);
+      box-shadow: 0 4px 14px rgba(232,184,74,0.35);
+    }
+    .btn-accent:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(232,184,74,0.45);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-soft);
+      padding: 10px 16px;
+    }
+    .btn-ghost:hover { color: var(--ink); }
+    .btn-outline {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .btn-outline:hover { border-color: var(--ink); background: var(--surface); }
+    .btn-lg {
+      padding: 16px 28px;
+      font-size: 16px;
+    }
+    .btn .arrow { transition: transform .25s ease; }
+    .btn:hover .arrow { transform: translateX(-4px); }
+
+    /* ===== Page Header ===== */
+    .page-header {
+      padding: 64px 0 48px;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .page-header { padding: 96px 0 64px; }
+    }
+    .page-eyebrow {
+      display: inline-block;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent-deep);
+      margin-bottom: 16px;
+    }
+    .page-title {
+      font-size: clamp(36px, 6vw, 56px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin: 0 0 16px;
+    }
+    .page-sub {
+      font-size: 17px;
+      color: var(--ink-soft);
+      max-width: 580px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    /* Quick stats */
+    .quick-stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .qs-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .qs-num {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: var(--accent-deep);
+      font-feature-settings: "tnum";
+    }
+    .qs-label {
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+    .qs-divider {
+      width: 1px;
+      height: 28px;
+      background: var(--line);
+    }
+    @media (max-width: 600px) {
+      .qs-divider { display: none; }
+    }
+
+    /* ===== Chapters ===== */
+    .chapters-section {
+      padding: 32px 0 80px;
+    }
+
+    .chapter {
+      margin-bottom: 48px;
+    }
+    .chapter:last-child { margin-bottom: 0; }
+
+    .chapter-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .chapter-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--r-md);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-weight: 900;
+      font-size: 22px;
+      color: white;
+      font-feature-settings: "tnum";
+    }
+    .chapter-info {
+      flex: 1;
+    }
+    .chapter-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .chapter-title {
+      font-size: clamp(22px, 3vw, 28px);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin: 0 0 6px;
+    }
+    .chapter-desc {
+      font-size: 15px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+    .chapter-count-badge {
+      flex-shrink: 0;
+      align-self: flex-start;
+      padding: 6px 14px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-soft);
+      white-space: nowrap;
+    }
+
+    /* Lessons list */
+    .lessons-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 700px) {
+      .lessons-list { grid-template-columns: repeat(2, 1fr); }
+    }
+    .lesson-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 20px 22px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      transition: all .25s ease;
+    }
+    .lesson-item:hover {
+      border-color: var(--ink);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-2);
+    }
+    .lesson-item.free {
+      background: linear-gradient(135deg, var(--surface), var(--accent-glow) 200%);
+      border-color: #F2E5B8;
+    }
+    .lesson-item.free:hover {
+      border-color: var(--accent-deep);
+    }
+    .lesson-num {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1.5px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 15px;
+      flex-shrink: 0;
+      font-feature-settings: "tnum";
+    }
+    .lesson-item.free .lesson-num {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+    .lesson-content {
+      min-width: 0;
+    }
+    .lesson-title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .lesson-detail {
+      font-size: 13px;
+      color: var(--ink-mute);
+    }
+    .lesson-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+    .lesson-tag.free {
+      background: var(--accent);
+      color: var(--ink);
+    }
+    .lesson-tag.locked {
+      background: var(--bg);
+      color: var(--ink-mute);
+      border: 1px solid var(--line);
+    }
+
+    /* ===== CTA bottom ===== */
+    .cta-bottom {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 80px 0;
+      text-align: center;
+      margin-top: 64px;
+    }
+    .cta-bottom h2 {
+      font-size: clamp(28px, 4.5vw, 44px);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin: 0 0 16px;
+    }
+    .cta-bottom p {
+      font-size: 17px;
+      color: rgba(250,250,247,0.7);
+      margin: 0 0 32px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .btn-cta-secondary {
+      background: transparent;
+      color: var(--bg);
+      border: 1.5px solid rgba(255,255,255,0.2);
+    }
+    .btn-cta-secondary:hover {
+      border-color: var(--bg);
+      background: rgba(255,255,255,0.05);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      padding: 48px 0 32px;
+      background: var(--bg);
+      border-top: 1px solid var(--line);
+    }
+    .footer-bottom {
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13.5px;
+      color: var(--ink-mute);
+    }
+    .footer-bottom a {
+      color: var(--ink-soft);
+      transition: color .2s ease;
+    }
+    .footer-bottom a:hover { color: var(--ink); }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    /* Animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <header class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo" aria-label="زُبَد — الرئيسية">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
+          <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
+          <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>زُبَد</span>
+      </a>
+
+      <nav class="nav-links" aria-label="القائمة الرئيسية">
+        <a href="curriculum.html" class="active">المنهج</a>
+        <a href="index.html#coverage">المحتوى</a>
+        <a href="index.html#pricing">السعر</a>
+        <a href="about.html">عن زُبَد</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html" class="btn btn-ghost">دخول</a>
+        <a href="signup.html" class="btn btn-primary">ابدأ مجاناً</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== PAGE HEADER ===== -->
+  <section class="page-header">
+    <div class="container">
+      <span class="page-eyebrow">المنهج الكامل</span>
+      <h1 class="page-title">١٥ درس<br>يكفون اللفظي.</h1>
+      <p class="page-sub">
+        ستة أبواب متسلسلة، تأخذك من الأساسيات إلى المحاكاة النهائية —
+        بنفس ترتيب قياس وبنفس صعوبته.
+      </p>
+
+      <div class="quick-stats">
+        <div class="qs-item">
+          <span class="qs-num">١٥</span>
+          <span class="qs-label">درس</span>
+        </div>
+        <div class="qs-divider"></div>
+        <div class="qs-item">
+          <span class="qs-num">٦</span>
+          <span class="qs-label">أبواب</span>
+        </div>
+        <div class="qs-divider"></div>
+        <div class="qs-item">
+          <span class="qs-num">٨٠٠+</span>
+          <span class="qs-label">سؤال</span>
+        </div>
+        <div class="qs-divider"></div>
+        <div class="qs-item">
+          <span class="qs-num">٣٠</span>
+          <span class="qs-label">ساعة دراسة</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CHAPTERS ===== -->
+  <section class="chapters-section">
+    <div class="container">
+
+      <!-- ====== Chapter 1 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #3B82F6">١</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #3B82F6">الباب الأول</div>
+            <h2 class="chapter-title">التأسيس</h2>
+            <p class="chapter-desc">قبل ما تحلّ سؤال، لازم تفهم اللعبة. هنا تبني الأساس.</p>
+          </div>
+          <span class="chapter-count-badge">٢ درس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-01.html" class="lesson-item free">
+            <div class="lesson-num">١</div>
+            <div class="lesson-content">
+              <div class="lesson-title">مدخل اللفظي</div>
+              <div class="lesson-detail">تعريف باللفظي، أنواع الأسئلة، كيف يفكّر قياس</div>
+            </div>
+            <span class="lesson-tag free">مجاناً</span>
+          </a>
+
+          <a href="lessons/lesson-02.html" class="lesson-item free">
+            <div class="lesson-num">٢</div>
+            <div class="lesson-content">
+              <div class="lesson-title">أنواع العلاقات</div>
+              <div class="lesson-detail">١١ علاقة لفظية أساسية + ١٦٥ زوج للتدريب</div>
+            </div>
+            <span class="lesson-tag free">مجاناً</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====== Chapter 2 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #10B981">٢</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #10B981">الباب الثاني</div>
+            <h2 class="chapter-title">التناظر اللفظي</h2>
+            <p class="chapter-desc">العلاقات النادرة اللي يحبها قياس — والتي تفرّق بين ٨٠ و ٩٥.</p>
+          </div>
+          <span class="chapter-count-badge">١ درس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-03.html" class="lesson-item">
+            <div class="lesson-num">٣</div>
+            <div class="lesson-content">
+              <div class="lesson-title">العلاقات النادرة</div>
+              <div class="lesson-detail">٦ علاقات متقدمة + ١٠٥ زوج محلول</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====== Chapter 3 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #E8B84A">٣</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #B8902F">الباب الثالث</div>
+            <h2 class="chapter-title">إكمال الجمل</h2>
+            <p class="chapter-desc">من الفراغ الواحد إلى ثلاثة فراغات. تعلّم منطق الترابط.</p>
+          </div>
+          <span class="chapter-count-badge">٣ دروس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-04.html" class="lesson-item">
+            <div class="lesson-num">٤</div>
+            <div class="lesson-content">
+              <div class="lesson-title">الفراغ الواحد + أدوات الربط</div>
+              <div class="lesson-detail">السياق، الترابط، أدوات السبب والنتيجة</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-05.html" class="lesson-item">
+            <div class="lesson-num">٥</div>
+            <div class="lesson-content">
+              <div class="lesson-title">الفراغان</div>
+              <div class="lesson-detail">التناسق بين الفراغات + فخاخ قياس الكلاسيكية</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-06.html" class="lesson-item">
+            <div class="lesson-num">٦</div>
+            <div class="lesson-content">
+              <div class="lesson-title">الفراغات الثلاثة + تطبيق الباب</div>
+              <div class="lesson-detail">أصعب نوع — مع تطبيق شامل للباب كله</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====== Chapter 4 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #A855F7">٤</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #A855F7">الباب الرابع</div>
+            <h2 class="chapter-title">الخطأ والمفردة الشاذة</h2>
+            <p class="chapter-desc">نوعين معقّدين، يخسر فيها أغلب الطلاب. هنا نتقنهم.</p>
+          </div>
+          <span class="chapter-count-badge">٢ درس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-07.html" class="lesson-item">
+            <div class="lesson-num">٧</div>
+            <div class="lesson-content">
+              <div class="lesson-title">الخطأ السياقي</div>
+              <div class="lesson-detail">٨ أنواع للخطأ + ٤١ مثال محلول</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-08.html" class="lesson-item">
+            <div class="lesson-num">٨</div>
+            <div class="lesson-content">
+              <div class="lesson-title">المفردة الشاذة</div>
+              <div class="lesson-detail">٨ ترابطات + ٤١ مفردة شاذة بالشرح</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====== Chapter 5 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #F97316">٥</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #F97316">الباب الخامس</div>
+            <h2 class="chapter-title">استيعاب المقروء</h2>
+            <p class="chapter-desc">قراءة سريعة، فهم عميق، اختيار دقيق. ثلاث دروس متصاعدة.</p>
+          </div>
+          <span class="chapter-count-badge">٣ دروس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-09.html" class="lesson-item">
+            <div class="lesson-num">٩</div>
+            <div class="lesson-content">
+              <div class="lesson-title">الاستيعاب — الأساسيات</div>
+              <div class="lesson-detail">٨ نصوص قصيرة + استراتيجيات القراءة</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-10.html" class="lesson-item">
+            <div class="lesson-num">١٠</div>
+            <div class="lesson-content">
+              <div class="lesson-title">المهارات المتقدّمة</div>
+              <div class="lesson-detail">٨ نصوص متوسطة + تحليل الموقف</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-11.html" class="lesson-item">
+            <div class="lesson-num">١١</div>
+            <div class="lesson-content">
+              <div class="lesson-title">التطبيق الشامل</div>
+              <div class="lesson-detail">٦ نصوص متقدّمة بمستوى قياس الفعلي</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- ====== Chapter 6 ====== -->
+      <div class="chapter reveal">
+        <div class="chapter-header">
+          <div class="chapter-icon" style="background: #B84545">٦</div>
+          <div class="chapter-info">
+            <div class="chapter-eyebrow" style="color: #B84545">الباب السادس</div>
+            <h2 class="chapter-title">المراجعة والاختبار</h2>
+            <p class="chapter-desc">٢٠ تكتيك، ٥٠ سؤال تدريبي، ومحاكاة كاملة لقياس.</p>
+          </div>
+          <span class="chapter-count-badge">٤ دروس</span>
+        </div>
+
+        <div class="lessons-list">
+          <a href="lessons/lesson-12.html" class="lesson-item">
+            <div class="lesson-num">١٢</div>
+            <div class="lesson-content">
+              <div class="lesson-title">دليل التكتيكات السريعة</div>
+              <div class="lesson-detail">٢٠ تكتيك تختصر وقت الحلّ في الاختبار</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-13.html" class="lesson-item">
+            <div class="lesson-num">١٣</div>
+            <div class="lesson-content">
+              <div class="lesson-title">المراجعة الشاملة</div>
+              <div class="lesson-detail">٧٠ سؤال يجمع كل التكتيكات والفخاخ</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-14.html" class="lesson-item">
+            <div class="lesson-num">١٤</div>
+            <div class="lesson-content">
+              <div class="lesson-title">التمارين المكثّفة</div>
+              <div class="lesson-detail">٥٠ سؤال متتالي بدون توقّف</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+
+          <a href="lessons/lesson-15.html" class="lesson-item">
+            <div class="lesson-num">١٥</div>
+            <div class="lesson-content">
+              <div class="lesson-title">المحاكاة النهائية</div>
+              <div class="lesson-detail">٧٠ سؤال • ٣٠ دقيقة • نتيجة فورية</div>
+            </div>
+            <span class="lesson-tag locked">🔒</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="cta-bottom">
+    <div class="container">
+      <h2>جاهز تبدأ؟</h2>
+      <p>الدرس الأول والثاني مجاناً بالكامل — جرّب قبل ما تشترك.</p>
+      <div class="cta-actions">
+        <a href="signup.html" class="btn btn-accent btn-lg">
+          ابدأ مجاناً <span class="arrow">←</span>
+        </a>
+        <a href="index.html#pricing" class="btn btn-cta-secondary btn-lg">شاهد السعر</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <span>© ٢٠٢٦ زُبَد. جميع الحقوق محفوظة.</span>
+        <div class="footer-links">
+          <a href="index.html">الرئيسية</a>
+          <a href="curriculum.html">المنهج</a>
+          <a href="about.html">عن زُبَد</a>
+          <a href="index.html#faq">الأسئلة</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const onScroll = () => {
+      if (window.scrollY > 12) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>

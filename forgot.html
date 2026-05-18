@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استعادة كلمة المرور — زُبَد</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;
+      --ink-soft: #4A4A47;
+      --ink-mute: #8A8A85;
+      --line: #E8E6DE;
+      --accent: #E8B84A;
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --green-bg: #E8F3EE;
+      --font-sans: 'Tajawal', system-ui, -apple-system, sans-serif;
+      --r-sm: 8px;
+      --r-md: 14px;
+      --r-lg: 20px;
+      --shadow-2: 0 4px 16px rgba(15,15,14,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    button { font-family: inherit; cursor: pointer; border: 0; background: none; }
+    a { color: inherit; text-decoration: none; }
+    input { font-family: inherit; }
+
+    .page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top bar */
+    .topnav {
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .auth-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+    }
+    .auth-logo svg { width: 32px; height: 32px; }
+    .back-link {
+      font-size: 14.5px;
+      color: var(--ink-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .2s ease;
+    }
+    .back-link:hover { color: var(--ink); }
+
+    /* Form container */
+    .form-shell {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .form-card {
+      width: 100%;
+      max-width: 460px;
+      text-align: center;
+    }
+
+    .form-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--accent-glow);
+      border: 1px solid #F2E5B8;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 24px;
+      color: var(--accent-deep);
+    }
+
+    .form-title {
+      font-size: clamp(28px, 4vw, 36px);
+      font-weight: 900;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+      margin: 0 0 12px;
+    }
+    .form-sub {
+      font-size: 16px;
+      color: var(--ink-soft);
+      margin: 0 0 32px;
+      line-height: 1.7;
+    }
+
+    .field {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+    .field-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+    .field-input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--surface);
+      border: 1.5px solid var(--line);
+      border-radius: var(--r-md);
+      font-size: 15.5px;
+      color: var(--ink);
+      transition: all .2s ease;
+      direction: ltr;
+      text-align: right;
+      font-family: inherit;
+    }
+    .field-input::placeholder { color: var(--ink-mute); }
+    .field-input:focus {
+      outline: none;
+      border-color: var(--ink);
+      background: var(--bg);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 16px 24px;
+      background: var(--ink);
+      color: var(--bg);
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 28px rgba(15,15,14,0.2);
+    }
+    .btn-submit .arrow { transition: transform .25s ease; }
+    .btn-submit:hover .arrow { transform: translateX(-4px); }
+
+    .form-footer {
+      font-size: 14.5px;
+      color: var(--ink-soft);
+    }
+    .form-footer a {
+      color: var(--ink);
+      font-weight: 700;
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 1px;
+    }
+
+    /* Success state */
+    .success-state {
+      display: none;
+    }
+    .success-state.active {
+      display: block;
+      animation: fadeUp .5s both;
+    }
+    .form-state.hidden { display: none; }
+
+    .success-icon {
+      background: var(--green-bg);
+      border-color: #C5E1D2;
+      color: var(--green);
+    }
+
+    .email-highlight {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--accent-glow);
+      border-radius: var(--r-sm);
+      color: var(--accent-deep);
+      font-weight: 700;
+      direction: ltr;
+      margin: 4px 4px;
+    }
+
+    .info-box {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 16px 18px;
+      text-align: right;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+    .info-box strong { color: var(--ink); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .form-card > * { animation: fadeUp .5s both; }
+    .form-card > *:nth-child(2) { animation-delay: .05s; }
+    .form-card > *:nth-child(3) { animation-delay: .1s; }
+    .form-card > *:nth-child(4) { animation-delay: .15s; }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+    <header class="topnav">
+      <a href="index.html" class="auth-logo" aria-label="زُبَد — الرئيسية">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
+          <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
+          <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span>زُبَد</span>
+      </a>
+      <a href="login.html" class="back-link">
+        <span>←</span>
+        <span>الرجوع للدخول</span>
+      </a>
+    </header>
+
+    <main class="form-shell">
+
+      <!-- Initial state -->
+      <div class="form-card form-state" id="formState">
+        <div class="form-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        </div>
+
+        <h1 class="form-title">نسيت كلمة المرور؟</h1>
+        <p class="form-sub">
+          عادي، يصير. اكتب إيميلك وراح نرسل لك رابط لإنشاء كلمة مرور جديدة.
+        </p>
+
+        <form onsubmit="return handleReset(event)">
+          <div class="field">
+            <label class="field-label" for="email">البريد الإلكتروني</label>
+            <input
+              class="field-input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="example@email.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+
+          <button class="btn-submit" type="submit">
+            أرسل رابط الاستعادة
+            <span class="arrow">←</span>
+          </button>
+        </form>
+
+        <p class="form-footer">
+          تذكّرت كلمة المرور؟
+          <a href="login.html">سجّل دخولك</a>
+        </p>
+      </div>
+
+      <!-- Success state -->
+      <div class="form-card success-state" id="successState">
+        <div class="form-icon success-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+
+        <h1 class="form-title">تمّ الإرسال ✓</h1>
+        <p class="form-sub">
+          أرسلنا رابط استعادة كلمة المرور إلى
+          <span class="email-highlight" id="sentEmail">example@email.com</span>
+          راجع بريدك (وصندوق الـ Spam لو ما لقيته).
+        </p>
+
+        <div class="info-box">
+          <strong>الرابط صالح لمدة ٣٠ دقيقة فقط.</strong>
+          لو ما وصلك الإيميل خلال ٥ دقائق، تأكّد من الإيميل وحاول مرة ثانية.
+        </div>
+
+        <a href="login.html" class="btn-submit" style="text-decoration: none; color: var(--bg)">
+          الرجوع لتسجيل الدخول
+          <span class="arrow">←</span>
+        </a>
+
+        <button onclick="resetForm()" style="font-size: 14px; color: var(--ink-soft); margin-top: 8px; padding: 8px; cursor: pointer; background: none; border: 0; font-family: inherit;">
+          إرسال إلى إيميل ثاني
+        </button>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function handleReset(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      document.getElementById('sentEmail').textContent = email;
+      document.getElementById('formState').classList.add('hidden');
+      document.getElementById('successState').classList.add('active');
+      console.log('[forgot] reset email sent to:', email);
+      return false;
+    }
+
+    function resetForm() {
+      document.getElementById('formState').classList.remove('hidden');
+      document.getElementById('successState').classList.remove('active');
+      document.getElementById('email').value = '';
+      document.getElementById('email').focus();
+    }
+  </script>
+
+</body>
+</html>
