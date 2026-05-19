@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإعدادات — زُبَد</title>
+  <link rel="icon" type="image/svg+xml" href="assets/images/logo.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;
+      --ink-soft: #4A4A47;
+      --ink-mute: #8A8A85;
+      --line: #E8E6DE;
+      --accent: #E8B84A;
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --green-bg: #E8F4EE;
+      --red: #B84545;
+      --red-bg: #FDEEEE;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg); color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+
+    /* === ZUBAD TOP NAV (sticky) === */
+    .zubad-topnav{
+      position:sticky;top:0;z-index:100;
+      background:rgba(255,251,240,.92);
+      backdrop-filter:saturate(180%) blur(12px);
+      -webkit-backdrop-filter:saturate(180%) blur(12px);
+      border-bottom:1px solid var(--line);
+    }
+    .zubad-topnav-inner{
+      max-width:680px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 18px;gap:12px;
+    }
+    .zubad-brand{
+      display:flex;align-items:center;gap:10px;
+      font-weight:900;font-size:20px;color:var(--ink);
+      text-decoration:none;letter-spacing:-0.02em;
+    }
+    .zubad-brand img{width:32px;height:32px;display:block}
+    .zubad-page-title{
+      flex:1;text-align:center;
+      font-size:14px;color:var(--ink-soft);font-weight:700;
+    }
+    .zubad-back{
+      display:inline-flex;align-items:center;gap:6px;
+      padding:8px 14px;border-radius:999px;
+      background:#fff;border:1px solid var(--line);
+      font-size:13px;font-weight:700;color:var(--ink);
+      text-decoration:none;transition:all .2s ease;
+    }
+    .zubad-back:hover{border-color:var(--ink)}
+
+    /* Layout */
+    main {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px;
+    }
+    .sub {
+      color: var(--ink-mute);
+      font-size: 15px;
+      margin: 0 0 32px;
+    }
+
+    /* Section */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--ink-mute);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .section h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+    .section .section-desc {
+      color: var(--ink-mute);
+      font-size: 14px;
+      margin: 0 0 20px;
+    }
+
+    /* Form */
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      font-family: inherit;
+      font-size: 15px;
+      background: var(--bg);
+      transition: all .2s ease;
+    }
+    .field input:focus {
+      outline: none;
+      border-color: var(--ink);
+      background: #fff;
+    }
+    .field input[readonly] {
+      background: #f5f5f0;
+      color: var(--ink-mute);
+      cursor: not-allowed;
+    }
+    .field-hint {
+      font-size: 12px;
+      color: var(--ink-mute);
+      margin-top: 6px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 14.5px;
+      cursor: pointer;
+      transition: all .2s ease;
+      border: 0;
+      font-family: inherit;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--ink);
+      color: #fff;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(0,0,0,.15); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-danger {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1.5px solid var(--red-bg);
+    }
+    .btn-danger:hover { background: var(--red); color: #fff; border-color: var(--red); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink);
+      border: 1.5px solid var(--line);
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+
+    /* Status messages */
+    .msg {
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .msg.show { display: block; }
+    .msg.success {
+      background: var(--green-bg);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+    .msg.error {
+      background: var(--red-bg);
+      color: var(--red);
+      border: 1px solid var(--red);
+    }
+
+    /* Account info */
+    .account-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+    .account-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 22px;
+    }
+    .account-details {
+      flex: 1;
+    }
+    .account-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+    .account-email {
+      font-size: 13px;
+      color: var(--ink-mute);
+      direction: ltr;
+      text-align: right;
+    }
+    .account-badge {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 3px 10px;
+      background: var(--accent-glow);
+      color: var(--accent-deep);
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 999px;
+    }
+    .account-badge.admin {
+      background: var(--ink);
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- === ZUBAD TOP NAV === -->
+  <nav class="zubad-topnav">
+    <div class="zubad-topnav-inner">
+      <a href="dashboard.html" class="zubad-brand" aria-label="زُبَد — لوحة التحكم">
+        <img src="assets/images/logo.svg" alt="" width="32" height="32">
+        <span>زُبَد</span>
+      </a>
+      <div class="zubad-page-title">الإعدادات</div>
+      <a href="dashboard.html" class="zubad-back">
+        <span>←</span><span>الرجوع</span>
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <h1>الإعدادات</h1>
+    <p class="sub">إدارة حسابك في زُبَد</p>
+
+    <!-- ════════════ معلومات الحساب ════════════ -->
+    <div class="section">
+      <p class="section-label">معلومات الحساب</p>
+      <div class="account-info">
+        <div class="account-avatar" id="accountAvatar">إ</div>
+        <div class="account-details">
+          <div class="account-name" id="accountName">جاري التحميل...</div>
+          <div class="account-email" id="accountEmail">—</div>
+          <span class="account-badge" id="accountBadge">مستخدم</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════ الاسم الظاهر ════════════ -->
+    <div class="section">
+      <h2>الاسم الظاهر</h2>
+      <p class="section-desc">الاسم الذي يظهر في الترحيب وفي لوحة التحكم.</p>
+
+      <div id="nameMsg" class="msg"></div>
+
+      <div class="field">
+        <label for="displayName">الاسم</label>
+        <input type="text" id="displayName" placeholder="مثلاً: أبو الياس" maxlength="50">
+        <div class="field-hint">من ٢ إلى ٥٠ حرف</div>
+      </div>
+
+      <button class="btn btn-primary" id="saveNameBtn">حفظ التغييرات</button>
+    </div>
+
+    <!-- ════════════ تغيير كلمة المرور ════════════ -->
+    <div class="section">
+      <h2>كلمة المرور</h2>
+      <p class="section-desc">سنرسل لك رابطاً عبر البريد لتغيير كلمة المرور بأمان.</p>
+
+      <div id="passwordMsg" class="msg"></div>
+
+      <button class="btn btn-ghost" id="resetPasswordBtn">إرسال رابط تغيير كلمة المرور</button>
+    </div>
+
+    <!-- ════════════ تسجيل الخروج ════════════ -->
+    <div class="section">
+      <h2>تسجيل الخروج</h2>
+      <p class="section-desc">سجّل خروج من جميع الجلسات النشطة.</p>
+
+      <button class="btn btn-danger" id="logoutBtn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        <span>تسجيل الخروج</span>
+      </button>
+    </div>
+  </main>
+
+  <script type="module">
+    import { watchAuthState, logOut, resetPassword } from './assets/js/auth.js';
+    import { db } from './assets/js/firebase-config.js';
+    import {
+      doc,
+      updateDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+    import {
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+
+    const ADMIN_EMAILS = [
+      'abuelyasalmalki@gmail.com',
+      'molhaqat@gmail.com'
+    ];
+
+    let currentUser = null;
+
+    // ─── حماية + جلب بيانات الحساب ───
+    watchAuthState(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      currentUser = user;
+
+      const name = user.displayName || 'طالب';
+      const email = user.email || '—';
+      const initial = name.charAt(0);
+
+      document.getElementById('accountAvatar').textContent = initial;
+      document.getElementById('accountName').textContent = name;
+      document.getElementById('accountEmail').textContent = email;
+      document.getElementById('displayName').value = name;
+
+      // شارة الحساب
+      const badge = document.getElementById('accountBadge');
+      if (email && ADMIN_EMAILS.includes(email.toLowerCase())) {
+        badge.textContent = '🛡️ Admin';
+        badge.classList.add('admin');
+      } else {
+        // نشيك من Firestore
+        try {
+          const doc = await getDoc(window._getUserDocRef(user.uid));
+          const data = doc.data();
+          if (data?.subscription?.status === 'paid') {
+            badge.textContent = '⭐ عضو';
+          } else {
+            badge.textContent = 'الباقة المجانية';
+          }
+        } catch (e) {
+          badge.textContent = 'الباقة المجانية';
+        }
+      }
+    });
+
+    // Helper للوصول لـ doc reference
+    window._getUserDocRef = (uid) => doc(db, "users", uid);
+
+    // ─── دالة عرض رسالة ───
+    function showMsg(elementId, text, type) {
+      const el = document.getElementById(elementId);
+      el.className = `msg show ${type}`;
+      el.textContent = text;
+      if (type === 'success') {
+        setTimeout(() => el.classList.remove('show'), 4000);
+      }
+    }
+
+    // ─── حفظ الاسم ───
+    document.getElementById('saveNameBtn').addEventListener('click', async () => {
+      const newName = document.getElementById('displayName').value.trim();
+      const btn = document.getElementById('saveNameBtn');
+
+      if (newName.length < 2) {
+        showMsg('nameMsg', 'الاسم لازم يكون حرفين على الأقل', 'error');
+        return;
+      }
+      if (newName.length > 50) {
+        showMsg('nameMsg', 'الاسم طويل جداً (٥٠ حرف كحد أقصى)', 'error');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'جاري الحفظ...';
+
+      try {
+        // 1. تحديث Firebase Auth profile
+        await updateProfile(currentUser, { displayName: newName });
+
+        // 2. تحديث Firestore
+        await updateDoc(doc(db, "users", currentUser.uid), {
+          name: newName
+        });
+
+        // 3. تحديث الواجهة
+        document.getElementById('accountName').textContent = newName;
+        document.getElementById('accountAvatar').textContent = newName.charAt(0);
+
+        showMsg('nameMsg', '✓ تم حفظ الاسم بنجاح', 'success');
+      } catch (err) {
+        console.error('[settings] save name error:', err);
+        showMsg('nameMsg', 'حدث خطأ. حاول مرة ثانية.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'حفظ التغييرات';
+      }
+    });
+
+    // ─── تغيير كلمة المرور ───
+    document.getElementById('resetPasswordBtn').addEventListener('click', async () => {
+      if (!currentUser || !currentUser.email) return;
+
+      if (!confirm(`سنرسل رابط تغيير كلمة المرور إلى ${currentUser.email}.\n\nهل تريد المتابعة؟`)) {
+        return;
+      }
+
+      const btn = document.getElementById('resetPasswordBtn');
+      btn.disabled = true;
+      btn.textContent = 'جاري الإرسال...';
+
+      const result = await resetPassword(currentUser.email);
+
+      if (result.success) {
+        showMsg('passwordMsg', `✓ تم إرسال الرابط إلى ${currentUser.email}. تحقّق من بريدك (وSpam).`, 'success');
+      } else {
+        showMsg('passwordMsg', result.error || 'فشل الإرسال. حاول مرة ثانية.', 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'إرسال رابط تغيير كلمة المرور';
+    });
+
+    // ─── تسجيل الخروج ───
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      if (!confirm('هل تريد فعلاً تسجيل الخروج؟')) return;
+
+      const result = await logOut();
+      if (result.success) {
+        window.location.href = 'index.html';
+      } else {
+        alert('حدث خطأ: ' + result.error);
+      }
+    });
+  </script>
+
+</body>
+</html>

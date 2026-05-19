@@ -233,12 +233,13 @@
     /* ====== STATS ROW ====== */
     .stats {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 12px;
       margin-bottom: 32px;
     }
-    @media (min-width: 700px) {
-      .stats { grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 560px) {
+      .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .stat-card { padding: 12px 10px; }
     }
     .stat-card {
       background: var(--surface);
@@ -614,6 +615,134 @@
     .main > *:nth-child(3) { animation-delay: .1s; }
     .main > *:nth-child(4) { animation-delay: .15s; }
     .main > *:nth-child(5) { animation-delay: .2s; }
+    /* ════════════════════════════════════════
+       SUPPORT MODAL
+       ════════════════════════════════════════ */
+    .support-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .support-modal.show { display: flex; animation: fadeInModal .25s ease; }
+    @keyframes fadeInModal { from { opacity:0 } to { opacity:1 } }
+
+    .support-modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 15, 14, 0.5);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+
+    .support-modal-card {
+      position: relative;
+      background: var(--surface);
+      border-radius: 20px;
+      max-width: 440px;
+      width: 100%;
+      padding: 32px 24px 24px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(15,15,14,0.25);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .support-modal-close {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      width: 32px;
+      height: 32px;
+      border: 0;
+      background: var(--bg);
+      border-radius: 50%;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--ink-mute);
+      cursor: pointer;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .support-modal-close:hover { background: var(--line); color: var(--ink); }
+
+    .support-modal-icon { font-size: 48px; margin-bottom: 8px; }
+    .support-modal-title {
+      font-size: 22px;
+      font-weight: 900;
+      color: var(--ink);
+      margin: 0 0 8px;
+      letter-spacing: -0.02em;
+    }
+    .support-modal-desc {
+      color: var(--ink-soft);
+      font-size: 14.5px;
+      margin: 0 0 20px;
+      line-height: 1.6;
+    }
+
+    .support-channels {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .support-channel {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      text-decoration: none;
+      transition: all .2s ease;
+      text-align: right;
+    }
+    .support-channel:hover {
+      border-color: var(--ink);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .sc-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent-glow);
+      color: var(--accent-deep);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .sc-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--ink-mute);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .sc-value {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--ink);
+      direction: ltr;
+      text-align: right;
+    }
+
+    .support-modal-footer {
+      margin: 0;
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+
   </style>
 </head>
 <body>
@@ -623,11 +752,7 @@
     <!-- ====== SIDEBAR ====== -->
     <aside class="sidebar">
       <a href="index.html" class="sidebar-logo" aria-label="زُبَد">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
-          <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
-          <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
-        </svg>
+        <img src="assets/images/logo.svg" alt="" width="32" height="32" style="display:block">
         <span>زُبَد</span>
       </a>
 
@@ -642,50 +767,33 @@
           </svg>
           الرئيسية
         </a>
-        <a href="#lessons" class="nav-item">
+        <a href="curriculum.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
           </svg>
           الدروس
         </a>
-        <a href="#mistakes" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="12" y1="8" x2="12" y2="12"/>
-            <line x1="12" y1="16" x2="12.01" y2="16"/>
-          </svg>
-          مراجعة الأخطاء
-          <span class="badge">٧</span>
-        </a>
-        <a href="#tests" class="nav-item">
+        <a href="lessons/lesson-15.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <polyline points="14 2 14 8 20 8"/>
             <line x1="9" y1="15" x2="15" y2="15"/>
           </svg>
-          المحاكاة
-        </a>
-        <a href="#progress" class="nav-item">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="20" x2="12" y2="10"/>
-            <line x1="18" y1="20" x2="18" y2="4"/>
-            <line x1="6" y1="20" x2="6" y2="16"/>
-          </svg>
-          تقدّمي
+          المحاكاة النهائية
         </a>
       </nav>
 
       <p class="sidebar-section-label">الحساب</p>
       <nav class="sidebar-nav">
-        <a href="#settings" class="nav-item">
+        <a href="settings.html" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"/>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
           </svg>
           الإعدادات
         </a>
-        <a href="#help" class="nav-item">
+        <a href="#" id="supportLink" class="nav-item">
           <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"/>
             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
@@ -697,7 +805,7 @@
 
       <div class="sidebar-spacer"></div>
 
-      <div class="sidebar-user" onclick="alert('قائمة الحساب — قريباً')">
+      <div class="sidebar-user" style="cursor:pointer" title="اضغط لتسجيل الخروج">
         <div class="avatar">إ</div>
         <div class="user-info">
           <div class="user-name">إلياس</div>
@@ -708,12 +816,8 @@
 
     <!-- ====== TOPBAR (mobile only) ====== -->
     <div class="topbar">
-      <a href="index.html" class="nav-logo">
-        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="2" width="28" height="28" rx="9" fill="#0F0F0E"/>
-          <circle cx="16" cy="14" r="5" fill="#E8B84A"/>
-          <path d="M9 22 Q16 18 23 22" stroke="#E8B84A" stroke-width="2" stroke-linecap="round" fill="none"/>
-        </svg>
+      <a href="dashboard.html" class="nav-logo">
+        <img src="assets/images/logo.svg" alt="" width="32" height="32" style="display:block">
         <span>زُبَد</span>
       </a>
       <div class="avatar">إ</div>
@@ -760,15 +864,6 @@
           <div class="stat-val">٧</div>
           <div class="stat-label">أخطاء للمراجعة</div>
         </div>
-        <div class="stat-card">
-          <div class="stat-icon icon-streak">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-            </svg>
-          </div>
-          <div class="stat-val">٤</div>
-          <div class="stat-label">أيام متتالية</div>
-        </div>
       </section>
 
       <!-- Continue Card -->
@@ -796,7 +891,7 @@
       <section class="lessons-block">
         <div class="section-header">
           <h2 class="section-title">دروسك</h2>
-          <a href="#all-lessons" class="section-link">عرض الكل ←</a>
+          <a href="curriculum.html" class="section-link">عرض الكل ←</a>
         </div>
 
         <div class="lessons-grid">
@@ -1004,7 +1099,7 @@
             </div>
             <div class="next-test-title">٧٠ سؤال • ٣٠ دقيقة</div>
             <div class="next-test-desc">محاكاة كاملة لاختبار قياس</div>
-            <a href="#test" class="btn-mini">
+            <a href="lessons/lesson-15.html" class="btn-mini">
               ابدأ المحاكاة
               <span>←</span>
             </a>
@@ -1111,26 +1206,11 @@
       const totalQuestions = progress.totalQuestionsSolved || 0;
       const mistakes = progress.totalMistakes || 0;
 
-      // حساب الأيام المتتالية
-      const streak = calculateStreak(progress.lastStudyDate);
-
-      // تحديث البطاقات الأربعة
+      // تحديث البطاقات الثلاثة
       const statVals = document.querySelectorAll('.stat-val');
       if (statVals[0]) statVals[0].textContent = `${toArabic(completed)} / ١٥`;
       if (statVals[1]) statVals[1].textContent = toArabic(totalQuestions);
       if (statVals[2]) statVals[2].textContent = toArabic(mistakes);
-      if (statVals[3]) statVals[3].textContent = toArabic(streak);
-
-      // تحديث الـ badge في الـ nav (الأخطاء)
-      const mistakesBadge = document.querySelector('a[href="#mistakes"] .badge');
-      if (mistakesBadge) {
-        if (mistakes > 0) {
-          mistakesBadge.textContent = toArabic(mistakes);
-          mistakesBadge.style.display = '';
-        } else {
-          mistakesBadge.style.display = 'none';
-        }
-      }
     }
 
     // ─────────────────────────────────────────
@@ -1245,8 +1325,34 @@
         if (data.completed) completedSet.add(id);
       });
 
-      // أبني شبكة الدروس من البيانات
-      const lessonsHTML = Object.values(LESSONS_META).slice(0, 9).map(lesson => {
+      // التحقق من admin
+      const currentAuthUser = window._zubadCurrentUser;
+      const isAdmin = isAdminUser(currentAuthUser);
+
+      // أحدد الـ ٦ دروس المعروضة:
+      // - دروس مكتملة (آخر ٢ منها)
+      // - الدرس الحالي
+      // - ٣ دروس بعد الحالي
+      const allLessons = Object.values(LESSONS_META);
+      const currentNum = parseInt((currentLessonId || 'lesson-01').split('-')[1]);
+
+      // نختار نطاق ذكي حول الدرس الحالي
+      let startIdx = Math.max(0, currentNum - 3); // دروسان قبل
+      let endIdx = Math.min(15, startIdx + 6);    // ٦ في المجموع
+
+      // لو الطالب جديد (عند الدرس ١)، نعرض ١-٦
+      if (currentNum <= 1) {
+        startIdx = 0;
+        endIdx = 6;
+      }
+
+      // لو الطالب قريب من النهاية (الدرس ١٤+)، نعرض آخر ٦
+      if (currentNum >= 13) {
+        startIdx = 9;
+        endIdx = 15;
+      }
+
+      const lessonsHTML = allLessons.slice(startIdx, endIdx).map(lesson => {
         const lessonData = lessonsProgress[lesson.id] || {};
         const isCompleted = completedSet.has(lesson.id);
         const isCurrent = lesson.id === currentLessonId;
@@ -1256,15 +1362,26 @@
         let stateClass = 'locked';
         let isClickable = false;
 
-        if (isCompleted) {
+        if (isAdmin) {
+          // الـ admin يفتح كل شي
+          if (isCompleted) stateClass = 'completed';
+          else if (isCurrent) stateClass = 'in-progress';
+          else stateClass = '';
+          isClickable = true;
+        } else if (isCompleted) {
           stateClass = 'completed';
           isClickable = true;
         } else if (isCurrent) {
           stateClass = 'in-progress';
           isClickable = true;
         } else if (lesson.isFree) {
+          // الدروس المجانية مفتوحة دائماً
           stateClass = '';
           isClickable = true;
+        } else {
+          // مقفل
+          stateClass = 'locked';
+          isClickable = false;
         }
 
         const tag = isClickable
@@ -1332,15 +1449,6 @@
       return names[chapter] || '';
     }
 
-    function calculateStreak(lastStudyDate) {
-      if (!lastStudyDate) return 0;
-      const last = lastStudyDate.toDate ? lastStudyDate.toDate() : new Date(lastStudyDate);
-      const today = new Date();
-      const diffDays = Math.floor((today - last) / (1000 * 60 * 60 * 24));
-      // مبدئياً: لو درس آخر ٧ أيام، نعتبر له streak
-      return diffDays <= 1 ? 1 : 0;
-    }
-
     // ─────────────────────────────────────────
     //  تسجيل الخروج
     // ─────────────────────────────────────────
@@ -1354,7 +1462,80 @@
         }
       }
     });
+
+    // ─────────────────────────────────────────
+    //  زر الدعم — يفتح Modal بسيط
+    // ─────────────────────────────────────────
+    document.getElementById('supportLink')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      const modal = document.getElementById('supportModal');
+      if (modal) modal.classList.add('show');
+    });
+
+    document.getElementById('supportModalClose')?.addEventListener('click', () => {
+      document.getElementById('supportModal').classList.remove('show');
+    });
+
+    document.getElementById('supportModalOverlay')?.addEventListener('click', () => {
+      document.getElementById('supportModal').classList.remove('show');
+    });
   </script>
+
+  <!-- ────────── SUPPORT MODAL ────────── -->
+  <div id="supportModal" class="support-modal">
+    <div id="supportModalOverlay" class="support-modal-overlay"></div>
+    <div class="support-modal-card">
+      <button id="supportModalClose" class="support-modal-close" aria-label="إغلاق">×</button>
+      <div class="support-modal-icon">💬</div>
+      <h2 class="support-modal-title">نحب نسمع منك</h2>
+      <p class="support-modal-desc">
+        عندك سؤال، اقتراح، أو واجهت مشكلة؟ تواصل معنا مباشرة:
+      </p>
+
+      <div class="support-channels">
+        <a href="mailto:support@zobad.co" class="support-channel">
+          <div class="sc-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sc-label">إيميل الدعم</div>
+            <div class="sc-value">support@zobad.co</div>
+          </div>
+        </a>
+
+        <a href="https://wa.me/966500000000" target="_blank" class="support-channel">
+          <div class="sc-icon" style="background:#dcf8c6;color:#075e54">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sc-label">واتساب</div>
+            <div class="sc-value">رد سريع خلال ساعات</div>
+          </div>
+        </a>
+
+        <a href="https://twitter.com/zobad" target="_blank" class="support-channel">
+          <div class="sc-icon" style="background:#e8f5fe;color:#1da1f2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="sc-label">تويتر / X</div>
+            <div class="sc-value">@zobad</div>
+          </div>
+        </a>
+      </div>
+
+      <p class="support-modal-footer">
+        نرد عادةً خلال ٢٤ ساعة
+      </p>
+    </div>
+  </div>
 
 </body>
 </html>
