@@ -536,6 +536,7 @@ import {
   saveLessonLocalProgress,
   getLessonLocalProgress,
   clearLessonLocalProgress,
+  updateCurrentLessonOnly,
   LESSONS_META,
   TOTAL_LESSONS
 } from '../assets/js/firestore.js';
@@ -2025,10 +2026,15 @@ async function finishExam(){
       const btnText = passed ? 'ابدأ الدرس التالي' : 'كمّل للتالي';
       const btnStyle = passed ? '' : 'background:var(--muted)';
 
+      // لو فشل واختار يكمّل، نحدّث currentLesson في Firebase
+      const onClickHandler = passed
+        ? ''
+        : ` onclick="window._zubadGoToNext(event, '${nextId}')"`;
+
       nextLessonCard.innerHTML = `
         <div class="nl-label">${labelText}</div>
         <div class="nl-title">${arabic(nextMeta.num)}. ${nextMeta.title}</div>
-        <a class="btn-next-lesson" href="${nextId}.html" style="${btnStyle}">
+        <a class="btn-next-lesson" href="${nextId}.html" style="${btnStyle}"${onClickHandler}>
           <span>${btnText}</span><span>←</span>
         </a>
         <button type="button" class="btn-retry-lesson" onclick="location.reload()">
