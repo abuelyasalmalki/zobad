@@ -567,8 +567,8 @@ watchAuthState(async (user) => {
   const access = await canAccessLesson(CURRENT_LESSON_ID);
   if (!access.canAccess) {
     console.log('[lesson] access denied:', access.reason);
-    alert('هذا الدرس يحتاج اشتراك. سنحوّلك لصفحة الاشتراك.');
-    window.location.href = '../subscribe.html';
+    // تحويل سلس لصفحة الاشتراك (بدون alert مزعج)
+    window.location.href = '../subscribe.html?from=' + CURRENT_LESSON_ID;
     return;
   }
 
