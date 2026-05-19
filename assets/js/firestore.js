@@ -20,6 +20,14 @@ import {
 // ============================================
 //  ثوابت المنهج (للحسابات)
 // ============================================
+
+// 🛡️ حسابات الـ Admin (لها وصول كامل لكل الدروس بدون اشتراك)
+// ⚠️ هذي الإيميلات تظهر في الكود — تأكد إن حساباتهم محمية بكلمة مرور قوية + Two-Factor Auth
+const ADMIN_EMAILS = [
+  'abuelyasalmalki@gmail.com',  // المطوّر — أبو الياس
+  'molhaqat@gmail.com'           // الطالب المختبر
+];
+
 export const LESSONS_META = {
   'lesson-01': { id: 'lesson-01', num: 1, title: 'مدخل اللفظي', chapter: 1, isFree: true },
   'lesson-02': { id: 'lesson-02', num: 2, title: 'أنواع العلاقات', chapter: 1, isFree: true },
@@ -251,6 +259,11 @@ export async function checkSubscription() {
   const user = auth.currentUser;
   if (!user) return { isPaid: false, status: 'free' };
 
+  // 🛡️ الـ Admins يُعتبرون مشتركين دائماً
+  if (user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+    return { isPaid: true, status: 'admin', isAdmin: true };
+  }
+
   try {
     const userDoc = await getDoc(doc(db, "users", user.uid));
     const subscription = userDoc.data()?.subscription;
@@ -279,6 +292,13 @@ export async function checkSubscription() {
 export async function canAccessLesson(lessonId) {
   const lessonMeta = LESSONS_META[lessonId];
   if (!lessonMeta) return { canAccess: false, reason: 'الدرس غير موجود' };
+
+  // 🛡️ الـ Admins يفتحون كل الدروس
+  const user = auth.currentUser;
+  if (user && user.email && ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+    console.log('[admin] full access granted to:', user.email);
+    return { canAccess: true, isAdmin: true };
+  }
 
   // الدروس المجانية متاحة للجميع
   if (lessonMeta.isFree) return { canAccess: true };
