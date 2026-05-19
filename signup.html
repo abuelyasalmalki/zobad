@@ -428,7 +428,7 @@
         <h1 class="auth-title">ابدأ رحلتك في اللفظي</h1>
         <p class="auth-sub">سجّل في ٣٠ ثانية، وادخل على المنهج مباشرة. بدون بطاقة، بدون التزام.</p>
 
-        <button class="btn-google" type="button" onclick="signUpWithGoogle()">
+        <button class="btn-google" type="button" id="googleSignUpBtn">
           <svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
             <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/>
@@ -665,22 +665,29 @@
     });
 
     // التسجيل عبر Google
-    window.signUpWithGoogle = async function() {
-      const googleBtn = document.querySelector('.btn-google');
+    document.getElementById('googleSignUpBtn').addEventListener('click', async () => {
+      const googleBtn = document.getElementById('googleSignUpBtn');
       googleBtn.disabled = true;
       googleBtn.style.opacity = '0.6';
 
-      const result = await firebaseGoogleSignIn();
+      try {
+        const result = await firebaseGoogleSignIn();
 
-      if (result.success) {
-        console.log('[signup] Google success:', result.user.uid);
-        window.location.href = 'dashboard.html';
-      } else {
-        showError(result.error);
+        if (result.success) {
+          console.log('[signup] Google success:', result.user.uid);
+          window.location.href = 'dashboard.html';
+        } else {
+          showError(result.error);
+          googleBtn.disabled = false;
+          googleBtn.style.opacity = '1';
+        }
+      } catch (err) {
+        console.error('[signup] Google error:', err);
+        showError('حصل خطأ. حاول مرة ثانية.');
         googleBtn.disabled = false;
         googleBtn.style.opacity = '1';
       }
-    };
+    });
 
     // دالة legacy (لو في زر يستخدم الاسم القديم)
     window.handleSignup = function() { return false; };
