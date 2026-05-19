@@ -1,0 +1,2090 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧈 زبدة — الدرس الخامس عشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --butter:#F5C842;
+    --butter-soft:#FBE197;
+    --butter-deep:#E0A800;
+    --butter-glow:#FFF4D6;
+    --cream:#FFFBF0;
+    --cream-warm:#FFF7E0;
+    --dark:#1C0F00;
+    --dark-soft:#3a2a14;
+    --muted:#7a6852;
+    --line:#EADFC4;
+    --green:#2E8B57;
+    --green-bg:#E8F5EC;
+    --red:#C0392B;
+    --red-bg:#FCEAE7;
+    --blue:#3B82F6;
+    --blue-bg:#EFF6FF;
+    --shadow-sm:0 2px 8px rgba(28,15,0,.06);
+    --shadow:0 6px 24px rgba(28,15,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--cream);
+    color:var(--dark);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+    font-weight:400;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+  body{padding:20px 14px;min-height:100vh}
+  .stage{max-width:760px;margin:0 auto}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:0 4px}
+  .brand{font-weight:700;font-size:22px;display:flex;align-items:center;gap:10px}
+  .brand .logo{width:36px;height:36px;background:var(--butter);border-radius:11px;display:grid;place-items:center;font-size:20px;box-shadow:0 4px 14px rgba(245,200,66,.5)}
+  .lesson-meta{color:var(--muted);font-size:13px;font-weight:500}
+
+  .nav-bar{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;gap:8px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+  .nav-step{flex:1;padding:10px 14px;border-radius:11px;text-align:center;font-size:13px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+  .nav-step:hover:not(.locked){background:var(--cream-warm)}
+  .nav-step.active{background:var(--dark);color:var(--butter)}
+  .nav-step.completed{color:var(--green)}
+  .nav-step.completed::before{content:"✓ ";font-weight:700}
+  .nav-step.locked{color:#bbb;cursor:not-allowed}
+  .nav-step.locked::before{content:"🔒 "}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px 28px;box-shadow:var(--shadow);margin-bottom:18px;position:relative}
+
+  .intro-card{background:linear-gradient(140deg,#fff 0%,var(--butter-glow) 100%);overflow:hidden;position:relative}
+  .intro-card::before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,var(--butter-soft) 0%,transparent 70%);opacity:.5}
+  .chapter-tag{display:inline-block;font-size:12px;font-weight:700;color:var(--butter-deep);background:var(--butter-glow);border:1px solid var(--butter-soft);padding:6px 14px;border-radius:99px;letter-spacing:.3px;margin-bottom:18px;position:relative;z-index:1}
+  .intro-card h1{font-weight:700;font-size:30px;line-height:1.3;color:var(--dark);margin-bottom:12px;position:relative;z-index:1}
+  .intro-card .subtitle{font-size:15px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .intro-card .why-box{background:rgba(255,255,255,.7);border-right:4px solid var(--butter);padding:16px 18px;border-radius:10px;font-size:15px;line-height:1.85;color:var(--dark-soft);margin-bottom:22px;position:relative;z-index:1}
+  .intro-card .meta-row{display:flex;gap:18px;color:var(--muted);font-size:13px;margin-bottom:22px;position:relative;z-index:1;flex-wrap:wrap}
+
+  .rule-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 26px;margin-bottom:16px;box-shadow:var(--shadow-sm);animation:slideUp .4s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .rule-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+  .rule-number{width:42px;height:42px;background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(245,200,66,.4)}
+  .rule-label{font-size:11px;font-weight:600;color:var(--butter-deep);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+  .rule-title{font-weight:700;font-size:21px;color:var(--dark);line-height:1.4}
+
+  .step-block{background:var(--cream-warm);border-radius:14px;padding:20px 22px;margin-bottom:14px}
+  .step-num-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .step-num{width:28px;height:28px;background:var(--butter);color:var(--dark);border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+  .step-title{font-weight:600;font-size:16px;color:var(--dark)}
+  .step-content{font-size:15.5px;line-height:1.9;color:var(--dark-soft);padding-right:38px}
+  .step-content strong{color:var(--dark);font-weight:600}
+
+  .write-prompt{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:20px;padding:28px 24px;margin:18px 0;text-align:center;box-shadow:0 8px 24px rgba(245,200,66,.4);position:relative;overflow:hidden;animation:slideUp .4s ease}
+  .write-prompt .write-icon{font-size:38px;margin-bottom:8px}
+  .write-prompt .write-headline{font-weight:700;font-size:17px;margin-bottom:14px;color:var(--dark)}
+  .write-prompt .write-content{background:rgba(255,255,255,.9);border:2px dashed var(--dark);border-radius:14px;padding:18px 16px;margin:14px 0;font-weight:600;font-size:18px;color:var(--dark);line-height:1.6}
+  .write-prompt .write-instruction{font-size:14px;color:var(--dark-soft);margin-bottom:18px;font-weight:500}
+
+  .mistake-box{background:var(--red-bg);border-right:4px solid var(--red);border-radius:12px;padding:14px 18px;margin:14px 0}
+  .mistake-box .label{font-weight:700;color:var(--red);font-size:13px;margin-bottom:6px}
+  .mistake-box .text{font-size:14px;color:var(--dark-soft);line-height:1.7}
+
+  .exercise-box{background:var(--blue-bg);border:1px solid #BFDBFE;border-radius:16px;padding:22px 20px;margin-top:18px}
+  .exercise-box .ex-label{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+  .exercise-box .ex-counter{color:var(--muted);font-weight:500;font-size:13px;margin-bottom:14px}
+  .exercise-box .question{font-weight:600;font-size:18px;color:var(--dark);margin-bottom:18px;line-height:1.6;text-align:center;padding:14px;background:#fff;border-radius:10px;unicode-bidi:plaintext}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  @media (max-width:480px){.options{grid-template-columns:1fr}}
+  .option{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-family:inherit;font-weight:600;font-size:16px;color:var(--dark);cursor:pointer;transition:all .2s ease;text-align:center}
+  .option:hover:not(.locked){border-color:var(--butter);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .option.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+  .option.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .option.locked{cursor:not-allowed;opacity:.5}
+  .option.locked.correct{opacity:1}
+  .option.locked.wrong{opacity:1}
+
+  .feedback{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.7;display:none}
+  .feedback.show{display:block;animation:slideUp .3s ease}
+  .feedback.success{background:var(--green-bg);color:var(--green);border-right:4px solid var(--green)}
+  .feedback.error{background:var(--red-bg);color:var(--red);border-right:4px solid var(--red)}
+
+  .solution-block{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:none}
+  .solution-block.show{display:block;animation:slideUp .3s ease}
+  .sol-step{padding:16px 20px;border-bottom:1px dashed var(--line)}
+  .sol-step:last-child{border-bottom:none}
+  .sol-step-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sol-step-num{width:24px;height:24px;background:var(--butter);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px}
+  .sol-step-label{font-weight:700;font-size:12px;color:var(--butter-deep);letter-spacing:.5px}
+  .sol-step-content{font-size:14.5px;line-height:1.85;color:var(--dark-soft);padding-right:34px}
+
+  .btn{font-family:inherit;font-weight:600;border:none;border-radius:13px;padding:13px 26px;font-size:15px;cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn-primary{background:var(--dark);color:var(--butter)}
+  .btn-primary:hover{background:#000;transform:translateY(-2px)}
+  .btn-butter{background:var(--butter);color:var(--dark);box-shadow:0 4px 14px rgba(245,200,66,.4)}
+  .btn-butter:hover{background:var(--butter-deep);transform:translateY(-2px);box-shadow:0 6px 18px rgba(245,200,66,.5)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--dark);border-color:var(--dark)}
+  .btn-block{width:100%}
+  .btn-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+  .btn-row.center{justify-content:center}
+
+  .golden-rule{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:14px;padding:18px 22px;margin:14px 0;box-shadow:0 6px 18px rgba(245,200,66,.35)}
+  .golden-rule .label{font-size:11px;font-weight:700;letter-spacing:1px;opacity:.7;margin-bottom:4px}
+  .golden-rule .text{font-weight:700;font-size:16px;line-height:1.5}
+
+  .butter-summary{background:linear-gradient(140deg,var(--butter-glow) 0%,#FFF9E0 100%);border:2px solid var(--butter-soft);border-radius:22px;padding:28px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+  .butter-summary h2{font-weight:700;font-size:22px;margin-bottom:6px;color:var(--dark);position:relative;z-index:1}
+  .butter-summary .subtitle{font-size:13px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .butter-summary ul{list-style:none;position:relative;z-index:1}
+  .butter-summary li{padding:10px 0;border-bottom:1px dashed var(--butter-soft);font-size:15px;color:var(--dark-soft);line-height:1.7}
+  .butter-summary li:last-child{border-bottom:none}
+  .butter-summary li strong{color:var(--dark);font-weight:700}
+
+  .progress-dots{display:flex;justify-content:center;gap:7px;margin-bottom:16px}
+  .dot{width:32px;height:6px;background:var(--line);border-radius:99px;transition:background .3s ease}
+  .dot.done{background:var(--butter)}
+  .dot.current{background:var(--dark)}
+
+  .exam-header{text-align:center;margin-bottom:20px}
+  .exam-header h2{font-weight:700;font-size:24px;margin-bottom:6px}
+  .exam-warning{background:#FEF3C7;border-right:4px solid #D97706;padding:14px 18px;border-radius:12px;font-size:14px;color:#92400E;line-height:1.7;margin-bottom:18px}
+  .exam-question-num{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
+
+  .completion{text-align:center;padding:40px 20px}
+  .completion .big-emoji{font-size:80px;margin-bottom:12px;display:block}
+  .completion h2{font-weight:700;font-size:30px;margin-bottom:10px}
+  .completion .score{font-weight:700;font-size:54px;color:var(--butter-deep);margin:14px 0}
+  .completion .msg{color:var(--muted);font-size:16px;margin-bottom:24px;line-height:1.7}
+
+  .hidden{display:none !important}
+  .math-expr{unicode-bidi:plaintext}
+
+  /* منطقة الفيديو الافتتاحي */
+  .video-intro{
+    background:rgba(255,255,255,.85);
+    border:1px solid var(--butter-soft);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:18px;
+    position:relative;
+    z-index:1;
+  }
+  .video-intro .video-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--butter-deep);
+    margin-bottom:10px;
+    text-align:center;
+  }
+  .video-wrapper{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    border-radius:10px;
+    background:var(--dark);
+  }
+  .video-wrapper iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border:0;
+    border-radius:10px;
+  }
+
+  /* مؤقّت الاختبار */
+  .exam-timer{
+    position:sticky;
+    top:10px;
+    background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);
+    color:var(--dark);
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:16px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(245,200,66,.4);
+    margin-bottom:16px;
+    z-index:10;
+  }
+  .exam-timer.warning{
+    background:linear-gradient(135deg,#FFA500 0%,#FF7700 100%);
+    color:#fff;
+    animation:pulse 1s infinite;
+  }
+  .exam-timer.danger{
+    background:linear-gradient(135deg,var(--red) 0%,#8B0000 100%);
+    color:#fff;
+    animation:pulse 0.5s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.03)}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🧈</div>
+      <span>زبدة</span>
+    </div>
+    <div class="lesson-meta">الدرس 15 من 15</div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-step active" id="nav-lesson" onclick="navigateTo('lesson')">الشرح</button>
+    <button class="nav-step locked" id="nav-comprehensive" onclick="navigateTo('comprehensive')">التمارين</button>
+    <button class="nav-step locked" id="nav-exam" onclick="navigateTo('exam')">الاختبار</button>
+  </div>
+
+  <section id="stage-intro">
+    <div class="card intro-card">
+      <span class="chapter-tag">الباب صفر — مهارات قبل التأسيس</span>
+      <h1 id="lessonTitle">العمليات الحسابية على الأعداد الكبيرة</h1>
+      <p class="subtitle" id="lessonSubtitle">أول خطوة في رحلة تأسيس الكمي</p>
+      <div class="meta-row">
+        <span>⏱️ <span id="lessonDuration">45</span> دقيقة</span>
+        <span>📚 <span id="rulesCount">8</span> قواعد</span>
+        <span>📝 41 سؤال</span>
+      </div>
+      <div class="why-box" id="lessonWhy">—</div>
+
+      <!-- منطقة الفيديو الافتتاحي -->
+      <div class="video-intro" id="videoIntroBox">
+        <div class="video-label">🎬 شاهد المقدمة (٢ دقيقة)</div>
+        <div class="video-wrapper">
+          <iframe id="introVideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startLesson()">يلا نبدأ ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-lesson" class="hidden">
+    <div id="currentRuleContainer"></div>
+  </section>
+
+  <section id="stage-summary" class="hidden">
+    <div class="butter-summary">
+      <h2>🧈 الزبدة المركّزة</h2>
+      <p class="subtitle">ملخص الدرس كاملاً في مكان واحد — احفظه</p>
+      <ul id="summaryList"></ul>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:700;font-size:18px;color:var(--red);margin-bottom:14px">⚠️ الأخطاء الشائعة</h3>
+      <ul id="mistakesList" style="list-style:none"></ul>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="goToComprehensive()">جاهز للتمارين الشاملة ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-comprehensive" class="hidden">
+    <div class="card">
+      <div class="progress-dots" id="compDots"></div>
+      <div id="compCounter" style="text-align:center;margin-bottom:14px;color:var(--muted);font-size:13px;font-weight:600"></div>
+      <div id="compQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:18px;text-align:center;padding:18px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="compOptions"></div>
+      <div class="feedback" id="compFeedback"></div>
+      <div class="solution-block" id="compSolution"></div>
+    </div>
+  </section>
+
+  <section id="stage-exam-intro" class="hidden">
+    <div class="card">
+      <div class="exam-header">
+        <h2>✅ اختبار الدرس</h2>
+        <p style="color:var(--muted)">حان وقت اختبار نفسك</p>
+      </div>
+      <div class="exam-warning">
+        ⚠️ <strong>تنبيه:</strong> هذا اختبار جدّي. لن تستطيع الرجوع للشرح أثناء الاختبار، ولن يكون عندك زر "عطني الزبدة". اعتمد على نفسك.
+        <br><br>
+        🎯 <strong>الهدف:</strong> 5 من 7 إجابات صحيحة على الأقل لاجتياز الاختبار.
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startExam()">بسم الله — ابدأ الاختبار</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-exam" class="hidden">
+    <div class="card">
+      <div class="exam-question-num" id="examCounter"></div>
+      <div id="examQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:20px;text-align:center;padding:20px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="examOptions"></div>
+    </div>
+  </section>
+
+  <section id="stage-done" class="hidden">
+    <div class="card">
+      <div class="completion">
+        <span class="big-emoji">🧈</span>
+        <h2 id="doneTitle">أحسنت!</h2>
+        <div class="score" id="doneScore">7/7</div>
+        <p class="msg" id="doneMsg">خلصت أول درس في زبدة. باقي 17 درس وأنت في الطريق.</p>
+        <div id="doneActions">
+          <button class="btn btn-butter" onclick="location.reload()">الدرس التالي ←</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-mistakes" class="hidden">
+    <div class="card">
+      <h2 style="font-weight:700;font-size:22px;color:var(--dark);margin-bottom:8px;text-align:center">⚠️ مراجعة أخطاءك</h2>
+      <p style="color:var(--muted);font-size:14px;text-align:center;margin-bottom:20px" id="mistakesCounter">—</p>
+      <div id="examMistakesList"></div>
+      <div class="btn-row center" style="margin-top:20px">
+        <button class="btn btn-butter" onclick="location.reload()">فهمت — الدرس التالي ←</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const LESSON_DATA = {
+  "id": "lesson_15",
+  "chapter": "sixth",
+  "chapter_title": "المراجعة والاختبار النهائي",
+  "chapter_color": "#EF4444",
+  "order": 15,
+  "title": "الاختبار النهائي - محاكاة قياس",
+  "subtitle": "٧٠ سؤال + ٣٠ دقيقة — أصعب اختبار في المنهج",
+  "why": "وصلت للحظة الحقيقة. هذا الاختبار **أصعب من قياس** نفسه: ٧٠ سؤال بأعلى مستوى صعوبة، مفردات نادرة، فخاخ مضاعفة، ونصوص فلسفية عميقة. لو نجحت هنا، تقدر تواجه قياس بثقة كاملة. اعتبر هذا اختبارك الحقيقي — لا تستهين به.",
+  "video_url": "https://www.youtube.com/embed/PLACEHOLDER_VIDEO_ID?rel=0&modestbranding=1",
+  "estimated_minutes": 40,
+  "rules": [
+    {
+      "id": "rule_1",
+      "number": 1,
+      "title": "قبل المحاكاة — اقرأ بعناية",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "🎯 ما هذا الاختبار؟",
+          "content": "**محاكاة كاملة لقياس اللفظي بأصعب مستوى:**\n\n🔹 ٧٠ سؤال (أكثر من قياس الورقي)\n🔹 Timer ٣٠ دقيقة\n🔹 موزّع على ٥ محاور:\n   - ١٥ سؤال تناظر (بمفردات نادرة)\n   - ١٥ سؤال إكمال جمل (بفخاخ مضاعفة)\n   - ١٠ أسئلة خطأ سياقي (خفية)\n   - ١٠ أسئلة مفردة شاذة (فئات دقيقة)\n   - ٢٠ سؤال استيعاب مقروء (٤ نصوص فلسفية)\n\n**هذا اختبار حقيقي، أصعب من قياس نفسه.**"
+        },
+        {
+          "step": 2,
+          "title": "🎯 شروط المحاكاة",
+          "content": "**اتبع هذي الشروط لمحاكاة حقيقية:**\n\n١. **مكان هادئ تماماً** — بدون مشتّتات\n٢. **بدون كتب أو ملاحظات**\n٣. **بدون توقّف** — ٣٠ دقيقة متواصلة\n٤. **بدون مراجعة الدروس** أثناء الاختبار\n٥. **ركّز كاملاً** — كأنك في قاعة قياس\n\n**لو اضطررت تتوقّف، اعتبر الاختبار باطلاً وأعده.**"
+        },
+        {
+          "step": 3,
+          "title": "🎯 توزيع الوقت",
+          "content": "**حساب الوقت:**\n٣٠ دقيقة ÷ ٧٠ سؤال = **~٢٥ ثانية لكل سؤال**\n\n**استراتيجية ذكية:**\n- **التناظر + الشاذة:** ١٥-٢٠ ثانية لكل سؤال (الأسهل بصرياً)\n- **إكمال + خطأ سياقي:** ٢٥-٣٠ ثانية لكل سؤال\n- **استيعاب مقروء:** دقيقة للنص + ٢٠ ثانية لكل سؤال\n\n**القاعدة:** ابدأ بالسهل، علّم الصعب وارجع له. لا تتوقّف على سؤال واحد طويلاً."
+        },
+        {
+          "step": 4,
+          "title": "🚀 جاهز؟",
+          "content": "**قبل ما تبدأ:**\n\n✅ مكان هادئ؟\n✅ شربت ماء؟\n✅ ذهنك صافي؟\n✅ ٣٠ دقيقة فاضية بدون مقاطعات؟\n\n**إذا الكل ✅، اضغط على 'الاختبار' في الأعلى، ثم 'بدء الاختبار'.**\n\nبالتوفيق يا أبو الياس. هذي اللحظة اللي تدرّبت لها طوال المنهج!\n\n🎯 **هدفك: ٤٩ من ٧٠ على الأقل (٧٠٪)**"
+        }
+      ],
+      "golden_law": "هذي محاكاة أصعب من قياس. ٧٠ سؤال + ٣٠ دقيقة. التزم بشروط الاختبار.",
+      "common_mistake": "الاستهانة بالمحاكاة. عاملها كقياس الحقيقي تماماً، أو أصعب.",
+      "quick_exercises": []
+    }
+  ],
+  "butter_summary": [],
+  "common_mistakes": [],
+  "comprehensive_exercises": [],
+  "final_exam": {
+    "title": "محاكاة قياس اللفظي النهائية - 70 سؤال",
+    "duration_minutes": 30,
+    "pass_threshold": 49,
+    "has_timer": true,
+    "questions": [
+      {
+        "id": "exam_1",
+        "question": "(انبلاج : ظلام) — كالعلاقة بين:",
+        "options": [
+          "شروق : ضياء",
+          "انجلاء : غمّة",
+          "إشراق : نهار",
+          "ابتسامة : فرح"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: ظهور تدريجي يُزيل ضدّه.\n\nالانبلاج (الفجر) يزيل الظلام، الانجلاء (الانكشاف) يزيل الغمّة ✓\n\n**فخّ:** (أ، ج) ظهور لكن لا يُزيل ضدّه."
+      },
+      {
+        "id": "exam_2",
+        "question": "(مُحَنَّك : خبرة) — كالعلاقة بين:",
+        "options": [
+          "كريم : فطرة",
+          "عبقري : موهبة",
+          "مُتمرِّس : ممارسة",
+          "ذكي : ولادة"
+        ],
+        "correct_index": 2,
+        "explanation": "العلاقة: صفة مكتسبة + سببها الزمني.\n\nالمحنّك من الخبرة، المتمرّس من الممارسة ✓\n\n**فخّ:** (ب) الموهبة ليست مكتسبة، (أ، د) فطري لا مكتسب."
+      },
+      {
+        "id": "exam_3",
+        "question": "(جزالة : أسلوب) — كالعلاقة بين:",
+        "options": [
+          "قوّة : بنيان",
+          "رصانة : عقل",
+          "جمال : وجه",
+          "عمق : بحر"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: صفة محمودة مجرّدة في مجال فكري.\n\nالجزالة قوة الأسلوب اللغوي، الرصانة قوة العقل ✓\n\n**فخّ:** (أ، ج، د) صفات حسّية لا فكرية."
+      },
+      {
+        "id": "exam_4",
+        "question": "(تَرَهَّات : أكاذيب) — كالعلاقة بين:",
+        "options": [
+          "أساطير : قصص",
+          "شائعات : أخبار",
+          "حقائق : وقائع",
+          "أفكار : خواطر"
+        ],
+        "correct_index": 2,
+        "explanation": "العلاقة: ترادف تام.\n\nالتَّرَهَّات = الأكاذيب، الحقائق = الوقائع ✓\n\n**فخّ:** (أ، ب) الأساطير قصص خيالية فقط، الشائعات أخبار غير موثّقة."
+      },
+      {
+        "id": "exam_5",
+        "question": "(عدل : ميزان) — كالعلاقة بين:",
+        "options": [
+          "جمال : مرآة",
+          "حقيقة : قانون",
+          "طول : مسطرة",
+          "سرعة : عداد"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: مفهوم مجرّد + أداة/معيار يحقّقه رمزياً.\n\nالعدل مفهوم، الميزان رمزه. الحقيقة مفهوم، القانون معيارها ✓\n\n**فخّ:** (ج، د) قابلة للقياس مباشرة."
+      },
+      {
+        "id": "exam_6",
+        "question": "(صَدِئ : حديد) — كالعلاقة بين:",
+        "options": [
+          "لمع : ذهب",
+          "ذبل : زهرة",
+          "نظف : ثوب",
+          "صقل : معدن"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: فعل تلف طبيعي بفعل الوقت.\n\nالحديد يصدأ، الزهرة تذبل ✓\n\n**فخّ:** (أ، ج، د) أفعال إيجابية أو محايدة."
+      },
+      {
+        "id": "exam_7",
+        "question": "(تحريف : نص) — كالعلاقة بين:",
+        "options": [
+          "ترجمة : كتاب",
+          "تزوير : وثيقة",
+          "كتابة : قصيدة",
+          "قراءة : مقال"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: فعل سلبي يفسد الأصل.\n\nالتحريف يفسد النص، التزوير يفسد الوثيقة ✓\n\n**فخّ:** (أ، ج، د) أفعال محايدة."
+      },
+      {
+        "id": "exam_8",
+        "question": "(احتقار : إجلال) — كالعلاقة بين:",
+        "options": [
+          "كره : بغض",
+          "ذُلٌّ : عِزٌّ",
+          "فقر : حاجة",
+          "حزن : كآبة"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: تضاد في المشاعر.\n\nاحتقار ضد إجلال، ذُلّ ضد عِزّ ✓\n\n**فخّ:** (أ، د) ترادفات، (ج) سبب ونتيجة."
+      },
+      {
+        "id": "exam_9",
+        "question": "(زاهد : دنيا) — كالعلاقة بين:",
+        "options": [
+          "محب : دنيا",
+          "مُعرض : مَتاع",
+          "راغب : مال",
+          "طامع : كنز"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: شخص + ما يبتعد عنه طوعاً.\n\nالزاهد يبتعد عن الدنيا، المُعرض يبتعد عن المتاع ✓\n\n**فخّ:** (أ، ج، د) شخص + ما ينجذب له (عكس)."
+      },
+      {
+        "id": "exam_10",
+        "question": "(غصن : شجرة) — كالعلاقة بين:",
+        "options": [
+          "ورقة : كتاب",
+          "جدول : نهر",
+          "موجة : بحر",
+          "قطرة : ماء"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: فرع جزئي ثابت + كل.\n\nالغصن جزء ثابت من الشجرة، الجدول فرع من النهر ✓\n\n**فخّ:** (ج) الموجة ليست ثابتة، (د) القطرة وحدة قياس."
+      },
+      {
+        "id": "exam_11",
+        "question": "(فطن : غافل) — كالعلاقة بين:",
+        "options": [
+          "ذكي : عبقري",
+          "يقظ : نائم",
+          "عالم : جاهل",
+          "حذر : متهور"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: تضاد دقيق (انتباه ضد عدمه في اللحظة).\n\nالفطن منتبه، الغافل غافل. يقظ منتبه، نائم غافل ✓\n\n**فخّ:** (ج) تراكمي، (د) سلوك لا انتباه."
+      },
+      {
+        "id": "exam_12",
+        "question": "(جذع : شجرة) — كالعلاقة بين:",
+        "options": [
+          "عمود : خيمة",
+          "قاع : بحر",
+          "قمة : جبل",
+          "سقف : بيت"
+        ],
+        "correct_index": 0,
+        "explanation": "العلاقة: ركيزة أساسية حاملة.\n\nالجذع يحمل الشجرة، العمود يحمل الخيمة ✓\n\n**فخّ:** (ب، ج) أجزاء لا تحمل، (د) السقف يُحمل لا يحمل."
+      },
+      {
+        "id": "exam_13",
+        "question": "(حذق : فطنة) — كالعلاقة بين:",
+        "options": [
+          "ذكاء : بلادة",
+          "فهم : إدراك",
+          "علم : جهل",
+          "معرفة : تجاهل"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: ترادف (صفات الذكاء).\n\nحذق = فطنة، فهم = إدراك ✓\n\n**فخّ:** (أ، ج، د) تضاد لا ترادف."
+      },
+      {
+        "id": "exam_14",
+        "question": "(جنس : نوع) — كالعلاقة بين:",
+        "options": [
+          "فرد : جماعة",
+          "حيوان : أسد",
+          "صنف : قسم",
+          "شجرة : غابة"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: عام : خاص (تدرّج تصنيفي).\n\nالحيوان جنس، الأسد نوع ✓\n\n**فخّ:** (أ) عكس، (ج) ترادف، (د) فرد وكل."
+      },
+      {
+        "id": "exam_15",
+        "question": "(غيث : أرض) — كالعلاقة بين:",
+        "options": [
+          "ماء : نهر",
+          "علم : عقل",
+          "شمس : قمر",
+          "ريح : شجر"
+        ],
+        "correct_index": 1,
+        "explanation": "العلاقة: مصدر إحياء + ما يحييه.\n\nالغيث يُحيي الأرض، العلم يُحيي العقل ✓\n\n**فخّ:** (د) الريح تحرّك لا تُحيي."
+      },
+      {
+        "id": "exam_16",
+        "question": "\"رغم ......... المحاضر، إلا أن طلابه ......... ، فكان ذلك دليلاً على ......... .\"",
+        "options": [
+          "كفاءة - أبدعوا - عبقريته",
+          "ضعف - أخفقوا - عجزه",
+          "إجادة - تعثّروا - سوء استيعابهم",
+          "براعة - تفوّقوا - حِكمته"
+        ],
+        "correct_index": 2,
+        "explanation": "'رغم' → تناقض. (إيجابي - سلبي - يفسّر السلبي).\n\nإجادة (إيجابي) + تعثّروا (سلبي) + سوء استيعابهم (يفسّر) ✓"
+      },
+      {
+        "id": "exam_17",
+        "question": "\"بسبب ......... المسؤول، تحسّنت ......... ، لكن ......... ظلّ قائماً.\"",
+        "options": [
+          "إخلاص - الإدارة - الفساد",
+          "ضعف - الخدمات - النجاح",
+          "كفاءة - النتائج - التطوير",
+          "إهمال - المعاملات - التقدّم"
+        ],
+        "correct_index": 0,
+        "explanation": "'بسبب' (اتساق) + 'لكن' (تناقض).\n\n(إيجابي - إيجابي - سلبي): إخلاص - الإدارة - الفساد ✓"
+      },
+      {
+        "id": "exam_18",
+        "question": "\"على الرغم من ......... الموارد، ......... المهندس مشروعه، فحقّق ......... .\"",
+        "options": [
+          "وفرة - أنجز - الفشل",
+          "كثرة - أكمل - الخسارة",
+          "شُحّ - أتمّ - النجاح",
+          "غزارة - أنهى - التراجع"
+        ],
+        "correct_index": 2,
+        "explanation": "'على الرغم من' (تناقض) + 'فحقّق' (نتيجة إيجابية).\n\n(سلبي - إيجابي - إيجابي): شُحّ - أتمّ - النجاح ✓"
+      },
+      {
+        "id": "exam_19",
+        "question": "\"كان ......... في إنفاقه، ......... في مظهره، ......... في حديثه، **و** هذي كلها صفات ......... .\"",
+        "options": [
+          "مسرفاً - متباهياً - ثرثاراً - مذمومة",
+          "مقتصداً - بسيطاً - مهذباً - مذمومة",
+          "كريماً - متواضعاً - فصيحاً - محمودة",
+          "معتدلاً - أنيقاً - متحدثاً - مذمومة"
+        ],
+        "correct_index": 0,
+        "explanation": "آخر جملة تحدّد اتجاه السابقات. مذمومة → الثلاث سلبية.\n\nمسرفاً + متباهياً + ثرثاراً + مذمومة ✓"
+      },
+      {
+        "id": "exam_20",
+        "question": "\"رغم ......... الموظف، إلا أنه ......... ، **فـ** ......... ترقية.\"",
+        "options": [
+          "تميّزه - أخفق - حُرم من",
+          "إهماله - اجتهد - استحق",
+          "كفاءته - فشل - نال",
+          "تفوّقه - أبدع - حصل على"
+        ],
+        "correct_index": 1,
+        "explanation": "أداتان! 'رغم' (تناقض) + 'فـ' (نتيجة).\n\n(سلبي - إيجابي - إيجابي): إهماله - اجتهد - استحق ✓"
+      },
+      {
+        "id": "exam_21",
+        "question": "\"اتسم العصر الذهبي بـ......... العلوم، ......... الفنون، **و** ......... المعرفة.\"",
+        "options": [
+          "اندثار - تراجع - ضياع",
+          "ازدهار - تطوّر - انتشار",
+          "فقدان - تدهور - جهل",
+          "غياب - تخلّف - نقص"
+        ],
+        "correct_index": 1,
+        "explanation": "'العصر الذهبي' → سياق إيجابي قوي.\n\nازدهار - تطوّر - انتشار ✓"
+      },
+      {
+        "id": "exam_22",
+        "question": "\"كان الكاتب ......... في أسلوبه، ......... في معانيه، ......... في تراكيبه.\"",
+        "options": [
+          "ركيكاً - سطحياً - ضعيفاً",
+          "بليغاً - عميقاً - متيناً",
+          "رشيقاً - تافهاً - قوياً",
+          "متقناً - مبتذلاً - سليماً"
+        ],
+        "correct_index": 1,
+        "explanation": "ثلاث صفات متّسقة لكاتب جيد.\n\nبليغاً - عميقاً - متيناً ✓"
+      },
+      {
+        "id": "exam_23",
+        "question": "\"......... الباحث في دراسته، فقدّم ......... في مجاله، وأبهر ......... .\"",
+        "options": [
+          "أهمل - إنجازاً - زملاءه",
+          "أخفق - بحثاً - نفسه",
+          "تفانى - إضافة - معاصريه",
+          "قصّر - جهداً - أساتذته"
+        ],
+        "correct_index": 2,
+        "explanation": "جملتان إيجابيتان (قدّم، أبهر) → كل الأفعال إيجابية.\n\nتفانى - إضافة - معاصريه ✓"
+      },
+      {
+        "id": "exam_24",
+        "question": "\"الذكي ......... الفرص، ......... المخاطر، **و** ......... المستقبل.\"",
+        "options": [
+          "يضيّع - يخاف من - يتجاهل",
+          "يقتنص - يحسب - يستشرف",
+          "يهمل - يهرب من - ينسى",
+          "يفقد - يخشى - يجهل"
+        ],
+        "correct_index": 1,
+        "explanation": "أفعال متوازية للذكي → إيجابية.\n\nيقتنص - يحسب - يستشرف ✓"
+      },
+      {
+        "id": "exam_25",
+        "question": "\"غير أن الفنان كان ......... ، استمرّ في ......... ، حتى ......... .\"",
+        "options": [
+          "موهوباً - الإبداع - تفوّق",
+          "محبطاً - الإصرار - نجح",
+          "ناجحاً - التألق - فشل",
+          "ضعيفاً - التراجع - أبدع"
+        ],
+        "correct_index": 1,
+        "explanation": "'غير أن' (تناقض) + 'حتى' (نتيجة).\n\n(سلبي - إيجابي - إيجابي): محبطاً - الإصرار - نجح ✓"
+      },
+      {
+        "id": "exam_26",
+        "question": "\"المعلم القدير ......... بالعلم، ......... بالتطبيق، ......... على نتائج طلابه.\"",
+        "options": [
+          "يبخل - يقصّر - يحزن",
+          "يجود - يلتزم - يحرص",
+          "يهمل - يبتعد - يقلق",
+          "يضنّ - يتراخى - يخشى"
+        ],
+        "correct_index": 1,
+        "explanation": "'القدير' → سياق إيجابي.\n\nيجود - يلتزم - يحرص ✓"
+      },
+      {
+        "id": "exam_27",
+        "question": "\"رغم ......... المناخ، ازدهرت الزراعة، ......... المحاصيل، **و** ......... الفلاحون.\"",
+        "options": [
+          "ملاءمة - تنوّعت - فرح",
+          "قسوة - تنوّعت - استبشر",
+          "اعتدال - قلّت - حزن",
+          "جمال - اختفت - يأس"
+        ],
+        "correct_index": 1,
+        "explanation": "'رغم' → الأول مناقض للبقية الإيجابية (ازدهرت).\n\nقسوة - تنوّعت - استبشر ✓"
+      },
+      {
+        "id": "exam_28",
+        "question": "\"يتميّز القائد الناجح بـ......... القرار، ......... الرؤية، **و** ......... النفس.\"",
+        "options": [
+          "تردّد - ضيق - ضعف",
+          "حزم - وضوح - ثبات",
+          "ارتباك - غموض - اضطراب",
+          "بطء - ضباب - قلق"
+        ],
+        "correct_index": 1,
+        "explanation": "'القائد الناجح' → سياق إيجابي.\n\nحزم - وضوح - ثبات ✓"
+      },
+      {
+        "id": "exam_29",
+        "question": "\"كان ......... في الحكم، ......... للحقّ، ......... عن الباطل.\"",
+        "options": [
+          "متحيّزاً - رافضاً - متغاضياً",
+          "عادلاً - منتصراً - مبتعداً",
+          "ظالماً - ناصراً - مدافعاً",
+          "جائراً - معاديًا - ساكتاً"
+        ],
+        "correct_index": 1,
+        "explanation": "ثلاث صفات متّسقة (للحقّ ينتصر، عن الباطل يبتعد).\n\nعادلاً - منتصراً - مبتعداً ✓"
+      },
+      {
+        "id": "exam_30",
+        "question": "\"كان السوق ......... ، البضائع ......... ، **و** التجار ......... .\"",
+        "options": [
+          "راكداً - متراكمة - متذمّرون",
+          "نشطاً - متنوّعة - فرحون",
+          "مزدحماً - منتشرة - بائعون",
+          "هادئاً - قليلة - مسافرون"
+        ],
+        "correct_index": 0,
+        "explanation": "اتساق منطقي عميق.\n\nسوق راكد + بضائع متراكمة (لا تباع) + تجار متذمّرون ✓"
+      },
+      {
+        "id": "exam_31",
+        "question": "اختر الكلمة الشاذة:\n\n\"امتاز الفقيه بـ **سعة** الاطلاع، **عمق** الفهم، **سطحية** التحليل، **دقّة** الاستنباط.\"",
+        "options": [
+          "سعة",
+          "عمق",
+          "سطحية",
+          "دقّة"
+        ],
+        "correct_index": 2,
+        "explanation": "السياق: ٣ صفات عمق علمي + سطحية (نقيض) ✓"
+      },
+      {
+        "id": "exam_32",
+        "question": "اختر الكلمة الشاذة:\n\n\"**أمس** ذكر الباحث أنّ التجارب **أثبتت** نتائج، وأنّ الفريق **عمل** بجدّ، **سيستمرّون** في دراستها.\"",
+        "options": [
+          "أمس",
+          "أثبتت",
+          "عمل",
+          "سيستمرّون"
+        ],
+        "correct_index": 3,
+        "explanation": "سياق ماضي (أمس، أثبتت، عمل) + 'سيستمرّون' (مستقبل) يكسر التسلسل ✓"
+      },
+      {
+        "id": "exam_33",
+        "question": "اختر الكلمة الشاذة:\n\n\"كان الجندي **شجاعاً** في الميدان، **مقداماً** أمام العدو، **هلوعاً** في القتال، **بطلاً** في الذود.\"",
+        "options": [
+          "شجاعاً",
+          "مقداماً",
+          "هلوعاً",
+          "بطلاً"
+        ],
+        "correct_index": 2,
+        "explanation": "٣ صفات إيجابية للجندي + هلوعاً (جبان) ✓"
+      },
+      {
+        "id": "exam_34",
+        "question": "اختر الكلمة الشاذة:\n\n\"اجتمع المهندسون لـ**دراسة** المخططات، **حساب** التكاليف، **تقييم** المخاطر، **نظم** القصائد.\"",
+        "options": [
+          "دراسة",
+          "حساب",
+          "تقييم",
+          "نظم القصائد"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ أنشطة هندسية + نظم القصائد (أدب) ✓"
+      },
+      {
+        "id": "exam_35",
+        "question": "اختر الكلمة الشاذة:\n\n\"يبدأ الطباخ بـ**اختيار** المكونات، **تجهيز** الأدوات، **شرائها** من السوق، **تقطيعها** بدقة.\"",
+        "options": [
+          "اختيار",
+          "تجهيز",
+          "شرائها",
+          "تقطيعها"
+        ],
+        "correct_index": 2,
+        "explanation": "الترتيب الصحيح: شراء → اختيار → تجهيز → تقطيع. شراء في المنتصف يكسر الترتيب ✓"
+      },
+      {
+        "id": "exam_36",
+        "question": "اختر الكلمة الشاذة:\n\n\"رواية **قصيرة** الصفحات، **عميقة** المعاني، **سطحية** الأفكار، **مؤثّرة** الوقع.\"",
+        "options": [
+          "قصيرة",
+          "عميقة",
+          "سطحية",
+          "مؤثّرة"
+        ],
+        "correct_index": 2,
+        "explanation": "٣ صفات مدح + سطحية تتناقض مع عميقة ✓"
+      },
+      {
+        "id": "exam_37",
+        "question": "اختر الكلمة الشاذة:\n\n\"يحتاج المريض إلى **الراحة** التامة، **التغذية** السليمة، **الرياضة** العنيفة، **الدواء** المنتظم.\"",
+        "options": [
+          "الراحة",
+          "التغذية",
+          "الرياضة العنيفة",
+          "الدواء"
+        ],
+        "correct_index": 2,
+        "explanation": "سياق مريض + الرياضة العنيفة تتناقض مع المرض ✓"
+      },
+      {
+        "id": "exam_38",
+        "question": "اختر الكلمة الشاذة:\n\n\"تطلّب المشروع **سنوات** من الإعداد، **شهوراً** من التخطيط، **أياماً** من المراجعة، **لحظات** من الإنجاز.\"",
+        "options": [
+          "سنوات",
+          "شهوراً",
+          "أياماً",
+          "لحظات"
+        ],
+        "correct_index": 3,
+        "explanation": "مشروع ضخم يستحيل إنجازه في لحظات (تنافر منطقي) ✓"
+      },
+      {
+        "id": "exam_39",
+        "question": "اختر الكلمة الشاذة:\n\n\"كان البيت **فسيحاً** الأرجاء، **مرتفعاً** السقف، **ضيقاً** الغرف، **منيراً** القاعات.\"",
+        "options": [
+          "فسيحاً",
+          "مرتفعاً",
+          "ضيقاً",
+          "منيراً"
+        ],
+        "correct_index": 2,
+        "explanation": "٣ صفات تدل على السعة + ضيقاً (نقيض) ✓"
+      },
+      {
+        "id": "exam_40",
+        "question": "اختر الكلمة الشاذة:\n\n\"تمرّ مراحل الإنسان بـ**الطفولة**، ثم **الشباب**، ثم **الكهولة**، ثم **الجنين**.\"",
+        "options": [
+          "الطفولة",
+          "الشباب",
+          "الكهولة",
+          "الجنين"
+        ],
+        "correct_index": 3,
+        "explanation": "الجنين قبل الطفولة لا بعد الكهولة (تنافر زمني) ✓"
+      },
+      {
+        "id": "exam_41",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "ابن سينا",
+          "الرازي",
+          "ابن النفيس",
+          "المتنبي"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ أطباء عرب + المتنبي (شاعر) ✓"
+      },
+      {
+        "id": "exam_42",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "جزالة",
+          "فصاحة",
+          "بلاغة",
+          "ركاكة"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ صفات إيجابية للأسلوب + ركاكة (سلبية) ✓"
+      },
+      {
+        "id": "exam_43",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "صدى",
+          "ضوء",
+          "ظلّ",
+          "رياح"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ ظواهر تابعة + رياح (مستقلة) ✓"
+      },
+      {
+        "id": "exam_44",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "كركم",
+          "زنجبيل",
+          "قرفة",
+          "عسل"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ بهارات + عسل (محلٍّ) ✓"
+      },
+      {
+        "id": "exam_45",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "جسور",
+          "باسل",
+          "شجاع",
+          "صبور"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ مترادفات للشجاعة + صبور (صفة مختلفة) ✓"
+      },
+      {
+        "id": "exam_46",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "الجاحظ",
+          "ابن المقفع",
+          "الجرجاني",
+          "ابن الهيثم"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ أدباء/علماء لغة + ابن الهيثم (بصريات) ✓"
+      },
+      {
+        "id": "exam_47",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "النيل",
+          "الفرات",
+          "دجلة",
+          "الأطلسي"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ أنهار + الأطلسي (محيط) ✓"
+      },
+      {
+        "id": "exam_48",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "فلسفة",
+          "منطق",
+          "إحصاء",
+          "أخلاق"
+        ],
+        "correct_index": 2,
+        "explanation": "٣ علوم إنسانية + إحصاء (رياضي) ✓"
+      },
+      {
+        "id": "exam_49",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "سلحفاة",
+          "تمساح",
+          "ضفدع",
+          "أفعى"
+        ],
+        "correct_index": 2,
+        "explanation": "٣ زواحف + ضفدع (برمائي) ✓"
+      },
+      {
+        "id": "exam_50",
+        "question": "اختر الكلمة الشاذة:",
+        "options": [
+          "نسر",
+          "صقر",
+          "حمامة",
+          "بطريق"
+        ],
+        "correct_index": 3,
+        "explanation": "٣ طيور تطير + بطريق (لا يطير) ✓"
+      },
+      {
+        "id": "exam_51",
+        "question": "📖 **النص:** أحد أعمق المفارقات في الفكر الإنساني هو العلاقة بين الحرية والمسؤولية. فالإنسان الحرّ، بحكم حريته، مسؤول عن كل اختياراته. كلّما زادت حريته، تضاعفت مسؤوليته. ولهذا، قد تبدو الحرية ثقيلة لمن لا يستطيع تحمّل عبء قراراته.\n\nومن هنا، يلجأ بعض الناس إلى ما سمّاه الفيلسوف الفرنسي جان بول سارتر 'الهروب من الحرية'؛ حيث يتخلّى الإنسان طوعاً عن حقّه في الاختيار، ليلقي مسؤولية حياته على عاتق شخص أو نظام آخر. هذا الهروب يمنح الإنسان راحة مؤقّتة، لكنه في الحقيقة يُفقده **جوهر إنسانيّته**: قدرته على صناعة معناه الخاص.\n\nومن المفارقات أنّ هذا الهروب لا يحرّر الإنسان من القلق، بل يُعمّقه. فالإنسان حين يفقد قدرته على الاختيار، يشعر بأنه فقد ذاته، ويعيش في حالة من الفراغ الوجودي تفوق حتى ثقل المسؤولية الأصلية.\n\n---\n\n**السؤال:** ما المفارقة العميقة التي يطرحها الكاتب؟",
+        "options": [
+          "الحرية ضدّ المسؤولية",
+          "كلّما زادت الحرية، تضاعفت المسؤولية",
+          "المسؤولية أهم من الحرية",
+          "الحرية مستحيلة"
+        ],
+        "correct_index": 1,
+        "explanation": "النص الصريح: 'كلّما زادت حريته، تضاعفت مسؤوليته'"
+      },
+      {
+        "id": "exam_52",
+        "question": "📖 **النص:** أحد أعمق المفارقات في الفكر الإنساني هو العلاقة بين الحرية والمسؤولية. فالإنسان الحرّ، بحكم حريته، مسؤول عن كل اختياراته. كلّما زادت حريته، تضاعفت مسؤوليته. ولهذا، قد تبدو الحرية ثقيلة لمن لا يستطيع تحمّل عبء قراراته.\n\nومن هنا، يلجأ بعض الناس إلى ما سمّاه الفيلسوف الفرنسي جان بول سارتر 'الهروب من الحرية'؛ حيث يتخلّى الإنسان طوعاً عن حقّه في الاختيار، ليلقي مسؤولية حياته على عاتق شخص أو نظام آخر. هذا الهروب يمنح الإنسان راحة مؤقّتة، لكنه في الحقيقة يُفقده **جوهر إنسانيّته**: قدرته على صناعة معناه الخاص.\n\nومن المفارقات أنّ هذا الهروب لا يحرّر الإنسان من القلق، بل يُعمّقه. فالإنسان حين يفقد قدرته على الاختيار، يشعر بأنه فقد ذاته، ويعيش في حالة من الفراغ الوجودي تفوق حتى ثقل المسؤولية الأصلية.\n\n---\n\n**السؤال:** لماذا يُفقد الهارب من الحرية 'جوهر إنسانيّته'؟",
+        "options": [
+          "لأنه يفقد المال",
+          "لأنه يتخلّى عن قدرته على صنع المعنى",
+          "لأنه يصبح وحيداً",
+          "لأنه يصبح ضعيفاً"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'قدرته على صناعة معناه الخاص'"
+      },
+      {
+        "id": "exam_53",
+        "question": "📖 **النص:** أحد أعمق المفارقات في الفكر الإنساني هو العلاقة بين الحرية والمسؤولية. فالإنسان الحرّ، بحكم حريته، مسؤول عن كل اختياراته. كلّما زادت حريته، تضاعفت مسؤوليته. ولهذا، قد تبدو الحرية ثقيلة لمن لا يستطيع تحمّل عبء قراراته.\n\nومن هنا، يلجأ بعض الناس إلى ما سمّاه الفيلسوف الفرنسي جان بول سارتر 'الهروب من الحرية'؛ حيث يتخلّى الإنسان طوعاً عن حقّه في الاختيار، ليلقي مسؤولية حياته على عاتق شخص أو نظام آخر. هذا الهروب يمنح الإنسان راحة مؤقّتة، لكنه في الحقيقة يُفقده **جوهر إنسانيّته**: قدرته على صناعة معناه الخاص.\n\nومن المفارقات أنّ هذا الهروب لا يحرّر الإنسان من القلق، بل يُعمّقه. فالإنسان حين يفقد قدرته على الاختيار، يشعر بأنه فقد ذاته، ويعيش في حالة من الفراغ الوجودي تفوق حتى ثقل المسؤولية الأصلية.\n\n---\n\n**السؤال:** ما المفارقة الثانية في الفقرة الأخيرة؟",
+        "options": [
+          "الهروب يحرّر من القلق",
+          "الهروب يُعمّق القلق بدل تخفيفه",
+          "الهروب مفيد",
+          "الهروب طبيعي"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'لا يحرّر الإنسان من القلق، بل يُعمّقه'"
+      },
+      {
+        "id": "exam_54",
+        "question": "📖 **النص:** أحد أعمق المفارقات في الفكر الإنساني هو العلاقة بين الحرية والمسؤولية. فالإنسان الحرّ، بحكم حريته، مسؤول عن كل اختياراته. كلّما زادت حريته، تضاعفت مسؤوليته. ولهذا، قد تبدو الحرية ثقيلة لمن لا يستطيع تحمّل عبء قراراته.\n\nومن هنا، يلجأ بعض الناس إلى ما سمّاه الفيلسوف الفرنسي جان بول سارتر 'الهروب من الحرية'؛ حيث يتخلّى الإنسان طوعاً عن حقّه في الاختيار، ليلقي مسؤولية حياته على عاتق شخص أو نظام آخر. هذا الهروب يمنح الإنسان راحة مؤقّتة، لكنه في الحقيقة يُفقده **جوهر إنسانيّته**: قدرته على صناعة معناه الخاص.\n\nومن المفارقات أنّ هذا الهروب لا يحرّر الإنسان من القلق، بل يُعمّقه. فالإنسان حين يفقد قدرته على الاختيار، يشعر بأنه فقد ذاته، ويعيش في حالة من الفراغ الوجودي تفوق حتى ثقل المسؤولية الأصلية.\n\n---\n\n**السؤال:** ما الذي يستنتج عن طبيعة الإنسان حسب الكاتب؟",
+        "options": [
+          "أنه ضعيف بطبعه",
+          "أنّ إنسانيّته تكمن في حرية الاختيار + تحمّل المسؤولية",
+          "أنه يحب الهروب",
+          "أنه يكره الحرية"
+        ],
+        "correct_index": 1,
+        "explanation": "كل النص يطرح أن الحرية المسؤولة = جوهر الإنسانية"
+      },
+      {
+        "id": "exam_55",
+        "question": "📖 **النص:** أحد أعمق المفارقات في الفكر الإنساني هو العلاقة بين الحرية والمسؤولية. فالإنسان الحرّ، بحكم حريته، مسؤول عن كل اختياراته. كلّما زادت حريته، تضاعفت مسؤوليته. ولهذا، قد تبدو الحرية ثقيلة لمن لا يستطيع تحمّل عبء قراراته.\n\nومن هنا، يلجأ بعض الناس إلى ما سمّاه الفيلسوف الفرنسي جان بول سارتر 'الهروب من الحرية'؛ حيث يتخلّى الإنسان طوعاً عن حقّه في الاختيار، ليلقي مسؤولية حياته على عاتق شخص أو نظام آخر. هذا الهروب يمنح الإنسان راحة مؤقّتة، لكنه في الحقيقة يُفقده **جوهر إنسانيّته**: قدرته على صناعة معناه الخاص.\n\nومن المفارقات أنّ هذا الهروب لا يحرّر الإنسان من القلق، بل يُعمّقه. فالإنسان حين يفقد قدرته على الاختيار، يشعر بأنه فقد ذاته، ويعيش في حالة من الفراغ الوجودي تفوق حتى ثقل المسؤولية الأصلية.\n\n---\n\n**السؤال:** ما موقف الكاتب من 'الهروب من الحرية'؟",
+        "options": [
+          "مؤيد له",
+          "محايد",
+          "ناقد له بقوة",
+          "ساخر"
+        ],
+        "correct_index": 2,
+        "explanation": "النص: 'يُفقد جوهر الإنسانية' + 'يُعمّق القلق' = نقد قوي"
+      },
+      {
+        "id": "exam_56",
+        "question": "📖 **النص:** يعتقد كثير من الناس أنّ العلم الحديث قضى على عصر الخرافات نهائياً. والحقيقة أنّ الخرافات لم تختفِ، بل **بدّلت لباسها**؛ فبدلاً من الاعتقاد بالسحر والتعويذات، يؤمن الناس اليوم بادّعاءات تظهر بمظهر \"علمي\" لكنها تفتقر لأبسط معايير المنهج العلمي.\n\nوقد رصد علماء النفس ظاهرة لافتة: الإنسان المعاصر، رغم وفرة المعلومات حوله، أصبح أكثر عُرضةً للتضليل، لا أقلّ. والسبب أن كثرة المعلومات لا تعني جودتها؛ بل قد تُغرق العقل في فيض لا يستطيع تمييز الغثّ من السمين فيه.\n\nولعلّ الحلّ لا يكمن في **زيادة المعلومات**، بل في تطوير **التفكير النقدي** الذي يُمكّن الإنسان من فحص ما يُقدَّم له، وتمييز الادّعاء من الدليل. ومن المؤسف أنّ هذا النوع من التفكير لا يُدرَّس في كثير من المدارس، رغم أنه أهم من حفظ المعلومات نفسها.\n\n---\n\n**السؤال:** ما المقصود بأنّ الخرافات 'بدّلت لباسها'؟",
+        "options": [
+          "أصبحت أكثر شعبية",
+          "اختفت تماماً",
+          "أخذت شكلاً علمياً ظاهرياً",
+          "أصبحت أكثر بساطة"
+        ],
+        "correct_index": 2,
+        "explanation": "النص: 'ادّعاءات تظهر بمظهر علمي'"
+      },
+      {
+        "id": "exam_57",
+        "question": "📖 **النص:** يعتقد كثير من الناس أنّ العلم الحديث قضى على عصر الخرافات نهائياً. والحقيقة أنّ الخرافات لم تختفِ، بل **بدّلت لباسها**؛ فبدلاً من الاعتقاد بالسحر والتعويذات، يؤمن الناس اليوم بادّعاءات تظهر بمظهر \"علمي\" لكنها تفتقر لأبسط معايير المنهج العلمي.\n\nوقد رصد علماء النفس ظاهرة لافتة: الإنسان المعاصر، رغم وفرة المعلومات حوله، أصبح أكثر عُرضةً للتضليل، لا أقلّ. والسبب أن كثرة المعلومات لا تعني جودتها؛ بل قد تُغرق العقل في فيض لا يستطيع تمييز الغثّ من السمين فيه.\n\nولعلّ الحلّ لا يكمن في **زيادة المعلومات**، بل في تطوير **التفكير النقدي** الذي يُمكّن الإنسان من فحص ما يُقدَّم له، وتمييز الادّعاء من الدليل. ومن المؤسف أنّ هذا النوع من التفكير لا يُدرَّس في كثير من المدارس، رغم أنه أهم من حفظ المعلومات نفسها.\n\n---\n\n**السؤال:** ما المفارقة في العصر المعاصر؟",
+        "options": [
+          "الناس يحبون الخرافات",
+          "كثرة المعلومات تزيد التضليل بدل أن تقلّله",
+          "العلم انتهى",
+          "المعلومات قليلة"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'رغم وفرة المعلومات... أصبح أكثر عُرضةً للتضليل، لا أقلّ'"
+      },
+      {
+        "id": "exam_58",
+        "question": "📖 **النص:** يعتقد كثير من الناس أنّ العلم الحديث قضى على عصر الخرافات نهائياً. والحقيقة أنّ الخرافات لم تختفِ، بل **بدّلت لباسها**؛ فبدلاً من الاعتقاد بالسحر والتعويذات، يؤمن الناس اليوم بادّعاءات تظهر بمظهر \"علمي\" لكنها تفتقر لأبسط معايير المنهج العلمي.\n\nوقد رصد علماء النفس ظاهرة لافتة: الإنسان المعاصر، رغم وفرة المعلومات حوله، أصبح أكثر عُرضةً للتضليل، لا أقلّ. والسبب أن كثرة المعلومات لا تعني جودتها؛ بل قد تُغرق العقل في فيض لا يستطيع تمييز الغثّ من السمين فيه.\n\nولعلّ الحلّ لا يكمن في **زيادة المعلومات**، بل في تطوير **التفكير النقدي** الذي يُمكّن الإنسان من فحص ما يُقدَّم له، وتمييز الادّعاء من الدليل. ومن المؤسف أنّ هذا النوع من التفكير لا يُدرَّس في كثير من المدارس، رغم أنه أهم من حفظ المعلومات نفسها.\n\n---\n\n**السؤال:** ما الحلّ الذي يقترحه الكاتب؟",
+        "options": [
+          "زيادة المعلومات",
+          "تطوير التفكير النقدي",
+          "قراءة المزيد",
+          "الانعزال عن المجتمع"
+        ],
+        "correct_index": 1,
+        "explanation": "النص الصريح: 'تطوير التفكير النقدي'"
+      },
+      {
+        "id": "exam_59",
+        "question": "📖 **النص:** يعتقد كثير من الناس أنّ العلم الحديث قضى على عصر الخرافات نهائياً. والحقيقة أنّ الخرافات لم تختفِ، بل **بدّلت لباسها**؛ فبدلاً من الاعتقاد بالسحر والتعويذات، يؤمن الناس اليوم بادّعاءات تظهر بمظهر \"علمي\" لكنها تفتقر لأبسط معايير المنهج العلمي.\n\nوقد رصد علماء النفس ظاهرة لافتة: الإنسان المعاصر، رغم وفرة المعلومات حوله، أصبح أكثر عُرضةً للتضليل، لا أقلّ. والسبب أن كثرة المعلومات لا تعني جودتها؛ بل قد تُغرق العقل في فيض لا يستطيع تمييز الغثّ من السمين فيه.\n\nولعلّ الحلّ لا يكمن في **زيادة المعلومات**، بل في تطوير **التفكير النقدي** الذي يُمكّن الإنسان من فحص ما يُقدَّم له، وتمييز الادّعاء من الدليل. ومن المؤسف أنّ هذا النوع من التفكير لا يُدرَّس في كثير من المدارس، رغم أنه أهم من حفظ المعلومات نفسها.\n\n---\n\n**السؤال:** ما الذي يستنتج عن المنظومة التعليمية؟",
+        "options": [
+          "ممتازة",
+          "تركّز على الحفظ بدل التفكير النقدي",
+          "لا توجد",
+          "متطوّرة"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'لا يُدرَّس... رغم أنه أهم من حفظ المعلومات'"
+      },
+      {
+        "id": "exam_60",
+        "question": "📖 **النص:** يعتقد كثير من الناس أنّ العلم الحديث قضى على عصر الخرافات نهائياً. والحقيقة أنّ الخرافات لم تختفِ، بل **بدّلت لباسها**؛ فبدلاً من الاعتقاد بالسحر والتعويذات، يؤمن الناس اليوم بادّعاءات تظهر بمظهر \"علمي\" لكنها تفتقر لأبسط معايير المنهج العلمي.\n\nوقد رصد علماء النفس ظاهرة لافتة: الإنسان المعاصر، رغم وفرة المعلومات حوله، أصبح أكثر عُرضةً للتضليل، لا أقلّ. والسبب أن كثرة المعلومات لا تعني جودتها؛ بل قد تُغرق العقل في فيض لا يستطيع تمييز الغثّ من السمين فيه.\n\nولعلّ الحلّ لا يكمن في **زيادة المعلومات**، بل في تطوير **التفكير النقدي** الذي يُمكّن الإنسان من فحص ما يُقدَّم له، وتمييز الادّعاء من الدليل. ومن المؤسف أنّ هذا النوع من التفكير لا يُدرَّس في كثير من المدارس، رغم أنه أهم من حفظ المعلومات نفسها.\n\n---\n\n**السؤال:** ما نبرة الكاتب؟",
+        "options": [
+          "متفائلة",
+          "ساخرة",
+          "تحليلية ناقدة",
+          "محايدة"
+        ],
+        "correct_index": 2,
+        "explanation": "تحليل + نقد + اقتراح حل = نبرة تحليلية ناقدة"
+      },
+      {
+        "id": "exam_61",
+        "question": "📖 **النص:** هناك أسطورة شائعة تقول إنّ الإبداع موهبة خارقة تأتي للأشخاص 'المختارين' فحسب. لكنّ الأبحاث الحديثة في علم النفس الإبداعي تكشف صورة مختلفة تماماً: الإبداع ليس قدرة فطرية محصورة، بل **عملية يمكن تعلّمها وتطويرها** عند معظم الناس.\n\nفعند تحليل سير العباقرة، نجد أنّ ما يجمعهم ليس 'هبة' نزلت عليهم من السماء، بل **عادات** يمارسونها يومياً: قراءة واسعة، تجارب متعدّدة، فضول مستمرّ، وقدرة على ربط أفكار من مجالات متباعدة. ستيف جوبز، مثلاً، نسب عبقريته في تصميم المنتجات إلى دورة في الخط العربي درسها بالصدفة في الجامعة.\n\nولعلّ أعمق ما تكشفه هذي الرؤية هو أنّ **الإبداع ديمقراطي**؛ ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى نمط الحياة الإبداعي. وهذا يضع على الإنسان مسؤولية إضافية: إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره. لكنّ تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين.\n\n---\n\n**السؤال:** ما الأسطورة التي يطعن فيها الكاتب؟",
+        "options": [
+          "أنّ الإبداع موهبة فطرية حصرية",
+          "أنّ ستيف جوبز عبقري",
+          "أنّ القراءة مفيدة",
+          "أنّ الخط العربي صعب"
+        ],
+        "correct_index": 0,
+        "explanation": "النص: 'أسطورة شائعة تقول إنّ الإبداع موهبة خارقة...'"
+      },
+      {
+        "id": "exam_62",
+        "question": "📖 **النص:** هناك أسطورة شائعة تقول إنّ الإبداع موهبة خارقة تأتي للأشخاص 'المختارين' فحسب. لكنّ الأبحاث الحديثة في علم النفس الإبداعي تكشف صورة مختلفة تماماً: الإبداع ليس قدرة فطرية محصورة، بل **عملية يمكن تعلّمها وتطويرها** عند معظم الناس.\n\nفعند تحليل سير العباقرة، نجد أنّ ما يجمعهم ليس 'هبة' نزلت عليهم من السماء، بل **عادات** يمارسونها يومياً: قراءة واسعة، تجارب متعدّدة، فضول مستمرّ، وقدرة على ربط أفكار من مجالات متباعدة. ستيف جوبز، مثلاً، نسب عبقريته في تصميم المنتجات إلى دورة في الخط العربي درسها بالصدفة في الجامعة.\n\nولعلّ أعمق ما تكشفه هذي الرؤية هو أنّ **الإبداع ديمقراطي**؛ ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى نمط الحياة الإبداعي. وهذا يضع على الإنسان مسؤولية إضافية: إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره. لكنّ تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين.\n\n---\n\n**السؤال:** لماذا ذكر الكاتب قصة ستيف جوبز ودورة الخط العربي؟",
+        "options": [
+          "للترويج لدراسة الخط",
+          "لتأكيد أنّ الإبداع نتيجة تجارب متنوعة، لا موهبة فطرية",
+          "لإطالة النص",
+          "لمدح جوبز"
+        ],
+        "correct_index": 1,
+        "explanation": "القصة تخدم فكرة 'ربط أفكار من مجالات متباعدة'"
+      },
+      {
+        "id": "exam_63",
+        "question": "📖 **النص:** هناك أسطورة شائعة تقول إنّ الإبداع موهبة خارقة تأتي للأشخاص 'المختارين' فحسب. لكنّ الأبحاث الحديثة في علم النفس الإبداعي تكشف صورة مختلفة تماماً: الإبداع ليس قدرة فطرية محصورة، بل **عملية يمكن تعلّمها وتطويرها** عند معظم الناس.\n\nفعند تحليل سير العباقرة، نجد أنّ ما يجمعهم ليس 'هبة' نزلت عليهم من السماء، بل **عادات** يمارسونها يومياً: قراءة واسعة، تجارب متعدّدة، فضول مستمرّ، وقدرة على ربط أفكار من مجالات متباعدة. ستيف جوبز، مثلاً، نسب عبقريته في تصميم المنتجات إلى دورة في الخط العربي درسها بالصدفة في الجامعة.\n\nولعلّ أعمق ما تكشفه هذي الرؤية هو أنّ **الإبداع ديمقراطي**؛ ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى نمط الحياة الإبداعي. وهذا يضع على الإنسان مسؤولية إضافية: إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره. لكنّ تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين.\n\n---\n\n**السؤال:** ما المقصود بأنّ 'الإبداع ديمقراطي'؟",
+        "options": [
+          "أنه يخصّ السياسة",
+          "أنه متاح للجميع، ليس حكراً على نخبة",
+          "أنه يحتاج تصويتاً",
+          "أنه يفرض نفسه"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى...'"
+      },
+      {
+        "id": "exam_64",
+        "question": "📖 **النص:** هناك أسطورة شائعة تقول إنّ الإبداع موهبة خارقة تأتي للأشخاص 'المختارين' فحسب. لكنّ الأبحاث الحديثة في علم النفس الإبداعي تكشف صورة مختلفة تماماً: الإبداع ليس قدرة فطرية محصورة، بل **عملية يمكن تعلّمها وتطويرها** عند معظم الناس.\n\nفعند تحليل سير العباقرة، نجد أنّ ما يجمعهم ليس 'هبة' نزلت عليهم من السماء، بل **عادات** يمارسونها يومياً: قراءة واسعة، تجارب متعدّدة، فضول مستمرّ، وقدرة على ربط أفكار من مجالات متباعدة. ستيف جوبز، مثلاً، نسب عبقريته في تصميم المنتجات إلى دورة في الخط العربي درسها بالصدفة في الجامعة.\n\nولعلّ أعمق ما تكشفه هذي الرؤية هو أنّ **الإبداع ديمقراطي**؛ ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى نمط الحياة الإبداعي. وهذا يضع على الإنسان مسؤولية إضافية: إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره. لكنّ تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين.\n\n---\n\n**السؤال:** ما العائق الحقيقي أمام الإبداع؟",
+        "options": [
+          "قلّة الموهبة",
+          "صعوبة الصبر والانضباط على نمط الحياة الإبداعي",
+          "عدم وجود فرص",
+          "قلّة المال"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين'"
+      },
+      {
+        "id": "exam_65",
+        "question": "📖 **النص:** هناك أسطورة شائعة تقول إنّ الإبداع موهبة خارقة تأتي للأشخاص 'المختارين' فحسب. لكنّ الأبحاث الحديثة في علم النفس الإبداعي تكشف صورة مختلفة تماماً: الإبداع ليس قدرة فطرية محصورة، بل **عملية يمكن تعلّمها وتطويرها** عند معظم الناس.\n\nفعند تحليل سير العباقرة، نجد أنّ ما يجمعهم ليس 'هبة' نزلت عليهم من السماء، بل **عادات** يمارسونها يومياً: قراءة واسعة، تجارب متعدّدة، فضول مستمرّ، وقدرة على ربط أفكار من مجالات متباعدة. ستيف جوبز، مثلاً، نسب عبقريته في تصميم المنتجات إلى دورة في الخط العربي درسها بالصدفة في الجامعة.\n\nولعلّ أعمق ما تكشفه هذي الرؤية هو أنّ **الإبداع ديمقراطي**؛ ليس حكراً على نخبة، بل متاح لكلّ من يتبنّى نمط الحياة الإبداعي. وهذا يضع على الإنسان مسؤولية إضافية: إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره. لكنّ تبنّي هذا النمط يتطلّب صبراً وانضباطاً نادرين.\n\n---\n\n**السؤال:** ما 'المسؤولية الإضافية' التي يطرحها الكاتب؟",
+        "options": [
+          "دفع ضرائب",
+          "عدم وجود عذر في عدم تطوير الإبداع الشخصي",
+          "تعليم الآخرين",
+          "النجاح في الحياة"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'إذا كان الإبداع مكتسباً، فلا عذر له في عدم تطويره'"
+      },
+      {
+        "id": "exam_66",
+        "question": "📖 **النص:** صار الإنسان المعاصر يفخر بقدرته على 'تعدّد المهام'؛ يتحدّث في الهاتف وهو يقود، يردّ على الإيميل وهو في اجتماع، يتابع الأخبار وهو يأكل. والاعتقاد السائد أنّ من يجيد التعدّد، يُنجز أكثر.\n\nلكنّ الأبحاث العصبية كشفت **عكس ذلك تماماً**؛ فالدماغ البشري لا يقوم بمهمتين في وقت واحد، بل **يتنقّل بسرعة بينهما**، وكلّ تنقّل يستهلك طاقة ذهنية ويُقلّل من جودة الأداء. الدراسات تُظهر أنّ مَن يحاولون تعدّد المهام يُنجزون أبطأ بنسبة ٤٠٪، ويرتكبون أخطاءً أكثر بنسبة ٥٠٪.\n\nومع ذلك، تستمرّ ثقافة 'التعدّد' في الانتشار، لأنها تُعطي **شعوراً وهمياً بالإنتاجية**. الحلّ، كما يقول الباحثون، ليس في التعدّد، بل في **التركيز العميق على مهمّة واحدة** لفترة زمنية محدّدة.\n\n---\n\n**السؤال:** ما المفارقة التي يطرحها الكاتب؟",
+        "options": [
+          "تعدّد المهام فعّال جداً",
+          "تعدّد المهام يبدو منتجاً لكنه عكس ذلك",
+          "تعدّد المهام مستحيل",
+          "تعدّد المهام قديم"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'يفخر... لكنّ الأبحاث كشفت عكس ذلك تماماً'"
+      },
+      {
+        "id": "exam_67",
+        "question": "📖 **النص:** صار الإنسان المعاصر يفخر بقدرته على 'تعدّد المهام'؛ يتحدّث في الهاتف وهو يقود، يردّ على الإيميل وهو في اجتماع، يتابع الأخبار وهو يأكل. والاعتقاد السائد أنّ من يجيد التعدّد، يُنجز أكثر.\n\nلكنّ الأبحاث العصبية كشفت **عكس ذلك تماماً**؛ فالدماغ البشري لا يقوم بمهمتين في وقت واحد، بل **يتنقّل بسرعة بينهما**، وكلّ تنقّل يستهلك طاقة ذهنية ويُقلّل من جودة الأداء. الدراسات تُظهر أنّ مَن يحاولون تعدّد المهام يُنجزون أبطأ بنسبة ٤٠٪، ويرتكبون أخطاءً أكثر بنسبة ٥٠٪.\n\nومع ذلك، تستمرّ ثقافة 'التعدّد' في الانتشار، لأنها تُعطي **شعوراً وهمياً بالإنتاجية**. الحلّ، كما يقول الباحثون، ليس في التعدّد، بل في **التركيز العميق على مهمّة واحدة** لفترة زمنية محدّدة.\n\n---\n\n**السؤال:** كيف يتعامل الدماغ مع تعدّد المهام فعلياً؟",
+        "options": [
+          "ينجزها معاً بكفاءة",
+          "يتنقّل بينها بسرعة ويستهلك طاقة",
+          "يختار واحدة فقط",
+          "يتوقّف تماماً"
+        ],
+        "correct_index": 1,
+        "explanation": "النص: 'يتنقّل بسرعة بينهما، وكلّ تنقّل يستهلك طاقة'"
+      },
+      {
+        "id": "exam_68",
+        "question": "📖 **النص:** صار الإنسان المعاصر يفخر بقدرته على 'تعدّد المهام'؛ يتحدّث في الهاتف وهو يقود، يردّ على الإيميل وهو في اجتماع، يتابع الأخبار وهو يأكل. والاعتقاد السائد أنّ من يجيد التعدّد، يُنجز أكثر.\n\nلكنّ الأبحاث العصبية كشفت **عكس ذلك تماماً**؛ فالدماغ البشري لا يقوم بمهمتين في وقت واحد، بل **يتنقّل بسرعة بينهما**، وكلّ تنقّل يستهلك طاقة ذهنية ويُقلّل من جودة الأداء. الدراسات تُظهر أنّ مَن يحاولون تعدّد المهام يُنجزون أبطأ بنسبة ٤٠٪، ويرتكبون أخطاءً أكثر بنسبة ٥٠٪.\n\nومع ذلك، تستمرّ ثقافة 'التعدّد' في الانتشار، لأنها تُعطي **شعوراً وهمياً بالإنتاجية**. الحلّ، كما يقول الباحثون، ليس في التعدّد، بل في **التركيز العميق على مهمّة واحدة** لفترة زمنية محدّدة.\n\n---\n\n**السؤال:** لماذا تستمرّ ثقافة 'التعدّد' في الانتشار؟",
+        "options": [
+          "لأنها مفيدة فعلاً",
+          "لأنها تعطي شعوراً وهمياً بالإنتاجية",
+          "لأنها سهلة",
+          "لأنها رخيصة"
+        ],
+        "correct_index": 1,
+        "explanation": "النص الصريح: 'تُعطي شعوراً وهمياً بالإنتاجية'"
+      },
+      {
+        "id": "exam_69",
+        "question": "📖 **النص:** صار الإنسان المعاصر يفخر بقدرته على 'تعدّد المهام'؛ يتحدّث في الهاتف وهو يقود، يردّ على الإيميل وهو في اجتماع، يتابع الأخبار وهو يأكل. والاعتقاد السائد أنّ من يجيد التعدّد، يُنجز أكثر.\n\nلكنّ الأبحاث العصبية كشفت **عكس ذلك تماماً**؛ فالدماغ البشري لا يقوم بمهمتين في وقت واحد، بل **يتنقّل بسرعة بينهما**، وكلّ تنقّل يستهلك طاقة ذهنية ويُقلّل من جودة الأداء. الدراسات تُظهر أنّ مَن يحاولون تعدّد المهام يُنجزون أبطأ بنسبة ٤٠٪، ويرتكبون أخطاءً أكثر بنسبة ٥٠٪.\n\nومع ذلك، تستمرّ ثقافة 'التعدّد' في الانتشار، لأنها تُعطي **شعوراً وهمياً بالإنتاجية**. الحلّ، كما يقول الباحثون، ليس في التعدّد، بل في **التركيز العميق على مهمّة واحدة** لفترة زمنية محدّدة.\n\n---\n\n**السؤال:** ما الحلّ الذي يقترحه الباحثون؟",
+        "options": [
+          "المزيد من التعدّد",
+          "التوقّف عن العمل",
+          "التركيز العميق على مهمّة واحدة لفترة محدّدة",
+          "قراءة كتب أكثر"
+        ],
+        "correct_index": 2,
+        "explanation": "النص: 'التركيز العميق على مهمّة واحدة لفترة زمنية محدّدة'"
+      },
+      {
+        "id": "exam_70",
+        "question": "📖 **النص:** صار الإنسان المعاصر يفخر بقدرته على 'تعدّد المهام'؛ يتحدّث في الهاتف وهو يقود، يردّ على الإيميل وهو في اجتماع، يتابع الأخبار وهو يأكل. والاعتقاد السائد أنّ من يجيد التعدّد، يُنجز أكثر.\n\nلكنّ الأبحاث العصبية كشفت **عكس ذلك تماماً**؛ فالدماغ البشري لا يقوم بمهمتين في وقت واحد، بل **يتنقّل بسرعة بينهما**، وكلّ تنقّل يستهلك طاقة ذهنية ويُقلّل من جودة الأداء. الدراسات تُظهر أنّ مَن يحاولون تعدّد المهام يُنجزون أبطأ بنسبة ٤٠٪، ويرتكبون أخطاءً أكثر بنسبة ٥٠٪.\n\nومع ذلك، تستمرّ ثقافة 'التعدّد' في الانتشار، لأنها تُعطي **شعوراً وهمياً بالإنتاجية**. الحلّ، كما يقول الباحثون، ليس في التعدّد، بل في **التركيز العميق على مهمّة واحدة** لفترة زمنية محدّدة.\n\n---\n\n**السؤال:** ما الذي يستنتج عن 'الشعور بالإنتاجية'؟",
+        "options": [
+          "دائماً يدلّ على إنتاج حقيقي",
+          "قد يكون وهمياً ومضلّلاً",
+          "لا يهمّ",
+          "يخصّ الموظفين فقط"
+        ],
+        "correct_index": 1,
+        "explanation": "🎉 **مبروك يا أبو الياس! خلصت الـ ٧٠ سؤال!**\n\nالنص يكشف أنّ الشعور قد يكون 'وهمياً' = مضلّلاً"
+      }
+    ]
+  },
+  "next_lesson_id": null
+}
+;
+
+// حماية عامة ضد الضغط المزدوج على نفس الزر
+let isProcessing = false;
+function withGuard(fn){
+  return function(...args){
+    if(isProcessing) return;
+    isProcessing = true;
+    try {
+      fn.apply(this, args);
+    } finally {
+      setTimeout(()=>{ isProcessing = false; }, 150);
+    }
+  };
+}
+
+let state = {
+  currentRuleIdx: 0,
+  currentStepIdx: 0,
+  ruleExerciseIdx: 0,
+  ruleExerciseAnswered: false,
+  ruleExerciseSolutionIdx: 0,
+  compExerciseIdx: 0,
+  compExerciseAnswered: false,
+  compExerciseSolutionIdx: 0,
+  compCorrect: 0,
+  examQuestionIdx: 0,
+  examAnswers: [],
+  examTimerInterval: null,
+  examTimedOut: false,
+  examMistakes: [],
+  stagesCompleted: { lesson:false, comprehensive:false, exam:false }
+};
+
+function md(text){
+  if(!text) return '';
+  return text
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToBottom(){
+  setTimeout(()=>{
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  },80);
+}
+
+function showStage(name){
+  ['intro','lesson','summary','comprehensive','exam-intro','exam','done','mistakes'].forEach(s=>{
+    const el = document.getElementById('stage-'+s);
+    if(el) el.classList.add('hidden');
+  });
+  const target = document.getElementById('stage-'+name);
+  if(target) target.classList.remove('hidden');
+  scrollToTop();
+}
+
+function navigateTo(target){
+  if(target === 'comprehensive' && !state.stagesCompleted.lesson) return;
+  if(target === 'exam' && !state.stagesCompleted.comprehensive) return;
+
+  if(target === 'lesson'){
+    showStage('lesson');
+    setActive('nav-lesson');
+  } else if(target === 'comprehensive'){
+    showStage('comprehensive');
+    setActive('nav-comprehensive');
+    if(state.compExerciseIdx === 0) renderCompExercise();
+  } else if(target === 'exam'){
+    showStage('exam-intro');
+    setActive('nav-exam');
+  }
+}
+
+function setActive(id){
+  document.querySelectorAll('.nav-step').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function init(){
+  document.getElementById('lessonTitle').textContent = LESSON_DATA.title;
+  document.getElementById('lessonSubtitle').textContent = LESSON_DATA.subtitle;
+  document.getElementById('lessonWhy').textContent = LESSON_DATA.why;
+  document.getElementById('lessonDuration').textContent = LESSON_DATA.estimated_minutes;
+  document.getElementById('rulesCount').textContent = LESSON_DATA.rules.length;
+}
+
+function startLesson(){
+  showStage('lesson');
+  setActive('nav-lesson');
+  state.currentRuleIdx = 0;
+  state.currentStepIdx = 0;
+  renderCurrentRule();
+}
+
+function renderCurrentRule(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const container = document.getElementById('currentRuleContainer');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'rule-card';
+  card.innerHTML = `
+    <div class="rule-header">
+      <div class="rule-number">${rule.number}</div>
+      <div>
+        <div class="rule-label">القاعدة ${rule.number} من ${LESSON_DATA.rules.length}</div>
+        <div class="rule-title">${rule.title}</div>
+      </div>
+    </div>
+    <div id="ruleStepsContainer"></div>
+  `;
+  container.appendChild(card);
+
+  state.currentStepIdx = 0;
+  renderRuleStep();
+  scrollToTop();
+}
+
+function renderRuleStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const step = rule.explanation_steps[state.currentStepIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const stepDiv = document.createElement('div');
+  stepDiv.className = 'step-block';
+  stepDiv.innerHTML = `
+    <div class="step-num-row">
+      <div class="step-num">${step.step}</div>
+      <div class="step-title">${step.title}</div>
+    </div>
+    <div class="step-content">${md(step.content)}</div>
+  `;
+  stepsContainer.appendChild(stepDiv);
+
+  const isLastStep = state.currentStepIdx === rule.explanation_steps.length - 1;
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-primary" onclick="advanceRuleStep()">${isLastStep ? 'فهمت — وريني القانون 🧈' : 'فهمت — كمّل ←'}</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function advanceRuleStep(){
+  // مسح كل الأزرار الحية فوراً لمنع الضغط المزدوج
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.currentStepIdx++;
+
+  if(state.currentStepIdx < rule.explanation_steps.length){
+    renderRuleStep();
+  } else {
+    showRuleClosing();
+  }
+}
+
+function showRuleClosing(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض القاعدة الذهبية (بارزة بصرياً)
+  const goldenDiv = document.createElement('div');
+  goldenDiv.className = 'golden-rule';
+  goldenDiv.id = 'goldenRuleBox';
+  goldenDiv.innerHTML = `
+    <div class="label">🌟 القاعدة الذهبية</div>
+    <div class="text">${rule.golden_law}</div>
+  `;
+  stepsContainer.appendChild(goldenDiv);
+
+  // زر الانتقال للتمارين مباشرة (بدون كتابة باليد)
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-butter" onclick="afterGoldenRule()">فهمت — يلا تمارين ←</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function afterGoldenRule(){
+  // مسح زر "فهمت" بعد الضغط
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض تنبيه الخطأ الشائع
+  const mistakeDiv = document.createElement('div');
+  mistakeDiv.className = 'mistake-box';
+  mistakeDiv.innerHTML = `
+    <div class="label">⚠️ احذر — الخطأ الشائع</div>
+    <div class="text">${rule.common_mistake}</div>
+  `;
+  stepsContainer.appendChild(mistakeDiv);
+
+  // بدء التمارين الفورية
+  state.ruleExerciseIdx = 0;
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+  renderRuleExercise();
+  scrollToBottom();
+}
+
+function renderRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  const oldEx = stepsContainer.querySelector('.exercise-box');
+  if(oldEx) oldEx.remove();
+
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+
+  const exDiv = document.createElement('div');
+  exDiv.className = 'exercise-box';
+  exDiv.id = 'currentExerciseBox';
+  exDiv.innerHTML = `
+    <div class="ex-label">تطبيق سريع</div>
+    <div class="ex-counter">تمرين ${state.ruleExerciseIdx + 1} من ${rule.quick_exercises.length}</div>
+    <div class="question math-expr">${ex.question}</div>
+    <div class="options" id="currentRuleOpts">
+      ${ex.options.map((opt,i)=>`<button class="option math-expr" data-idx="${i}" onclick="answerRuleExercise(${i})">${opt}</button>`).join('')}
+    </div>
+    <div class="feedback" id="currentRuleFeedback"></div>
+    <div class="solution-block" id="currentRuleSolution"></div>
+  `;
+  stepsContainer.appendChild(exDiv);
+  scrollToBottom();
+}
+
+function answerRuleExercise(idx){
+  if(state.ruleExerciseAnswered) return;
+  state.ruleExerciseAnswered = true;
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+
+  const buttons = document.querySelectorAll('#currentRuleOpts .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('currentRuleFeedback');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح — للزبدة 🧈' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  if(idx === ex.correct_index){
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showRuleSolution()">عطني الزبدة 🧈</button>
+      </div>
+    `;
+  }
+  scrollToBottom();
+}
+
+function showRuleSolution(){
+  state.ruleExerciseSolutionIdx = 0;
+  document.getElementById('currentRuleFeedback').classList.remove('show');
+  const sol = document.getElementById('currentRuleSolution');
+  sol.innerHTML = '';
+  sol.classList.add('show');
+  renderRuleSolutionStep();
+}
+
+function renderRuleSolutionStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const sol = document.getElementById('currentRuleSolution');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح ←' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.ruleExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    scrollToBottom();
+    return;
+  }
+
+  const step = ex.solution[state.ruleExerciseSolutionIdx];
+  const isLastSolutionStep = state.ruleExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceRuleSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+  scrollToBottom();
+}
+
+function advanceRuleSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('currentRuleSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.ruleExerciseSolutionIdx++;
+  renderRuleSolutionStep();
+}
+
+function nextRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.ruleExerciseIdx++;
+
+  if(state.ruleExerciseIdx >= rule.quick_exercises.length){
+    state.currentRuleIdx++;
+
+    if(state.currentRuleIdx >= LESSON_DATA.rules.length){
+      finishLessonExplain();
+    } else {
+      renderCurrentRule();
+    }
+  } else {
+    renderRuleExercise();
+  }
+}
+
+function finishLessonExplain(){
+  state.stagesCompleted.lesson = true;
+
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = LESSON_DATA.butter_summary.map(item=>`<li>${md(item)}</li>`).join('');
+
+  const mistakesList = document.getElementById('mistakesList');
+  mistakesList.innerHTML = LESSON_DATA.common_mistakes.map(m=>`<li style="padding:10px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:var(--dark-soft);line-height:1.7">• ${m}</li>`).join('');
+
+  document.getElementById('nav-lesson').classList.add('completed');
+  document.getElementById('nav-comprehensive').classList.remove('locked');
+
+  showStage('summary');
+}
+
+function goToComprehensive(){
+  showStage('comprehensive');
+  setActive('nav-comprehensive');
+  state.compExerciseIdx = 0;
+  state.compCorrect = 0;
+  renderCompExercise();
+}
+
+function renderCompExercise(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  state.compExerciseAnswered = false;
+  state.compExerciseSolutionIdx = 0;
+
+  const dots = document.getElementById('compDots');
+  dots.innerHTML = '';
+  LESSON_DATA.comprehensive_exercises.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < state.compExerciseIdx ? ' done' : (i === state.compExerciseIdx ? ' current' : ''));
+    dots.appendChild(d);
+  });
+
+  document.getElementById('compCounter').textContent = `تمرين شامل ${state.compExerciseIdx + 1} من ${LESSON_DATA.comprehensive_exercises.length}`;
+  document.getElementById('compQuestion').innerHTML = `<span class="math-expr">${ex.question}</span>`;
+
+  const opts = document.getElementById('compOptions');
+  opts.innerHTML = '';
+  ex.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerCompExercise(i);
+    opts.appendChild(b);
+  });
+
+  document.getElementById('compFeedback').className = 'feedback';
+  document.getElementById('compFeedback').innerHTML = '';
+  document.getElementById('compSolution').className = 'solution-block';
+  document.getElementById('compSolution').innerHTML = '';
+  scrollToTop();
+}
+
+function answerCompExercise(idx){
+  if(state.compExerciseAnswered) return;
+  state.compExerciseAnswered = true;
+
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const buttons = document.querySelectorAll('#compOptions .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('compFeedback');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  if(idx === ex.correct_index){
+    state.compCorrect++;
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت من التمارين 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showCompSolution()">عطني الزبدة 🧈</button>
+        <button class="btn btn-ghost" onclick="nextCompExercise()">تخطي</button>
+      </div>
+    `;
+  }
+}
+
+function showCompSolution(){
+  state.compExerciseSolutionIdx = 0;
+  document.getElementById('compFeedback').classList.remove('show');
+  document.getElementById('compSolution').innerHTML = '';
+  document.getElementById('compSolution').classList.add('show');
+  renderCompSolutionStep();
+}
+
+function renderCompSolutionStep(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const sol = document.getElementById('compSolution');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.compExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    return;
+  }
+
+  const step = ex.solution[state.compExerciseSolutionIdx];
+  const isLastSolutionStep = state.compExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceCompSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+}
+
+function advanceCompSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('compSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.compExerciseSolutionIdx++;
+  renderCompSolutionStep();
+}
+
+function nextCompExercise(){
+  state.compExerciseIdx++;
+  if(state.compExerciseIdx >= LESSON_DATA.comprehensive_exercises.length){
+    state.stagesCompleted.comprehensive = true;
+    document.getElementById('nav-comprehensive').classList.add('completed');
+    document.getElementById('nav-exam').classList.remove('locked');
+    showStage('exam-intro');
+    setActive('nav-exam');
+  } else {
+    renderCompExercise();
+  }
+}
+
+function startExam(){
+  state.examQuestionIdx = 0;
+  state.examAnswers = [];
+  state.examTimedOut = false;
+  showStage('exam');
+  startExamTimer();
+  renderExamQuestion();
+}
+
+function startExamTimer(){
+  // فحص إذا كان الاختبار يحتوي على Timer
+  if(!LESSON_DATA.final_exam.has_timer) return;
+
+  const durationMinutes = LESSON_DATA.final_exam.duration_minutes || 15;
+  let remainingSeconds = durationMinutes * 60;
+
+  // إنشاء عنصر Timer
+  const examScreen = document.getElementById('stage-exam');
+  let timerEl = document.getElementById('examTimer');
+  if(!timerEl){
+    timerEl = document.createElement('div');
+    timerEl.id = 'examTimer';
+    timerEl.className = 'exam-timer';
+    // إضافة الـ Timer في بداية أول card داخل stage-exam
+    const firstCard = examScreen.querySelector('.card');
+    if(firstCard){
+      firstCard.insertBefore(timerEl, firstCard.firstChild);
+    } else {
+      examScreen.insertBefore(timerEl, examScreen.firstChild);
+    }
+  }
+
+  function updateTimer(){
+    const mins = Math.floor(remainingSeconds / 60);
+    const secs = remainingSeconds % 60;
+    timerEl.textContent = `⏱️ متبقي: ${mins}:${secs.toString().padStart(2,'0')}`;
+
+    // تحذير برتقالي عند 3 دقائق
+    if(remainingSeconds <= 180 && remainingSeconds > 60){
+      timerEl.className = 'exam-timer warning';
+    }
+    // خطر أحمر عند دقيقة واحدة
+    else if(remainingSeconds <= 60){
+      timerEl.className = 'exam-timer danger';
+    }
+    else {
+      timerEl.className = 'exam-timer';
+    }
+
+    if(remainingSeconds <= 0){
+      clearInterval(state.examTimerInterval);
+      state.examTimedOut = true;
+      // عند انتهاء الوقت: إنهاء الاختبار تلقائياً
+      // ملء الإجابات الباقية كخاطئة
+      while(state.examAnswers.length < LESSON_DATA.final_exam.questions.length){
+        state.examAnswers.push(-1);
+      }
+      finishExam();
+      return;
+    }
+    remainingSeconds--;
+  }
+
+  updateTimer(); // عرض فوري
+  state.examTimerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopExamTimer(){
+  if(state.examTimerInterval){
+    clearInterval(state.examTimerInterval);
+    state.examTimerInterval = null;
+  }
+}
+
+function renderExamQuestion(){
+  const q = LESSON_DATA.final_exam.questions[state.examQuestionIdx];
+  document.getElementById('examCounter').textContent = `السؤال ${state.examQuestionIdx + 1} من ${LESSON_DATA.final_exam.questions.length}`;
+  document.getElementById('examQuestion').innerHTML = `<span class="math-expr">${q.question}</span>`;
+
+  const opts = document.getElementById('examOptions');
+  opts.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerExamQuestion(i);
+    opts.appendChild(b);
+  });
+  scrollToTop();
+}
+
+function answerExamQuestion(idx){
+  state.examAnswers.push(idx);
+  state.examQuestionIdx++;
+  if(state.examQuestionIdx >= LESSON_DATA.final_exam.questions.length){
+    finishExam();
+  } else {
+    renderExamQuestion();
+  }
+}
+
+function finishExam(){
+  stopExamTimer();
+
+  let correct = 0;
+  const mistakes = [];
+  LESSON_DATA.final_exam.questions.forEach((q,i)=>{
+    if(state.examAnswers[i] === q.correct_index){
+      correct++;
+    } else {
+      mistakes.push({
+        questionIdx: i,
+        question: q,
+        userAnswer: state.examAnswers[i]
+      });
+    }
+  });
+
+  state.examMistakes = mistakes;
+
+  const total = LESSON_DATA.final_exam.questions.length;
+  state.stagesCompleted.exam = true;
+  const passed = correct >= LESSON_DATA.final_exam.pass_threshold;
+
+  // عنوان النتيجة
+  let titleText = '';
+  if(state.examTimedOut){
+    titleText = '⏰ انتهى الوقت!';
+  } else if(passed){
+    titleText = '🎉 نجحت!';
+  } else {
+    titleText = '💪 تحتاج مراجعة';
+  }
+  document.getElementById('doneTitle').textContent = titleText;
+  document.getElementById('doneScore').textContent = `${correct}/${total}`;
+
+  // رسالة النتيجة
+  let msg = '';
+  const lessonNum = LESSON_DATA.order;
+  const remaining = 18 - lessonNum;
+  if(state.examTimedOut){
+    msg = `انتهى الوقت قبل ما تخلص. تحتاج تتدرّب أكثر على السرعة. راجع الدرس وأعد المحاولة.`;
+  } else if(correct === total){
+    msg = `نتيجة كاملة! إتقان تام للدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else if(passed){
+    msg = `أحسنت — نجحت في اختبار الدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else {
+    msg = 'لا بأس — راجع الشرح مرة ثانية، وأعد الاختبار. التمكّن خير من السرعة.';
+  }
+  document.getElementById('doneMsg').textContent = msg;
+
+  // بناء الأزرار: لو فيه أخطاء، يظهر زر "شوف أخطاءك"
+  const actionsDiv = document.getElementById('doneActions');
+  actionsDiv.innerHTML = '';
+
+  if(mistakes.length > 0){
+    const reviewBtn = document.createElement('button');
+    reviewBtn.type = 'button';
+    reviewBtn.className = 'btn btn-butter';
+    reviewBtn.textContent = `⚠️ شوف أخطاءك (${mistakes.length})`;
+    reviewBtn.style.cursor = 'pointer';
+    reviewBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      console.log('[mistakes] review button clicked');
+      showMistakesReview();
+    });
+    actionsDiv.appendChild(reviewBtn);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.type = 'button';
+    nextBtn.className = 'btn btn-ghost';
+    nextBtn.textContent = 'تخطّى للدرس التالي ←';
+    nextBtn.style.marginRight = '10px';
+    nextBtn.addEventListener('click', function(){ location.reload(); });
+    actionsDiv.appendChild(nextBtn);
+  } else {
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-butter';
+    nextBtn.textContent = 'الدرس التالي ←';
+    nextBtn.onclick = ()=>location.reload();
+    actionsDiv.appendChild(nextBtn);
+  }
+
+  showStage('done');
+}
+
+function showMistakesReview(){
+  console.log('[mistakes] showMistakesReview called');
+  try {
+    const mistakes = state.examMistakes || [];
+    const total = (LESSON_DATA.final_exam && LESSON_DATA.final_exam.questions)
+      ? LESSON_DATA.final_exam.questions.length : 0;
+
+    console.log('[mistakes] count:', mistakes.length, 'total:', total);
+
+    const counterEl = document.getElementById('mistakesCounter');
+    if (counterEl) {
+      counterEl.textContent = `أخطأت في ${mistakes.length} من ${total}`;
+    }
+
+    const list = document.getElementById('examMistakesList');
+    if (!list) {
+      console.error('[mistakes] examMistakesList element not found');
+      alert('خطأ تقني: عنصر القائمة مفقود.');
+      return;
+    }
+    list.innerHTML = '';
+
+    if (mistakes.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--green);font-size:18px;font-weight:600">🎉 ما عندك أخطاء — أحسنت!</div>';
+    } else {
+      // عنوان توضيحي
+      const heading = document.createElement('div');
+      heading.style.cssText = 'text-align:center;color:var(--muted);font-size:14px;margin-bottom:18px';
+      heading.textContent = 'أرقام الأسئلة اللي أخطأت فيها:';
+      list.appendChild(heading);
+
+      // شبكة الأرقام
+      const grid = document.createElement('div');
+      grid.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:10px;padding:8px';
+
+      mistakes.forEach((m)=>{
+        const num = (m && typeof m.questionIdx === 'number') ? m.questionIdx + 1 : '?';
+        const cell = document.createElement('div');
+        cell.style.cssText = 'background:var(--red-bg);color:var(--red);border:2px solid var(--red);border-radius:12px;padding:14px 8px;text-align:center;font-weight:700;font-size:18px;font-family:inherit';
+        cell.textContent = num;
+        grid.appendChild(cell);
+      });
+
+      list.appendChild(grid);
+    }
+
+    // تبديل الشاشة قسرياً
+    const allStages = ['intro','lesson','summary','comprehensive','exam-intro','exam','done','mistakes'];
+    allStages.forEach(s=>{
+      const el = document.getElementById('stage-'+s);
+      if(el) el.classList.add('hidden');
+    });
+    const target = document.getElementById('stage-mistakes');
+    if (target) {
+      target.classList.remove('hidden');
+      target.style.display = 'block';
+    }
+    window.scrollTo(0, 0);
+
+  } catch (err) {
+    console.error('[mistakes] CRITICAL ERROR:', err);
+    alert('حصل خطأ:\n' + err.message);
+  }
+}
+
+init();
+
+// === أداة اختبار سريع: شغّلها من Console (F12) ===
+// اكتب: testMistakesReview()  --> تعبئ أخطاء وهمية وتفتح شاشة المراجعة
+window.testMistakesReview = function(){
+  console.log('[test] تشغيل اختبار شاشة الأخطاء');
+  const qs = LESSON_DATA.final_exam.questions;
+  // عبّي 3 أخطاء وهمية من أول 3 أسئلة
+  state.examMistakes = [
+    { questionIdx: 0, question: qs[0], userAnswer: 0 },
+    { questionIdx: 1, question: qs[1], userAnswer: 3 },
+    { questionIdx: 2, question: qs[2], userAnswer: -1 }
+  ];
+  showMistakesReview();
+  console.log('[test] انتهى. لازم تشوف شاشة "مراجعة أخطاءك" الآن.');
+};
+
+
+// === كود مخصص للدرس 15: محاكاة قياس - يفتح مباشرة على الاختبار ===
+document.addEventListener('DOMContentLoaded', function() {
+  // التحقق من وضع "اختبار فقط"
+  const isExamOnlyMode = (!LESSON_DATA.comprehensive_exercises || LESSON_DATA.comprehensive_exercises.length === 0) &&
+                          (LESSON_DATA.rules && LESSON_DATA.rules[0] && 
+                           (!LESSON_DATA.rules[0].quick_exercises || LESSON_DATA.rules[0].quick_exercises.length === 0));
+  
+  if (isExamOnlyMode) {
+    // إخفاء الأزرار غير الضرورية من القائمة
+    const buttonsToHide = ['nav-quick', 'nav-butter', 'nav-mistakes', 'nav-comprehensive'];
+    buttonsToHide.forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.style.display = 'none';
+    });
+    
+    // فتح زر الاختبار
+    const navExam = document.getElementById('nav-exam');
+    if (navExam) {
+      navExam.classList.remove('locked');
+    }
+    
+    // تغيير زر "فهمت يلا تمارين" إلى "ابدأ الاختبار" + تغيير وظيفته
+    const checkInterval = setInterval(function() {
+      const btns = document.querySelectorAll('.btn-row.live button');
+      btns.forEach(function(btn) {
+        if (btn.textContent.includes('يلا تمارين') || btn.textContent.includes('فهمت')) {
+          btn.textContent = '🏁 ابدأ الاختبار النهائي ←';
+          btn.style.background = '#EF4444';
+          btn.style.color = 'white';
+          btn.style.fontSize = '18px';
+          btn.style.padding = '16px 32px';
+          btn.onclick = function() {
+            // الانتقال مباشرة لشاشة بدء الاختبار
+            showStage('exam-intro');
+            setActive('nav-exam');
+          };
+        }
+      });
+    }, 300);
+    
+    // إيقاف الفحص بعد 10 ثوان
+    setTimeout(function() { clearInterval(checkInterval); }, 10000);
+    
+    // وضع علامة مكتمل على المراحل
+    state.stagesCompleted.rules = true;
+    state.stagesCompleted.butter = true;
+    state.stagesCompleted.quick = true;
+    state.stagesCompleted.comprehensive = true;
+    
+    // البقاء على شاشة القاعدة (الشرح) - الطالب يقرأ التعليمات أولاً
+    // ثم يضغط على زر الاختبار بنفسه
+  }
+});
+
+  </script>
+</body>
+</html>
