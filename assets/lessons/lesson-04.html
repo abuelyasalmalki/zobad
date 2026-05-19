@@ -1,0 +1,1751 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧈 زبدة — الدرس الرابع</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --butter:#F5C842;
+    --butter-soft:#FBE197;
+    --butter-deep:#E0A800;
+    --butter-glow:#FFF4D6;
+    --cream:#FFFBF0;
+    --cream-warm:#FFF7E0;
+    --dark:#1C0F00;
+    --dark-soft:#3a2a14;
+    --muted:#7a6852;
+    --line:#EADFC4;
+    --green:#2E8B57;
+    --green-bg:#E8F5EC;
+    --red:#C0392B;
+    --red-bg:#FCEAE7;
+    --blue:#3B82F6;
+    --blue-bg:#EFF6FF;
+    --shadow-sm:0 2px 8px rgba(28,15,0,.06);
+    --shadow:0 6px 24px rgba(28,15,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--cream);
+    color:var(--dark);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+    font-weight:400;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+  body{padding:20px 14px;min-height:100vh}
+  .stage{max-width:760px;margin:0 auto}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:0 4px}
+  .brand{font-weight:700;font-size:22px;display:flex;align-items:center;gap:10px}
+  .brand .logo{width:36px;height:36px;background:var(--butter);border-radius:11px;display:grid;place-items:center;font-size:20px;box-shadow:0 4px 14px rgba(245,200,66,.5)}
+  .lesson-meta{color:var(--muted);font-size:13px;font-weight:500}
+
+  .nav-bar{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;gap:8px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+  .nav-step{flex:1;padding:10px 14px;border-radius:11px;text-align:center;font-size:13px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+  .nav-step:hover:not(.locked){background:var(--cream-warm)}
+  .nav-step.active{background:var(--dark);color:var(--butter)}
+  .nav-step.completed{color:var(--green)}
+  .nav-step.completed::before{content:"✓ ";font-weight:700}
+  .nav-step.locked{color:#bbb;cursor:not-allowed}
+  .nav-step.locked::before{content:"🔒 "}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px 28px;box-shadow:var(--shadow);margin-bottom:18px;position:relative}
+
+  .intro-card{background:linear-gradient(140deg,#fff 0%,var(--butter-glow) 100%);overflow:hidden;position:relative}
+  .intro-card::before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,var(--butter-soft) 0%,transparent 70%);opacity:.5}
+  .chapter-tag{display:inline-block;font-size:12px;font-weight:700;color:var(--butter-deep);background:var(--butter-glow);border:1px solid var(--butter-soft);padding:6px 14px;border-radius:99px;letter-spacing:.3px;margin-bottom:18px;position:relative;z-index:1}
+  .intro-card h1{font-weight:700;font-size:30px;line-height:1.3;color:var(--dark);margin-bottom:12px;position:relative;z-index:1}
+  .intro-card .subtitle{font-size:15px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .intro-card .why-box{background:rgba(255,255,255,.7);border-right:4px solid var(--butter);padding:16px 18px;border-radius:10px;font-size:15px;line-height:1.85;color:var(--dark-soft);margin-bottom:22px;position:relative;z-index:1}
+  .intro-card .meta-row{display:flex;gap:18px;color:var(--muted);font-size:13px;margin-bottom:22px;position:relative;z-index:1;flex-wrap:wrap}
+
+  .rule-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 26px;margin-bottom:16px;box-shadow:var(--shadow-sm);animation:slideUp .4s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .rule-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+  .rule-number{width:42px;height:42px;background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(245,200,66,.4)}
+  .rule-label{font-size:11px;font-weight:600;color:var(--butter-deep);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+  .rule-title{font-weight:700;font-size:21px;color:var(--dark);line-height:1.4}
+
+  .step-block{background:var(--cream-warm);border-radius:14px;padding:20px 22px;margin-bottom:14px}
+  .step-num-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .step-num{width:28px;height:28px;background:var(--butter);color:var(--dark);border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+  .step-title{font-weight:600;font-size:16px;color:var(--dark)}
+  .step-content{font-size:15.5px;line-height:1.9;color:var(--dark-soft);padding-right:38px}
+  .step-content strong{color:var(--dark);font-weight:600}
+
+  .write-prompt{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:20px;padding:28px 24px;margin:18px 0;text-align:center;box-shadow:0 8px 24px rgba(245,200,66,.4);position:relative;overflow:hidden;animation:slideUp .4s ease}
+  .write-prompt .write-icon{font-size:38px;margin-bottom:8px}
+  .write-prompt .write-headline{font-weight:700;font-size:17px;margin-bottom:14px;color:var(--dark)}
+  .write-prompt .write-content{background:rgba(255,255,255,.9);border:2px dashed var(--dark);border-radius:14px;padding:18px 16px;margin:14px 0;font-weight:600;font-size:18px;color:var(--dark);line-height:1.6}
+  .write-prompt .write-instruction{font-size:14px;color:var(--dark-soft);margin-bottom:18px;font-weight:500}
+
+  .mistake-box{background:var(--red-bg);border-right:4px solid var(--red);border-radius:12px;padding:14px 18px;margin:14px 0}
+  .mistake-box .label{font-weight:700;color:var(--red);font-size:13px;margin-bottom:6px}
+  .mistake-box .text{font-size:14px;color:var(--dark-soft);line-height:1.7}
+
+  .exercise-box{background:var(--blue-bg);border:1px solid #BFDBFE;border-radius:16px;padding:22px 20px;margin-top:18px}
+  .exercise-box .ex-label{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+  .exercise-box .ex-counter{color:var(--muted);font-weight:500;font-size:13px;margin-bottom:14px}
+  .exercise-box .question{font-weight:600;font-size:18px;color:var(--dark);margin-bottom:18px;line-height:1.6;text-align:center;padding:14px;background:#fff;border-radius:10px;unicode-bidi:plaintext}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  @media (max-width:480px){.options{grid-template-columns:1fr}}
+  .option{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-family:inherit;font-weight:600;font-size:16px;color:var(--dark);cursor:pointer;transition:all .2s ease;text-align:center}
+  .option:hover:not(.locked){border-color:var(--butter);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .option.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+  .option.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .option.locked{cursor:not-allowed;opacity:.5}
+  .option.locked.correct{opacity:1}
+  .option.locked.wrong{opacity:1}
+
+  .feedback{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.7;display:none}
+  .feedback.show{display:block;animation:slideUp .3s ease}
+  .feedback.success{background:var(--green-bg);color:var(--green);border-right:4px solid var(--green)}
+  .feedback.error{background:var(--red-bg);color:var(--red);border-right:4px solid var(--red)}
+
+  .solution-block{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:none}
+  .solution-block.show{display:block;animation:slideUp .3s ease}
+  .sol-step{padding:16px 20px;border-bottom:1px dashed var(--line)}
+  .sol-step:last-child{border-bottom:none}
+  .sol-step-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sol-step-num{width:24px;height:24px;background:var(--butter);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px}
+  .sol-step-label{font-weight:700;font-size:12px;color:var(--butter-deep);letter-spacing:.5px}
+  .sol-step-content{font-size:14.5px;line-height:1.85;color:var(--dark-soft);padding-right:34px}
+
+  .btn{font-family:inherit;font-weight:600;border:none;border-radius:13px;padding:13px 26px;font-size:15px;cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn-primary{background:var(--dark);color:var(--butter)}
+  .btn-primary:hover{background:#000;transform:translateY(-2px)}
+  .btn-butter{background:var(--butter);color:var(--dark);box-shadow:0 4px 14px rgba(245,200,66,.4)}
+  .btn-butter:hover{background:var(--butter-deep);transform:translateY(-2px);box-shadow:0 6px 18px rgba(245,200,66,.5)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--dark);border-color:var(--dark)}
+  .btn-block{width:100%}
+  .btn-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+  .btn-row.center{justify-content:center}
+
+  .golden-rule{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:14px;padding:18px 22px;margin:14px 0;box-shadow:0 6px 18px rgba(245,200,66,.35)}
+  .golden-rule .label{font-size:11px;font-weight:700;letter-spacing:1px;opacity:.7;margin-bottom:4px}
+  .golden-rule .text{font-weight:700;font-size:16px;line-height:1.5}
+
+  .butter-summary{background:linear-gradient(140deg,var(--butter-glow) 0%,#FFF9E0 100%);border:2px solid var(--butter-soft);border-radius:22px;padding:28px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+  .butter-summary h2{font-weight:700;font-size:22px;margin-bottom:6px;color:var(--dark);position:relative;z-index:1}
+  .butter-summary .subtitle{font-size:13px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .butter-summary ul{list-style:none;position:relative;z-index:1}
+  .butter-summary li{padding:10px 0;border-bottom:1px dashed var(--butter-soft);font-size:15px;color:var(--dark-soft);line-height:1.7}
+  .butter-summary li:last-child{border-bottom:none}
+  .butter-summary li strong{color:var(--dark);font-weight:700}
+
+  .progress-dots{display:flex;justify-content:center;gap:7px;margin-bottom:16px}
+  .dot{width:32px;height:6px;background:var(--line);border-radius:99px;transition:background .3s ease}
+  .dot.done{background:var(--butter)}
+  .dot.current{background:var(--dark)}
+
+  .exam-header{text-align:center;margin-bottom:20px}
+  .exam-header h2{font-weight:700;font-size:24px;margin-bottom:6px}
+  .exam-warning{background:#FEF3C7;border-right:4px solid #D97706;padding:14px 18px;border-radius:12px;font-size:14px;color:#92400E;line-height:1.7;margin-bottom:18px}
+  .exam-question-num{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
+
+  .completion{text-align:center;padding:40px 20px}
+  .completion .big-emoji{font-size:80px;margin-bottom:12px;display:block}
+  .completion h2{font-weight:700;font-size:30px;margin-bottom:10px}
+  .completion .score{font-weight:700;font-size:54px;color:var(--butter-deep);margin:14px 0}
+  .completion .msg{color:var(--muted);font-size:16px;margin-bottom:24px;line-height:1.7}
+
+  .hidden{display:none !important}
+  .math-expr{unicode-bidi:plaintext}
+
+  /* منطقة الفيديو الافتتاحي */
+  .video-intro{
+    background:rgba(255,255,255,.85);
+    border:1px solid var(--butter-soft);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:18px;
+    position:relative;
+    z-index:1;
+  }
+  .video-intro .video-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--butter-deep);
+    margin-bottom:10px;
+    text-align:center;
+  }
+  .video-wrapper{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    border-radius:10px;
+    background:var(--dark);
+  }
+  .video-wrapper iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border:0;
+    border-radius:10px;
+  }
+
+  /* مؤقّت الاختبار */
+  .exam-timer{
+    position:sticky;
+    top:10px;
+    background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);
+    color:var(--dark);
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:16px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(245,200,66,.4);
+    margin-bottom:16px;
+    z-index:10;
+  }
+  .exam-timer.warning{
+    background:linear-gradient(135deg,#FFA500 0%,#FF7700 100%);
+    color:#fff;
+    animation:pulse 1s infinite;
+  }
+  .exam-timer.danger{
+    background:linear-gradient(135deg,var(--red) 0%,#8B0000 100%);
+    color:#fff;
+    animation:pulse 0.5s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.03)}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🧈</div>
+      <span>زبدة</span>
+    </div>
+    <div class="lesson-meta">الدرس 4 من 18</div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-step active" id="nav-lesson" onclick="navigateTo('lesson')">الشرح</button>
+    <button class="nav-step locked" id="nav-comprehensive" onclick="navigateTo('comprehensive')">التمارين</button>
+    <button class="nav-step locked" id="nav-exam" onclick="navigateTo('exam')">الاختبار</button>
+  </div>
+
+  <section id="stage-intro">
+    <div class="card intro-card">
+      <span class="chapter-tag">الباب صفر — مهارات قبل التأسيس</span>
+      <h1 id="lessonTitle">العمليات الحسابية على الأعداد الكبيرة</h1>
+      <p class="subtitle" id="lessonSubtitle">أول خطوة في رحلة تأسيس الكمي</p>
+      <div class="meta-row">
+        <span>⏱️ <span id="lessonDuration">45</span> دقيقة</span>
+        <span>📚 <span id="rulesCount">8</span> قواعد</span>
+        <span>📝 41 سؤال</span>
+      </div>
+      <div class="why-box" id="lessonWhy">—</div>
+
+      <!-- منطقة الفيديو الافتتاحي -->
+      <div class="video-intro" id="videoIntroBox">
+        <div class="video-label">🎬 شاهد المقدمة (٢ دقيقة)</div>
+        <div class="video-wrapper">
+          <iframe id="introVideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startLesson()">يلا نبدأ ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-lesson" class="hidden">
+    <div id="currentRuleContainer"></div>
+  </section>
+
+  <section id="stage-summary" class="hidden">
+    <div class="butter-summary">
+      <h2>🧈 الزبدة المركّزة</h2>
+      <p class="subtitle">ملخص الدرس كاملاً في مكان واحد — احفظه</p>
+      <ul id="summaryList"></ul>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:700;font-size:18px;color:var(--red);margin-bottom:14px">⚠️ الأخطاء الشائعة</h3>
+      <ul id="mistakesList" style="list-style:none"></ul>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="goToComprehensive()">جاهز للتمارين الشاملة ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-comprehensive" class="hidden">
+    <div class="card">
+      <div class="progress-dots" id="compDots"></div>
+      <div id="compCounter" style="text-align:center;margin-bottom:14px;color:var(--muted);font-size:13px;font-weight:600"></div>
+      <div id="compQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:18px;text-align:center;padding:18px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="compOptions"></div>
+      <div class="feedback" id="compFeedback"></div>
+      <div class="solution-block" id="compSolution"></div>
+    </div>
+  </section>
+
+  <section id="stage-exam-intro" class="hidden">
+    <div class="card">
+      <div class="exam-header">
+        <h2>✅ اختبار الدرس</h2>
+        <p style="color:var(--muted)">حان وقت اختبار نفسك</p>
+      </div>
+      <div class="exam-warning">
+        ⚠️ <strong>تنبيه:</strong> هذا اختبار جدّي. لن تستطيع الرجوع للشرح أثناء الاختبار، ولن يكون عندك زر "عطني الزبدة". اعتمد على نفسك.
+        <br><br>
+        🎯 <strong>الهدف:</strong> 5 من 7 إجابات صحيحة على الأقل لاجتياز الاختبار.
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startExam()">بسم الله — ابدأ الاختبار</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-exam" class="hidden">
+    <div class="card">
+      <div class="exam-question-num" id="examCounter"></div>
+      <div id="examQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:20px;text-align:center;padding:20px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="examOptions"></div>
+    </div>
+  </section>
+
+  <section id="stage-done" class="hidden">
+    <div class="card">
+      <div class="completion">
+        <span class="big-emoji">🧈</span>
+        <h2 id="doneTitle">أحسنت!</h2>
+        <div class="score" id="doneScore">7/7</div>
+        <p class="msg" id="doneMsg">خلصت أول درس في زبدة. باقي 17 درس وأنت في الطريق.</p>
+        <div id="doneActions">
+          <button class="btn btn-butter" onclick="location.reload()">الدرس التالي ←</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-mistakes" class="hidden">
+    <div class="card">
+      <h2 style="font-weight:700;font-size:22px;color:var(--dark);margin-bottom:8px;text-align:center">⚠️ مراجعة أخطاءك</h2>
+      <p style="color:var(--muted);font-size:14px;text-align:center;margin-bottom:20px" id="mistakesCounter">—</p>
+      <div id="mistakesList"></div>
+      <div class="btn-row center" style="margin-top:20px">
+        <button class="btn btn-butter" onclick="location.reload()">فهمت — الدرس التالي ←</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const LESSON_DATA = {
+  "id": "lesson_04",
+  "chapter": "third",
+  "chapter_title": "إكمال الجمل",
+  "chapter_color": "#FBBF24",
+  "order": 4,
+  "title": "الفراغ الواحد + أدوات الربط",
+  "subtitle": "كيف تفكّ لغز الفراغ في الجملة",
+  "why": "في الباب السابق تعلّمت تربط بين زوجين. الحين راح تتعلم تكمّل جملة فيها فراغ. السر مو في معرفة الكلمات، السر في فهم 'أداة الربط' اللي قبل أو بعد الفراغ. لو فهمت الأداة، الإجابة تطلع لك بسرعة.",
+  "video_url": "https://www.youtube.com/embed/PLACEHOLDER_VIDEO_ID?rel=0&modestbranding=1",
+  "estimated_minutes": 40,
+
+  "rules": [
+    {
+      "id": "rule_1",
+      "number": 1,
+      "title": "أدوات التناقض (رغم، لكن، إلا أن)",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "الفكرة الأساسية",
+          "content": "**أدوات التناقض** تربط فكرتين متعاكستين في الاتجاه.\n\nلما تشوف أداة تناقض في الجملة، اعرف على طول: **الفكرة قبلها عكس الفكرة بعدها**.\n\n**أشهر أدوات التناقض:**\n- رغم / على الرغم من\n- لكن / لكنّ\n- إلا أن\n- بيد أن\n- غير أن\n- مع أن"
+        },
+        {
+          "step": 2,
+          "title": "كيف تشتغل هذي الأدوات؟",
+          "content": "كل أداة تناقض تخلق **مفاجأة منطقية**.\n\nمثال:\n> \"اجتهد الطالب، **لكنه** رسب.\"\n\nالمنطق العادي: الاجتهاد ← النجاح\nالمفاجأة: الاجتهاد ← الرسوب (غير متوقع!)\n\nأداة \"لكن\" هي اللي تكسر التوقع.\n\nمثال ثاني:\n> \"**رغم** غناه، يعيش حياة بسيطة.\"\n\nالمنطق العادي: الغني ← حياة مرفهة\nالمفاجأة: الغني ← حياة بسيطة"
+        },
+        {
+          "step": 3,
+          "title": "استراتيجية الحل",
+          "content": "**٣ خطوات سرية:**\n\n١. **حدّد أداة التناقض في الجملة**\n   (رغم / لكن / إلا أن / بيد أن)\n\n٢. **حدّد الفكرة الواضحة** (اللي مو في الفراغ)\n   - هل هي إيجابية أو سلبية؟\n\n٣. **اختر للفراغ كلمة عكسية**\n   - إذا الفكرة الواضحة إيجابية → اختر كلمة سلبية للفراغ\n   - إذا الفكرة الواضحة سلبية → اختر كلمة إيجابية للفراغ"
+        },
+        {
+          "step": 4,
+          "title": "مثال تطبيقي",
+          "content": "**الجملة:** \"**رغم** ......... الطقس، خرج للنزهة.\"\n\n**خطوة ١:** الأداة = \"رغم\" → تناقض\n\n**خطوة ٢:** الفكرة الواضحة = \"خرج للنزهة\" (إيجابية، الناس يخرجون لما الطقس حلو)\n\n**خطوة ٣:** نبحث عن كلمة سلبية للفراغ:\n- **سوء** ← \"رغم سوء الطقس، خرج\" ✓ (تناقض منطقي)\n- جمال ← \"رغم جمال الطقس، خرج\" ❌ (لا يوجد تناقض)\n- حرارة ← محتمل لكن مو بقوة \"سوء\"\n\n**الإجابة:** سوء"
+        }
+      ],
+      "golden_law": "أداة التناقض = مفاجأة منطقية. الفكرة قبل الأداة عكس الفكرة بعدها. حدد الأداة → فكرة واضحة → اختر عكسها للفراغ.",
+      "common_mistake": "تجاهل أداة الربط واختيار كلمة 'تبدو جميلة' في الفراغ بدون منطق التناقض. الأداة هي البوصلة.",
+      "quick_exercises": [
+        {
+          "id": "r1_q1",
+          "question": "\"رغم ......... الامتحان، نجح الطالب بتفوّق.\"",
+          "options": ["سهولة", "صعوبة", "قِصَر", "وضوح"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **رغم** → تناقض"},
+            {"step": 2, "content": "الفكرة الواضحة: \"نجح بتفوّق\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن كلمة سلبية: **صعوبة** ✓\n\"رغم صعوبة الامتحان، نجح بتفوّق\" — التناقض منطقي.\n**فخ:** \"سهولة\" و \"وضوح\" إيجابيتان، ما يخلقن تناقض."}
+          ]
+        },
+        {
+          "id": "r1_q2",
+          "question": "\"اجتهد الطالب في المذاكرة، **لكنه** ......... في الاختبار.\"",
+          "options": ["تفوّق", "نجح", "أخفق", "ركّز"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **لكن** → تناقض"},
+            {"step": 2, "content": "الفكرة الواضحة: \"اجتهد في المذاكرة\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن كلمة سلبية: **أخفق** ✓\n**فخ:** \"تفوّق\" و \"نجح\" و \"ركّز\" إيجابيات، ما يخلقن مفاجأة."}
+          ]
+        },
+        {
+          "id": "r1_q3",
+          "question": "\"**على الرغم من** ......... المسافة، وصل في الوقت المحدد.\"",
+          "options": ["قِصَر", "قُرب", "بُعد", "سهولة"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **على الرغم من** → تناقض"},
+            {"step": 2, "content": "الفكرة الواضحة: \"وصل في الوقت المحدد\" (إيجابي، عادةً يحصل لو المسافة قريبة)"},
+            {"step": 3, "content": "نبحث عن كلمة سلبية تخلق المفاجأة: **بُعد** ✓\n\"على الرغم من بُعد المسافة، وصل في الوقت\" — التناقض منطقي."}
+          ]
+        },
+        {
+          "id": "r1_q4",
+          "question": "\"......... الفقير، **إلا أنه** سخي يحب العطاء.\"",
+          "options": ["كرم", "غنى", "حاجة", "ثراء"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **إلا أن** → تناقض"},
+            {"step": 2, "content": "الفكرة الواضحة: \"سخي يحب العطاء\" (إيجابي، عادةً مرتبط بالغنى)"},
+            {"step": 3, "content": "نبحث عن كلمة تتناقض مع السخاء: **حاجة** ✓\n\"حاجة الفقير، إلا أنه سخي\" — التناقض منطقي.\n**فخ:** \"غنى\" و \"ثراء\" يتسقان مع السخاء، ما يخلقن تناقض."}
+          ]
+        },
+        {
+          "id": "r1_q5",
+          "question": "\"كان الجو حاراً جداً، **بيد أن** ......... كان شديداً.\"",
+          "options": ["الدفء", "السكون", "الزحام", "البرد"],
+          "correct_index": 3,
+          "solution": [
+            {"step": 1, "content": "الأداة: **بيد أن** → تناقض"},
+            {"step": 2, "content": "الفكرة الواضحة: \"الجو حاراً جداً\""},
+            {"step": 3, "content": "نبحث عن نقيض للحرارة: **البرد** ✓\n\"الجو حار، بيد أن البرد شديد\" — تناقض في الإحساس (ممكن الجو حار لكن في الظل البرد شديد).\n**فخ:** \"الدفء\" يتسق مع الحرارة، ما يخلق تناقض."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_2",
+      "number": 2,
+      "title": "أدوات السبب والنتيجة (بسبب، لأن، إذاً، لذلك)",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "الفكرة الأساسية",
+          "content": "أدوات **السبب والنتيجة** تربط فكرتين بعلاقة منطقية مباشرة.\n\n**فرع أول — أدوات السبب** (تشير للسبب قبل النتيجة):\n- بسبب / نظراً لـ / من جراء\n- لأن / إذ / لما\n\n**فرع ثاني — أدوات النتيجة** (تشير للنتيجة بعد السبب):\n- إذاً / فـ / لهذا / لذلك\n- نتيجةً لـ / من ثمَّ"
+        },
+        {
+          "step": 2,
+          "title": "كيف تشتغل أدوات السبب؟",
+          "content": "**أداة السبب** تخليك تركز على \"ليش حصل اللي حصل؟\"\n\nمثال:\n> \"**بسبب** ......... الطقس، تأخرت الرحلة.\"\n\nالنتيجة الواضحة: \"تأخرت الرحلة\" (سلبي)\nالسبب المتوقع: شي سلبي يسبّب التأخير\n→ **سوء** الطقس ✓\n\nمثال ثاني:\n> \"حصل على المنصب **لأن** ......... كانت قوية.\"\n\nالنتيجة: \"حصل على المنصب\" (إيجابي)\nالسبب: شي إيجابي يسبّب الحصول\n→ **مؤهلاته** كانت قوية ✓"
+        },
+        {
+          "step": 3,
+          "title": "كيف تشتغل أدوات النتيجة؟",
+          "content": "**أداة النتيجة** تخليك تركز على \"وش النتيجة المنطقية؟\"\n\nمثال:\n> \"تعب من السهر، **لذلك** .........\"\n\nالسبب الواضح: \"تعب من السهر\" (سلبي)\nالنتيجة المتوقعة: شي يعكس التعب\n→ **نام مبكراً** ✓\n\nمثال ثاني:\n> \"اجتهد طوال السنة، **إذاً** ......... متوقع.\"\n\nالسبب: \"اجتهد\" (إيجابي)\nالنتيجة: شي إيجابي\n→ **النجاح** متوقع ✓"
+        },
+        {
+          "step": 4,
+          "title": "استراتيجية الحل",
+          "content": "**٣ خطوات:**\n\n١. **حدد نوع الأداة**\n   - أداة سبب → الفراغ يكون السبب\n   - أداة نتيجة → الفراغ يكون النتيجة\n\n٢. **حدد الفكرة الواضحة في الجملة**\n   - إيجابية أو سلبية؟\n\n٣. **اختر للفراغ كلمة تتسق مع المنطق**\n   - في علاقة السبب والنتيجة، **الاتساق** = الإجابة الصحيحة\n   - (مو التناقض زي القاعدة السابقة)"
+        }
+      ],
+      "golden_law": "أدوات السبب والنتيجة = اتساق منطقي. السبب يؤدي للنتيجة، لذا الفكرة في الفراغ تتسق مع الفكرة الواضحة (مو تتناقض).",
+      "common_mistake": "خلط منطق التناقض مع منطق السبب. في 'رغم'، الفكرتان متعاكستان. في 'بسبب'، متّسقتان.",
+      "quick_exercises": [
+        {
+          "id": "r2_q1",
+          "question": "\"**بسبب** ......... الطالب، فاز بالمركز الأول.\"",
+          "options": ["كسل", "إهمال", "اجتهاد", "تأخر"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **بسبب** → سبب (الفراغ هو السبب)"},
+            {"step": 2, "content": "النتيجة الواضحة: \"فاز بالمركز الأول\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن سبب إيجابي: **اجتهاد** ✓\n\"بسبب اجتهاد الطالب، فاز\" — اتساق منطقي."}
+          ]
+        },
+        {
+          "id": "r2_q2",
+          "question": "\"سهر طوال الليل، **لذلك** كان ......... في الصباح.\"",
+          "options": ["نشيطاً", "متعباً", "سعيداً", "مبتسماً"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **لذلك** → نتيجة (الفراغ هو النتيجة)"},
+            {"step": 2, "content": "السبب الواضح: \"سهر طوال الليل\" (سلبي على الصحة)"},
+            {"step": 3, "content": "نبحث عن نتيجة سلبية: **متعباً** ✓\n**فخ:** الباقي إيجابيات، ما تتسق مع السهر."}
+          ]
+        },
+        {
+          "id": "r2_q3",
+          "question": "\"لم يدرس قبل الاختبار، **فـ** ......... فيه.\"",
+          "options": ["تفوّق", "أبدع", "رسب", "نجح"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **فـ** → نتيجة"},
+            {"step": 2, "content": "السبب: \"لم يدرس قبل الاختبار\" (سلبي)"},
+            {"step": 3, "content": "نتيجة سلبية: **رسب** ✓"}
+          ]
+        },
+        {
+          "id": "r2_q4",
+          "question": "\"حصل على ترقية **نظراً لـ** ......... أدائه طوال السنة.\"",
+          "options": ["تدنّي", "ضعف", "تميّز", "تراجع"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **نظراً لـ** → سبب"},
+            {"step": 2, "content": "النتيجة: \"حصل على ترقية\" (إيجابي)"},
+            {"step": 3, "content": "السبب الإيجابي: **تميّز** ✓\nالباقي كلها سلبية، ما تؤدي لترقية."}
+          ]
+        },
+        {
+          "id": "r2_q5",
+          "question": "\"كان ......... في القيادة، **من ثمَّ** وقع في حادث.\"",
+          "options": ["حذراً", "متيقظاً", "متهوراً", "هادئاً"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **من ثمَّ** → نتيجة (الفراغ هو السبب)"},
+            {"step": 2, "content": "النتيجة الواضحة: \"وقع في حادث\" (سلبي)"},
+            {"step": 3, "content": "السبب السلبي: **متهوراً** ✓\nالباقي إيجابية، ما تسبّب حادث."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_3",
+      "number": 3,
+      "title": "أدوات التشابه والإضافة (كما، مثل، كذلك، أيضاً)",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "الفكرة الأساسية",
+          "content": "أدوات **التشابه والإضافة** تربط فكرتين متشابهتين أو متكاملتين.\n\n**أدوات التشابه:**\n- كما / مثل / كذلك / مثلما\n\n**أدوات الإضافة:**\n- و (الواو) / أيضاً / إضافةً إلى / بالإضافة إلى / علاوةً على\n\n**القاعدة الذهبية:** الفكرتان تسيران في **نفس الاتجاه** (إيجابي مع إيجابي، سلبي مع سلبي)."
+        },
+        {
+          "step": 2,
+          "title": "كيف تشتغل هذي الأدوات؟",
+          "content": "**أداة التشابه** = مقارنة بين شيئين متشابهين.\n\nمثال:\n> \"الذكي يستفيد من تجاربه، **كذلك** الحكيم يستفيد من ......... الآخرين.\"\n\nالفكرة الأولى: الذكي يستفيد من تجاربه (إيجابي)\nالفكرة الثانية مشابهة: الحكيم يستفيد من شي مشابه\n→ **تجارب** الآخرين ✓\n\n**أداة الإضافة** = إضافة معلومة على نفس الخط.\n\nمثال:\n> \"كان شجاعاً في المعركة، **و** ......... في القرار.\"\n\nالفكرة الأولى: شجاع (إيجابي)\nالفكرة الثانية تضيف صفة إيجابية مشابهة\n→ **حازماً** ✓"
+        },
+        {
+          "step": 3,
+          "title": "استراتيجية الحل",
+          "content": "**٣ خطوات:**\n\n١. **حدد أداة التشابه/الإضافة**\n   (كما / مثل / كذلك / و / أيضاً)\n\n٢. **حدد الفكرة الواضحة في الجملة**\n   - إيجابية أو سلبية؟\n\n٣. **اختر للفراغ كلمة تسير في نفس الاتجاه**\n   - فكرة واضحة إيجابية → اختر كلمة إيجابية\n   - فكرة واضحة سلبية → اختر كلمة سلبية\n\n**الفرق المهم:** هذي الأدوات تشبه أدوات السبب في الاتساق، لكنها مختلفة. السبب علاقة منطقية (X يؤدي إلى Y). التشابه مقارنة (X مثل Y)."
+        },
+        {
+          "step": 4,
+          "title": "الفخ الكبير",
+          "content": "**فخ شائع جداً:**\n\nالطلاب يخلطون بين أدوات التشابه وأدوات التناقض. مثلاً:\n\n❌ يفكر: \"الذكي ذكي، **كذلك** يجب أن يكون الحكيم غبي\" (تناقض)\n✅ الصواب: \"الذكي ذكي، **كذلك** الحكيم حكيم\" (تشابه)\n\n**القاعدة:** كلمة \"كذلك\" تعني \"نفس الشي / مماثل\"، ما تعني تناقض.\n\nاحفظ هذا الجدول:\n\n| الأداة | نوع العلاقة |\n|---|---|\n| رغم / لكن | تناقض |\n| بسبب / إذاً | سبب أو نتيجة |\n| كما / كذلك | تشابه |\n| و / أيضاً | إضافة |"
+        }
+      ],
+      "golden_law": "أدوات التشابه والإضافة = نفس الاتجاه. الفكرتان متشابهتان في الطبيعة (إيجابي مع إيجابي، سلبي مع سلبي).",
+      "common_mistake": "اعتبار 'كذلك' أداة تناقض. هي أداة تشابه — الفكرتان متماثلتان مو متعاكستان.",
+      "quick_exercises": [
+        {
+          "id": "r3_q1",
+          "question": "\"الكتاب الجيد يفتح آفاق العقل، **كذلك** السفر يوسّع .........\"",
+          "options": ["الإغلاق", "المدارك", "الجهل", "الانعزال"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **كذلك** → تشابه"},
+            {"step": 2, "content": "الفكرة الأولى: \"الكتاب يفتح آفاق العقل\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن كلمة إيجابية مشابهة: **المدارك** ✓\n\"السفر يوسّع المدارك\" — تشابه منطقي.\nالباقي كلها سلبية، تخلق تناقض."}
+          ]
+        },
+        {
+          "id": "r3_q2",
+          "question": "\"كان يتميّز بالأمانة في عمله، **و** ......... في تعامله مع الناس.\"",
+          "options": ["خيانة", "صدق", "كذب", "غدر"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **و** (الواو) → إضافة"},
+            {"step": 2, "content": "الفكرة الأولى: \"الأمانة\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن صفة إيجابية مشابهة: **صدق** ✓\nالباقي صفات سلبية، تتناقض مع الأمانة."}
+          ]
+        },
+        {
+          "id": "r3_q3",
+          "question": "\"يحب الرياضة، **مثلما** يحب .........\"",
+          "options": ["الكسل", "النوم الطويل", "القراءة", "الخمول"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **مثلما** → تشابه"},
+            {"step": 2, "content": "الفكرة الأولى: \"يحب الرياضة\" (نشاط إيجابي)"},
+            {"step": 3, "content": "نبحث عن نشاط إيجابي مشابه: **القراءة** ✓\nالباقي عكس النشاط (كسل، نوم، خمول)."}
+          ]
+        },
+        {
+          "id": "r3_q4",
+          "question": "\"تخلّى أصدقاؤه عنه في الشدة، **و** ......... عائلته أيضاً.\"",
+          "options": ["ساندته", "تركته", "أحبته", "دعمته"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **و** → إضافة (نفس الاتجاه)"},
+            {"step": 2, "content": "الفكرة الأولى: \"تخلّى أصدقاؤه عنه\" (سلبي)"},
+            {"step": 3, "content": "نبحث عن فعل سلبي مشابه: **تركته** ✓\nالباقي إيجابيات، يخلقن تناقض."}
+          ]
+        },
+        {
+          "id": "r3_q5",
+          "question": "\"كانت محاضرته مفيدة وثرية، **كما** كانت .........\"",
+          "options": ["مملة", "مرهقة", "ممتعة", "ضعيفة"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **كما** → تشابه"},
+            {"step": 2, "content": "الفكرة الأولى: \"مفيدة وثرية\" (إيجابي)"},
+            {"step": 3, "content": "نبحث عن صفة إيجابية مشابهة: **ممتعة** ✓\nالباقي صفات سلبية، تتناقض."}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_4",
+      "number": 4,
+      "title": "الخطوة الأخيرة في الدرس — ١٥ تمرين شامل",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "وصلت لنهاية الدرس",
+          "content": "🎉 ممتاز! تعلّمت ٣ أنواع من أدوات الربط:\n\n**أدوات التناقض:** رغم، لكن، إلا أن، بيد أن\n**أدوات السبب والنتيجة:** بسبب، لأن، إذاً، لذلك\n**أدوات التشابه والإضافة:** كما، مثل، كذلك، و، أيضاً\n\n**كل أداة لها منطقها الخاص:**\n- تناقض = الفكرتان متعاكستان\n- سبب/نتيجة = الفكرتان مرتبطتان منطقياً\n- تشابه/إضافة = الفكرتان متشابهتان في الاتجاه"
+        },
+        {
+          "step": 2,
+          "title": "خريطة ذهنية للحل",
+          "content": "**في كل سؤال إكمال جمل، اتبع هذي الخريطة:**\n\n١. **اقرأ الجملة كاملة بهدوء**\n\n٢. **حدّد أداة الربط** (إن وجدت)\n\n٣. **حدّد نوع العلاقة:**\n   - تناقض؟ → ابحث عن عكس\n   - سبب/نتيجة؟ → ابحث عن اتساق منطقي\n   - تشابه/إضافة؟ → ابحث عن مشابه\n\n٤. **حدّد الفكرة الواضحة في الجملة**\n   - هل هي إيجابية أو سلبية؟\n\n٥. **جرّب الخيارات بدون استعجال**"
+        },
+        {
+          "step": 3,
+          "title": "تنبيه أخير",
+          "content": "**فخ ذهبي في قياس:** أحياناً يحطون خيارات **تبدو منطقية لكنها لا تطابق نوع الأداة**.\n\nمثال:\n> \"رغم اجتهاده، .........\"\n> الخيارات: نجح، حصل على المنصب، فشل، تفوّق\n\nثلاثة منها إيجابيات (نجح، حصل على المنصب، تفوّق). الإجابة الصحيحة = **فشل** (لأن \"رغم\" تطلب تناقض).\n\nالطالب اللي يختار \"نجح\" لأنها \"تبدو منطقية\" يقع في الفخ."
+        },
+        {
+          "step": 4,
+          "title": "جاهز للتطبيق؟",
+          "content": "اضغط 'فهمت — يلا تمارين' وابدأ ١٥ تمرين شامل يجمع كل ما تعلّمته.\n\nهذي التمارين تشبه قياس الحقيقي تماماً. لو أتقنتها، الاختبار النهائي يصير سهل عليك."
+        }
+      ],
+      "golden_law": "خريطة الحل: اقرأ → حدد الأداة → حدد نوع العلاقة → حدد الفكرة الواضحة → اختر بمنطق.",
+      "common_mistake": "اختيار الخيار 'الأجمل لغوياً' بدل الخيار 'الأنسب لأداة الربط'. الأداة هي الفيصل.",
+      "quick_exercises": [
+        {
+          "id": "r4_q1",
+          "question": "\"رغم ......... المباراة، فاز الفريق.\"",
+          "options": ["سهولة", "صعوبة", "قِصَر", "هدوء"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **رغم** → تناقض"},
+            {"step": 2, "content": "الواضح: \"فاز\" (إيجابي) → الفراغ سلبي → **صعوبة** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q2",
+          "question": "\"بسبب ......... المعلم، فهم الطلاب الدرس.\"",
+          "options": ["إهمال", "ضعف", "حماس", "تأخر"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **بسبب** → سبب"},
+            {"step": 2, "content": "النتيجة: \"فهم الطلاب\" (إيجابي) → السبب إيجابي → **حماس** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q3",
+          "question": "\"الكاتب المبدع يثري الفكر، **كذلك** الفنان ......... الذوق.\"",
+          "options": ["يُفسد", "يُهين", "يُرقّي", "يُهمل"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **كذلك** → تشابه"},
+            {"step": 2, "content": "الواضح: \"يثري الفكر\" (إيجابي) → الفراغ إيجابي مشابه → **يُرقّي** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q4",
+          "question": "\"كانت ......... الجو، **بيد أن** الرحلة استمرّت.\"",
+          "options": ["جمال", "عاصفة", "اعتدال", "صفاء"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **بيد أن** → تناقض"},
+            {"step": 2, "content": "الواضح: \"الرحلة استمرّت\" (إيجابي) → الفراغ سلبي → **عاصفة** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q5",
+          "question": "\"تأخر القطار **لـ** ......... على السكة.\"",
+          "options": ["تعطُّل", "سير", "حركة", "انطلاق"],
+          "correct_index": 0,
+          "solution": [
+            {"step": 1, "content": "الأداة: **لـ** → سبب"},
+            {"step": 2, "content": "النتيجة: \"تأخر القطار\" (سلبي) → السبب سلبي → **تعطُّل** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q6",
+          "question": "\"يحب القراءة في المكتبات الهادئة، **و** ......... في الحدائق.\"",
+          "options": ["يكره الجلوس", "يفر من الجلوس", "يتعب من الجلوس", "يستمتع بالجلوس"],
+          "correct_index": 3,
+          "solution": [
+            {"step": 1, "content": "الأداة: **و** → إضافة"},
+            {"step": 2, "content": "الواضح: \"يحب القراءة\" (إيجابي) → الفراغ إيجابي مشابه → **يستمتع بالجلوس** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q7",
+          "question": "\"على الرغم من ......... صحته، يعمل بنشاط.\"",
+          "options": ["قوة", "نضارة", "تدهور", "تحسّن"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **على الرغم من** → تناقض"},
+            {"step": 2, "content": "الواضح: \"يعمل بنشاط\" (إيجابي) → الفراغ سلبي → **تدهور** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q8",
+          "question": "\"اجتهد طوال السنة، **لهذا** ......... في الامتحان.\"",
+          "options": ["تراجع", "فشل", "تفوّق", "أخفق"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **لهذا** → نتيجة"},
+            {"step": 2, "content": "السبب: \"اجتهد\" (إيجابي) → النتيجة إيجابية → **تفوّق** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q9",
+          "question": "\"النحلة تجمع الرحيق بدأب، **مثلما** النملة .........\"",
+          "options": ["تكسل", "تعمل", "تنام", "تختبئ"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **مثلما** → تشابه"},
+            {"step": 2, "content": "الواضح: \"النحلة تجمع بدأب\" (إيجابي، نشاط) → الفراغ نشاط إيجابي → **تعمل** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q10",
+          "question": "\"كان ......... في الكلام، **غير أنه** سريع في التنفيذ.\"",
+          "options": ["مسرعاً", "متعجلاً", "بطيئاً", "نشيطاً"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **غير أن** → تناقض"},
+            {"step": 2, "content": "الواضح: \"سريع في التنفيذ\" (إيجابي) → الفراغ عكس السرعة → **بطيئاً** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q11",
+          "question": "\"اشترى السيارة الفاخرة **نظراً لـ** ......... المالية.\"",
+          "options": ["ضعف وضعه", "تردّي", "متانة وضعه", "تدنّي"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **نظراً لـ** → سبب"},
+            {"step": 2, "content": "النتيجة: \"اشترى الفاخرة\" (إيجابي، يحتاج مال) → السبب إيجابي مالياً → **متانة وضعه** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q12",
+          "question": "\"الذكي يستثمر وقته، **كذلك** الناجح يحرص على .........\"",
+          "options": ["تضييعه", "إهماله", "تنظيمه", "إهداره"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **كذلك** → تشابه"},
+            {"step": 2, "content": "الواضح: \"يستثمر وقته\" (إيجابي) → الفراغ إيجابي مشابه → **تنظيمه** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q13",
+          "question": "\"كان الجو ممطراً، **من ثمَّ** ......... الرحلة.\"",
+          "options": ["اكتملت", "نجحت", "تأجلت", "انطلقت"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **من ثمَّ** → نتيجة"},
+            {"step": 2, "content": "السبب: \"الجو ممطراً\" (سلبي للرحلة) → النتيجة سلبية → **تأجلت** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q14",
+          "question": "\"عُرف بـ......... قراراته، **إلا أنه** متعمّق في التفكير.\"",
+          "options": ["دقة", "تأمّل", "سرعة", "حكمة"],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "الأداة: **إلا أن** → تناقض"},
+            {"step": 2, "content": "الواضح: \"متعمّق في التفكير\" (إيجابي، يحتاج بطء وتأنّي) → الفراغ سلبي بالمقارنة → **سرعة** ✓ (عادة السرعة تتناقض مع التعمق)"}
+          ]
+        },
+        {
+          "id": "r4_q15",
+          "question": "\"الشمس تنير النهار، **و** القمر ......... الليل.\"",
+          "options": ["يُعتم", "يُضيء", "يُظلم", "يحجب"],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "الأداة: **و** → إضافة"},
+            {"step": 2, "content": "الواضح: \"الشمس تنير\" (إيجابي، إضاءة) → الفراغ إيجابي مشابه → **يُضيء** ✓"}
+          ]
+        }
+      ]
+    }
+  ],
+
+  "butter_summary": [
+    "**أدوات التناقض** (رغم، لكن، إلا أن، بيد أن): الفكرتان متعاكستان — اختر للفراغ عكس الفكرة الواضحة",
+    "**أدوات السبب** (بسبب، لأن، نظراً لـ): الفراغ هو السبب — يتسق مع النتيجة الواضحة",
+    "**أدوات النتيجة** (إذاً، لذلك، فـ، من ثمَّ): الفراغ هو النتيجة — يتسق مع السبب الواضح",
+    "**أدوات التشابه** (كما، مثل، كذلك، مثلما): الفكرتان متشابهتان — اختر كلمة في نفس الاتجاه",
+    "**خريطة الحل:** اقرأ → حدد الأداة → حدد نوع العلاقة → حدد الفكرة الواضحة → اختر بمنطق"
+  ],
+
+  "common_mistakes": [
+    "تجاهل أداة الربط واختيار 'الكلمة الأجمل' — الأداة هي البوصلة",
+    "خلط أداة التناقض (رغم) مع أداة الإضافة (و) — كل واحدة منطق مختلف",
+    "اختيار خيار إيجابي مع 'رغم' لأنه يبدو منطقياً — التناقض يطلب العكس",
+    "عدم قراءة الجملة كاملة قبل الاختيار — السياق يكشف المعنى",
+    "التسرع في الاختيار بدل تحليل الجملة بهدوء"
+  ],
+
+  "comprehensive_exercises": [
+    {
+      "id": "comp_1",
+      "question": "\"رغم ......... المعلم، ظل الطلاب يكررون نفس الأخطاء.\"",
+      "options": ["إهمال", "تقصير", "اجتهاد", "غياب"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **رغم** → تناقض"},
+        {"step": 2, "content": "الواضح: \"يكررون الأخطاء\" (سلبي، فشل تعليمي) → الفراغ إيجابي → **اجتهاد** ✓"}
+      ]
+    },
+    {
+      "id": "comp_2",
+      "question": "\"نجح في الامتحان **بسبب** ......... المسبق.\"",
+      "options": ["إهماله", "تخطيطه", "تأخره", "نسيانه"],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "أداة: **بسبب** → سبب"},
+        {"step": 2, "content": "النتيجة: \"نجح\" (إيجابي) → السبب إيجابي → **تخطيطه** ✓"}
+      ]
+    },
+    {
+      "id": "comp_3",
+      "question": "\"البحر يهب الحياة للسمك، **كذلك** الغابة تهب الحياة لـ.........\"",
+      "options": ["الدمار", "الحيوانات", "الانقراض", "الفناء"],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "أداة: **كذلك** → تشابه"},
+        {"step": 2, "content": "الواضح: \"يهب الحياة\" (إيجابي) → الفراغ إيجابي مشابه → **الحيوانات** ✓"}
+      ]
+    },
+    {
+      "id": "comp_4",
+      "question": "\"تأخر عن المقابلة، **من ثمَّ** ......... الفرصة.\"",
+      "options": ["كسب", "استفاد من", "خسر", "نال"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **من ثمَّ** → نتيجة"},
+        {"step": 2, "content": "السبب: \"تأخر\" (سلبي) → النتيجة سلبية → **خسر** ✓"}
+      ]
+    },
+    {
+      "id": "comp_5",
+      "question": "\"كان ......... في إنفاقه، **بيد أنه** ادّخر مبلغاً كبيراً.\"",
+      "options": ["مقتصداً", "حكيماً", "مسرفاً", "متوازناً"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **بيد أن** → تناقض"},
+        {"step": 2, "content": "الواضح: \"ادّخر مبلغاً كبيراً\" (إيجابي، يدل على اقتصاد) → الفراغ عكس الاقتصاد → **مسرفاً** ✓"}
+      ]
+    },
+    {
+      "id": "comp_6",
+      "question": "\"يحب اللغة العربية، **و** يحب ......... شعرها.\"",
+      "options": ["تجاهل", "نسيان", "حفظ", "تجنّب"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **و** → إضافة"},
+        {"step": 2, "content": "الواضح: \"يحب اللغة\" (إيجابي) → الفراغ إيجابي مشابه → **حفظ** ✓"}
+      ]
+    },
+    {
+      "id": "comp_7",
+      "question": "\"رفض العرض **لأن** الشروط كانت .........\"",
+      "options": ["مناسبة", "ممتازة", "مجحفة", "مغرية"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **لأن** → سبب"},
+        {"step": 2, "content": "النتيجة: \"رفض العرض\" (سلبي) → السبب سلبي → **مجحفة** ✓"}
+      ]
+    },
+    {
+      "id": "comp_8",
+      "question": "\"المثابر يصل إلى هدفه، **مثلما** الصبور يحقق .........\"",
+      "options": ["خسارته", "فشله", "أحلامه", "إخفاقه"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **مثلما** → تشابه"},
+        {"step": 2, "content": "الواضح: \"يصل إلى هدفه\" (إيجابي) → الفراغ إيجابي مشابه → **أحلامه** ✓"}
+      ]
+    },
+    {
+      "id": "comp_9",
+      "question": "\"على الرغم من ......... الموسيقى، استمع إليها بإمعان.\"",
+      "options": ["جمالها", "روعتها", "ضوضائها", "هدوئها"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **على الرغم من** → تناقض"},
+        {"step": 2, "content": "الواضح: \"استمع بإمعان\" (إيجابي، يحتاج تركيز) → الفراغ سلبي → **ضوضائها** ✓"}
+      ]
+    },
+    {
+      "id": "comp_10",
+      "question": "\"لم يستعد للاختبار، **فـ** كانت النتيجة .........\"",
+      "options": ["مشرّفة", "ممتازة", "مخيّبة", "مفاجئة بنجاح"],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "أداة: **فـ** → نتيجة"},
+        {"step": 2, "content": "السبب: \"لم يستعد\" (سلبي) → النتيجة سلبية → **مخيّبة** ✓"}
+      ]
+    }
+  ],
+
+  "final_exam": {
+    "title": "اختبار الدرس الرابع",
+    "duration_minutes": 15,
+    "pass_threshold": 7,
+    "has_timer": true,
+    "questions": [
+      {
+        "id": "exam_1",
+        "question": "\"رغم ......... الطريق، وصل إلى وجهته.\"",
+        "options": ["سهولة", "صعوبة", "قِصَر", "وضوح"],
+        "correct_index": 1,
+        "explanation": "**الأداة:** رغم → **تناقض**\n\n\"وصل إلى وجهته\" (إيجابي، عادةً يحصل إذا الطريق سهل). إذاً نبحث عن كلمة سلبية: **صعوبة** ✓\n\nالخيارات الأخرى كلها إيجابية، لا تخلق تناقض."
+      },
+      {
+        "id": "exam_2",
+        "question": "\"بسبب ......... الكتاب، أعاد قراءته مرات عديدة.\"",
+        "options": ["ضعف", "غموض", "إمتاع", "ركاكة"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** بسبب → **سبب**\n\n\"أعاد قراءته مرات عديدة\" (إيجابي، يدل على إعجاب). إذاً السبب إيجابي: **إمتاع** ✓\n\nالباقي صفات سلبية، لا تدفع لإعادة القراءة."
+      },
+      {
+        "id": "exam_3",
+        "question": "\"الأم تربّي بحنان، **كذلك** المعلم يربّي بـ.........\"",
+        "options": ["قسوة", "إهمال", "صبر", "إهانة"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** كذلك → **تشابه**\n\n\"تربّي بحنان\" (إيجابي). إذاً نبحث عن صفة إيجابية مشابهة: **صبر** ✓\n\nالباقي صفات سلبية، تخلق تناقض مو تشابه."
+      },
+      {
+        "id": "exam_4",
+        "question": "\"اجتهد في عمله، **لذلك** نال .........\"",
+        "options": ["العقاب", "الترقية", "التوبيخ", "الفصل"],
+        "correct_index": 1,
+        "explanation": "**الأداة:** لذلك → **نتيجة**\n\nالسبب: \"اجتهد في عمله\" (إيجابي). إذاً النتيجة إيجابية: **الترقية** ✓\n\nالباقي عواقب سلبية، لا تتسق مع الاجتهاد."
+      },
+      {
+        "id": "exam_5",
+        "question": "\"كان ......... في أقواله، **إلا أنه** كذوب في أفعاله.\"",
+        "options": ["متناقضاً", "مخادعاً", "صادقاً", "مراوغاً"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** إلا أن → **تناقض**\n\nالواضح: \"كذوب في أفعاله\" (سلبي). إذاً الفراغ إيجابي: **صادقاً** ✓\n\nالباقي كلها سلبية، لا تخلق التناقض المطلوب."
+      },
+      {
+        "id": "exam_6",
+        "question": "\"الذكي يستفيد من تجاربه، **و** يستفيد من ......... الآخرين.\"",
+        "options": ["نسيان", "جهل", "أخطاء", "إهمال"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** و → **إضافة**\n\nالواضح: \"يستفيد من تجاربه\" (إيجابي). الإضافة على نفس الخط: \"يستفيد من شي مشابه\". **أخطاء الآخرين** ✓ (الذكي يستفيد منها كدروس).\n\nالباقي لا يُستفاد منها."
+      },
+      {
+        "id": "exam_7",
+        "question": "\"نظراً لـ ......... الموظف، تم ترقيته إلى مدير.\"",
+        "options": ["إهمال", "تقصير", "كفاءة", "تأخر"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** نظراً لـ → **سبب**\n\nالنتيجة: \"تم ترقيته إلى مدير\" (إيجابي). إذاً السبب إيجابي: **كفاءة** ✓\n\nالباقي صفات سلبية، تؤدي للفصل مو الترقية."
+      },
+      {
+        "id": "exam_8",
+        "question": "\"بيد أن العمل كان ........., استمر فيه بحماس.\"",
+        "options": ["مريحاً", "ممتعاً", "شاقاً", "بسيطاً"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** بيد أن → **تناقض**\n\nالواضح: \"استمر بحماس\" (إيجابي، عادةً يحصل في عمل مريح). إذاً الفراغ سلبي: **شاقاً** ✓\n\nالباقي إيجابيات، لا تخلق تناقض."
+      },
+      {
+        "id": "exam_9",
+        "question": "\"كانت محاضرته مفيدة، **مثلما** كانت .........\"",
+        "options": ["مملة", "متعبة", "مشوّقة", "ضعيفة"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** مثلما → **تشابه**\n\nالواضح: \"مفيدة\" (إيجابي). نبحث عن صفة إيجابية مشابهة: **مشوّقة** ✓\n\nالباقي صفات سلبية، تتناقض مو تتشابه."
+      },
+      {
+        "id": "exam_10",
+        "question": "\"كان متهوراً في القيادة، **من ثمَّ** ......... على الطريق.\"",
+        "options": ["نجا", "وصل بأمان", "تعطّل", "فاز"],
+        "correct_index": 2,
+        "explanation": "**الأداة:** من ثمَّ → **نتيجة**\n\nالسبب: \"متهوراً في القيادة\" (سلبي). إذاً النتيجة سلبية: **تعطّل** ✓\n\nالباقي نتائج إيجابية، لا تتسق مع التهور."
+      }
+    ]
+  },
+
+  "next_lesson_id": "lesson_05"
+}
+;
+
+// حماية عامة ضد الضغط المزدوج على نفس الزر
+let isProcessing = false;
+function withGuard(fn){
+  return function(...args){
+    if(isProcessing) return;
+    isProcessing = true;
+    try {
+      fn.apply(this, args);
+    } finally {
+      setTimeout(()=>{ isProcessing = false; }, 150);
+    }
+  };
+}
+
+let state = {
+  currentRuleIdx: 0,
+  currentStepIdx: 0,
+  ruleExerciseIdx: 0,
+  ruleExerciseAnswered: false,
+  ruleExerciseSolutionIdx: 0,
+  compExerciseIdx: 0,
+  compExerciseAnswered: false,
+  compExerciseSolutionIdx: 0,
+  compCorrect: 0,
+  examQuestionIdx: 0,
+  examAnswers: [],
+  examTimerInterval: null,
+  examTimedOut: false,
+  examMistakes: [],
+  stagesCompleted: { lesson:false, comprehensive:false, exam:false }
+};
+
+function md(text){
+  if(!text) return '';
+  return text
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToBottom(){
+  setTimeout(()=>{
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  },80);
+}
+
+function showStage(name){
+  ['intro','lesson','summary','comprehensive','exam-intro','exam','done','mistakes'].forEach(s=>{
+    const el = document.getElementById('stage-'+s);
+    if(el) el.classList.add('hidden');
+  });
+  const target = document.getElementById('stage-'+name);
+  if(target) target.classList.remove('hidden');
+  scrollToTop();
+}
+
+function navigateTo(target){
+  if(target === 'comprehensive' && !state.stagesCompleted.lesson) return;
+  if(target === 'exam' && !state.stagesCompleted.comprehensive) return;
+
+  if(target === 'lesson'){
+    showStage('lesson');
+    setActive('nav-lesson');
+  } else if(target === 'comprehensive'){
+    showStage('comprehensive');
+    setActive('nav-comprehensive');
+    if(state.compExerciseIdx === 0) renderCompExercise();
+  } else if(target === 'exam'){
+    showStage('exam-intro');
+    setActive('nav-exam');
+  }
+}
+
+function setActive(id){
+  document.querySelectorAll('.nav-step').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function init(){
+  document.getElementById('lessonTitle').textContent = LESSON_DATA.title;
+  document.getElementById('lessonSubtitle').textContent = LESSON_DATA.subtitle;
+  document.getElementById('lessonWhy').textContent = LESSON_DATA.why;
+  document.getElementById('lessonDuration').textContent = LESSON_DATA.estimated_minutes;
+  document.getElementById('rulesCount').textContent = LESSON_DATA.rules.length;
+}
+
+function startLesson(){
+  showStage('lesson');
+  setActive('nav-lesson');
+  state.currentRuleIdx = 0;
+  state.currentStepIdx = 0;
+  renderCurrentRule();
+}
+
+function renderCurrentRule(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const container = document.getElementById('currentRuleContainer');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'rule-card';
+  card.innerHTML = `
+    <div class="rule-header">
+      <div class="rule-number">${rule.number}</div>
+      <div>
+        <div class="rule-label">القاعدة ${rule.number} من ${LESSON_DATA.rules.length}</div>
+        <div class="rule-title">${rule.title}</div>
+      </div>
+    </div>
+    <div id="ruleStepsContainer"></div>
+  `;
+  container.appendChild(card);
+
+  state.currentStepIdx = 0;
+  renderRuleStep();
+  scrollToTop();
+}
+
+function renderRuleStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const step = rule.explanation_steps[state.currentStepIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const stepDiv = document.createElement('div');
+  stepDiv.className = 'step-block';
+  stepDiv.innerHTML = `
+    <div class="step-num-row">
+      <div class="step-num">${step.step}</div>
+      <div class="step-title">${step.title}</div>
+    </div>
+    <div class="step-content">${md(step.content)}</div>
+  `;
+  stepsContainer.appendChild(stepDiv);
+
+  const isLastStep = state.currentStepIdx === rule.explanation_steps.length - 1;
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-primary" onclick="advanceRuleStep()">${isLastStep ? 'فهمت — وريني القانون 🧈' : 'فهمت — كمّل ←'}</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function advanceRuleStep(){
+  // مسح كل الأزرار الحية فوراً لمنع الضغط المزدوج
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.currentStepIdx++;
+
+  if(state.currentStepIdx < rule.explanation_steps.length){
+    renderRuleStep();
+  } else {
+    showRuleClosing();
+  }
+}
+
+function showRuleClosing(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض القاعدة الذهبية (بارزة بصرياً)
+  const goldenDiv = document.createElement('div');
+  goldenDiv.className = 'golden-rule';
+  goldenDiv.id = 'goldenRuleBox';
+  goldenDiv.innerHTML = `
+    <div class="label">🌟 القاعدة الذهبية</div>
+    <div class="text">${rule.golden_law}</div>
+  `;
+  stepsContainer.appendChild(goldenDiv);
+
+  // زر الانتقال للتمارين مباشرة (بدون كتابة باليد)
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-butter" onclick="afterGoldenRule()">فهمت — يلا تمارين ←</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function afterGoldenRule(){
+  // مسح زر "فهمت" بعد الضغط
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض تنبيه الخطأ الشائع
+  const mistakeDiv = document.createElement('div');
+  mistakeDiv.className = 'mistake-box';
+  mistakeDiv.innerHTML = `
+    <div class="label">⚠️ احذر — الخطأ الشائع</div>
+    <div class="text">${rule.common_mistake}</div>
+  `;
+  stepsContainer.appendChild(mistakeDiv);
+
+  // بدء التمارين الفورية
+  state.ruleExerciseIdx = 0;
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+  renderRuleExercise();
+  scrollToBottom();
+}
+
+function renderRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  const oldEx = stepsContainer.querySelector('.exercise-box');
+  if(oldEx) oldEx.remove();
+
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+
+  const exDiv = document.createElement('div');
+  exDiv.className = 'exercise-box';
+  exDiv.id = 'currentExerciseBox';
+  exDiv.innerHTML = `
+    <div class="ex-label">تطبيق سريع</div>
+    <div class="ex-counter">تمرين ${state.ruleExerciseIdx + 1} من ${rule.quick_exercises.length}</div>
+    <div class="question math-expr">${ex.question}</div>
+    <div class="options" id="currentRuleOpts">
+      ${ex.options.map((opt,i)=>`<button class="option math-expr" data-idx="${i}" onclick="answerRuleExercise(${i})">${opt}</button>`).join('')}
+    </div>
+    <div class="feedback" id="currentRuleFeedback"></div>
+    <div class="solution-block" id="currentRuleSolution"></div>
+  `;
+  stepsContainer.appendChild(exDiv);
+  scrollToBottom();
+}
+
+function answerRuleExercise(idx){
+  if(state.ruleExerciseAnswered) return;
+  state.ruleExerciseAnswered = true;
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+
+  const buttons = document.querySelectorAll('#currentRuleOpts .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('currentRuleFeedback');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح — للزبدة 🧈' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  if(idx === ex.correct_index){
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showRuleSolution()">عطني الزبدة 🧈</button>
+      </div>
+    `;
+  }
+  scrollToBottom();
+}
+
+function showRuleSolution(){
+  state.ruleExerciseSolutionIdx = 0;
+  document.getElementById('currentRuleFeedback').classList.remove('show');
+  const sol = document.getElementById('currentRuleSolution');
+  sol.innerHTML = '';
+  sol.classList.add('show');
+  renderRuleSolutionStep();
+}
+
+function renderRuleSolutionStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const sol = document.getElementById('currentRuleSolution');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح ←' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.ruleExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    scrollToBottom();
+    return;
+  }
+
+  const step = ex.solution[state.ruleExerciseSolutionIdx];
+  const isLastSolutionStep = state.ruleExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceRuleSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+  scrollToBottom();
+}
+
+function advanceRuleSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('currentRuleSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.ruleExerciseSolutionIdx++;
+  renderRuleSolutionStep();
+}
+
+function nextRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.ruleExerciseIdx++;
+
+  if(state.ruleExerciseIdx >= rule.quick_exercises.length){
+    state.currentRuleIdx++;
+
+    if(state.currentRuleIdx >= LESSON_DATA.rules.length){
+      finishLessonExplain();
+    } else {
+      renderCurrentRule();
+    }
+  } else {
+    renderRuleExercise();
+  }
+}
+
+function finishLessonExplain(){
+  state.stagesCompleted.lesson = true;
+
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = LESSON_DATA.butter_summary.map(item=>`<li>${md(item)}</li>`).join('');
+
+  const mistakesList = document.getElementById('mistakesList');
+  mistakesList.innerHTML = LESSON_DATA.common_mistakes.map(m=>`<li style="padding:10px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:var(--dark-soft);line-height:1.7">• ${m}</li>`).join('');
+
+  document.getElementById('nav-lesson').classList.add('completed');
+  document.getElementById('nav-comprehensive').classList.remove('locked');
+
+  showStage('summary');
+}
+
+function goToComprehensive(){
+  showStage('comprehensive');
+  setActive('nav-comprehensive');
+  state.compExerciseIdx = 0;
+  state.compCorrect = 0;
+  renderCompExercise();
+}
+
+function renderCompExercise(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  state.compExerciseAnswered = false;
+  state.compExerciseSolutionIdx = 0;
+
+  const dots = document.getElementById('compDots');
+  dots.innerHTML = '';
+  LESSON_DATA.comprehensive_exercises.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < state.compExerciseIdx ? ' done' : (i === state.compExerciseIdx ? ' current' : ''));
+    dots.appendChild(d);
+  });
+
+  document.getElementById('compCounter').textContent = `تمرين شامل ${state.compExerciseIdx + 1} من ${LESSON_DATA.comprehensive_exercises.length}`;
+  document.getElementById('compQuestion').innerHTML = `<span class="math-expr">${ex.question}</span>`;
+
+  const opts = document.getElementById('compOptions');
+  opts.innerHTML = '';
+  ex.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerCompExercise(i);
+    opts.appendChild(b);
+  });
+
+  document.getElementById('compFeedback').className = 'feedback';
+  document.getElementById('compFeedback').innerHTML = '';
+  document.getElementById('compSolution').className = 'solution-block';
+  document.getElementById('compSolution').innerHTML = '';
+  scrollToTop();
+}
+
+function answerCompExercise(idx){
+  if(state.compExerciseAnswered) return;
+  state.compExerciseAnswered = true;
+
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const buttons = document.querySelectorAll('#compOptions .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('compFeedback');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  if(idx === ex.correct_index){
+    state.compCorrect++;
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت من التمارين 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showCompSolution()">عطني الزبدة 🧈</button>
+        <button class="btn btn-ghost" onclick="nextCompExercise()">تخطي</button>
+      </div>
+    `;
+  }
+}
+
+function showCompSolution(){
+  state.compExerciseSolutionIdx = 0;
+  document.getElementById('compFeedback').classList.remove('show');
+  document.getElementById('compSolution').innerHTML = '';
+  document.getElementById('compSolution').classList.add('show');
+  renderCompSolutionStep();
+}
+
+function renderCompSolutionStep(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const sol = document.getElementById('compSolution');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.compExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    return;
+  }
+
+  const step = ex.solution[state.compExerciseSolutionIdx];
+  const isLastSolutionStep = state.compExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceCompSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+}
+
+function advanceCompSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('compSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.compExerciseSolutionIdx++;
+  renderCompSolutionStep();
+}
+
+function nextCompExercise(){
+  state.compExerciseIdx++;
+  if(state.compExerciseIdx >= LESSON_DATA.comprehensive_exercises.length){
+    state.stagesCompleted.comprehensive = true;
+    document.getElementById('nav-comprehensive').classList.add('completed');
+    document.getElementById('nav-exam').classList.remove('locked');
+    showStage('exam-intro');
+    setActive('nav-exam');
+  } else {
+    renderCompExercise();
+  }
+}
+
+function startExam(){
+  state.examQuestionIdx = 0;
+  state.examAnswers = [];
+  state.examTimedOut = false;
+  showStage('exam');
+  startExamTimer();
+  renderExamQuestion();
+}
+
+function startExamTimer(){
+  // فحص إذا كان الاختبار يحتوي على Timer
+  if(!LESSON_DATA.final_exam.has_timer) return;
+
+  const durationMinutes = LESSON_DATA.final_exam.duration_minutes || 15;
+  let remainingSeconds = durationMinutes * 60;
+
+  // إنشاء عنصر Timer
+  const examScreen = document.getElementById('stage-exam');
+  let timerEl = document.getElementById('examTimer');
+  if(!timerEl){
+    timerEl = document.createElement('div');
+    timerEl.id = 'examTimer';
+    timerEl.className = 'exam-timer';
+    // إضافة الـ Timer في بداية أول card داخل stage-exam
+    const firstCard = examScreen.querySelector('.card');
+    if(firstCard){
+      firstCard.insertBefore(timerEl, firstCard.firstChild);
+    } else {
+      examScreen.insertBefore(timerEl, examScreen.firstChild);
+    }
+  }
+
+  function updateTimer(){
+    const mins = Math.floor(remainingSeconds / 60);
+    const secs = remainingSeconds % 60;
+    timerEl.textContent = `⏱️ متبقي: ${mins}:${secs.toString().padStart(2,'0')}`;
+
+    // تحذير برتقالي عند 3 دقائق
+    if(remainingSeconds <= 180 && remainingSeconds > 60){
+      timerEl.className = 'exam-timer warning';
+    }
+    // خطر أحمر عند دقيقة واحدة
+    else if(remainingSeconds <= 60){
+      timerEl.className = 'exam-timer danger';
+    }
+    else {
+      timerEl.className = 'exam-timer';
+    }
+
+    if(remainingSeconds <= 0){
+      clearInterval(state.examTimerInterval);
+      state.examTimedOut = true;
+      // عند انتهاء الوقت: إنهاء الاختبار تلقائياً
+      // ملء الإجابات الباقية كخاطئة
+      while(state.examAnswers.length < LESSON_DATA.final_exam.questions.length){
+        state.examAnswers.push(-1);
+      }
+      finishExam();
+      return;
+    }
+    remainingSeconds--;
+  }
+
+  updateTimer(); // عرض فوري
+  state.examTimerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopExamTimer(){
+  if(state.examTimerInterval){
+    clearInterval(state.examTimerInterval);
+    state.examTimerInterval = null;
+  }
+}
+
+function renderExamQuestion(){
+  const q = LESSON_DATA.final_exam.questions[state.examQuestionIdx];
+  document.getElementById('examCounter').textContent = `السؤال ${state.examQuestionIdx + 1} من ${LESSON_DATA.final_exam.questions.length}`;
+  document.getElementById('examQuestion').innerHTML = `<span class="math-expr">${q.question}</span>`;
+
+  const opts = document.getElementById('examOptions');
+  opts.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerExamQuestion(i);
+    opts.appendChild(b);
+  });
+  scrollToTop();
+}
+
+function answerExamQuestion(idx){
+  state.examAnswers.push(idx);
+  state.examQuestionIdx++;
+  if(state.examQuestionIdx >= LESSON_DATA.final_exam.questions.length){
+    finishExam();
+  } else {
+    renderExamQuestion();
+  }
+}
+
+function finishExam(){
+  stopExamTimer();
+
+  let correct = 0;
+  const mistakes = [];
+  LESSON_DATA.final_exam.questions.forEach((q,i)=>{
+    if(state.examAnswers[i] === q.correct_index){
+      correct++;
+    } else {
+      mistakes.push({
+        questionIdx: i,
+        question: q,
+        userAnswer: state.examAnswers[i]
+      });
+    }
+  });
+
+  state.examMistakes = mistakes;
+
+  const total = LESSON_DATA.final_exam.questions.length;
+  state.stagesCompleted.exam = true;
+  const passed = correct >= LESSON_DATA.final_exam.pass_threshold;
+
+  // عنوان النتيجة
+  let titleText = '';
+  if(state.examTimedOut){
+    titleText = '⏰ انتهى الوقت!';
+  } else if(passed){
+    titleText = '🎉 نجحت!';
+  } else {
+    titleText = '💪 تحتاج مراجعة';
+  }
+  document.getElementById('doneTitle').textContent = titleText;
+  document.getElementById('doneScore').textContent = `${correct}/${total}`;
+
+  // رسالة النتيجة
+  let msg = '';
+  const lessonNum = LESSON_DATA.order;
+  const remaining = 18 - lessonNum;
+  if(state.examTimedOut){
+    msg = `انتهى الوقت قبل ما تخلص. تحتاج تتدرّب أكثر على السرعة. راجع الدرس وأعد المحاولة.`;
+  } else if(correct === total){
+    msg = `نتيجة كاملة! إتقان تام للدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else if(passed){
+    msg = `أحسنت — نجحت في اختبار الدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else {
+    msg = 'لا بأس — راجع الشرح مرة ثانية، وأعد الاختبار. التمكّن خير من السرعة.';
+  }
+  document.getElementById('doneMsg').textContent = msg;
+
+  // بناء الأزرار: لو فيه أخطاء، يظهر زر "شوف أخطاءك"
+  const actionsDiv = document.getElementById('doneActions');
+  actionsDiv.innerHTML = '';
+
+  if(mistakes.length > 0){
+    const reviewBtn = document.createElement('button');
+    reviewBtn.className = 'btn btn-butter';
+    reviewBtn.textContent = `⚠️ شوف أخطاءك (${mistakes.length})`;
+    reviewBtn.onclick = ()=>showMistakesReview();
+    actionsDiv.appendChild(reviewBtn);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-ghost';
+    nextBtn.textContent = 'تخطّى للدرس التالي ←';
+    nextBtn.style.marginRight = '10px';
+    nextBtn.onclick = ()=>location.reload();
+    actionsDiv.appendChild(nextBtn);
+  } else {
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-butter';
+    nextBtn.textContent = 'الدرس التالي ←';
+    nextBtn.onclick = ()=>location.reload();
+    actionsDiv.appendChild(nextBtn);
+  }
+
+  showStage('done');
+}
+
+function showMistakesReview(){
+  const mistakes = state.examMistakes || [];
+  const total = LESSON_DATA.final_exam.questions.length;
+
+  document.getElementById('mistakesCounter').textContent =
+    `أخطأت في ${mistakes.length} من ${total}. لا تستعجل، اقرأ كل شرح بهدوء.`;
+
+  const list = document.getElementById('mistakesList');
+  list.innerHTML = '';
+
+  mistakes.forEach((m,idx)=>{
+    const q = m.question;
+    const userAnswerText = m.userAnswer >= 0
+      ? q.options[m.userAnswer]
+      : '(لم تجب — انتهى الوقت)';
+    const correctText = q.options[q.correct_index];
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px;animation:slideUp .3s ease';
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:32px;height:32px;background:var(--red-bg);color:var(--red);border-radius:50%;display:grid;place-items:center;font-weight:700;flex-shrink:0">${m.questionIdx + 1}</div>
+        <div style="font-weight:600;font-size:15px;color:var(--dark);line-height:1.6" class="math-expr">${q.question}</div>
+      </div>
+
+      <div style="background:var(--red-bg);border-right:3px solid var(--red);padding:10px 14px;border-radius:8px;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:4px">❌ إجابتك</div>
+        <div class="math-expr" style="font-size:14px;color:var(--dark-soft)">${userAnswerText}</div>
+      </div>
+
+      <div style="background:var(--green-bg);border-right:3px solid var(--green);padding:10px 14px;border-radius:8px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px">✅ الصحيحة</div>
+        <div class="math-expr" style="font-size:14px;color:var(--dark)">${correctText}</div>
+      </div>
+
+      <div style="background:var(--butter-glow);border-right:3px solid var(--butter-deep);padding:12px 14px;border-radius:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--butter-deep);margin-bottom:6px">💡 السبب</div>
+        <div style="font-size:14px;color:var(--dark-soft);line-height:1.8" class="math-expr">${md(q.explanation || 'لا يوجد شرح متاح')}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  showStage('mistakes');
+}
+
+init();
+</script>
+</body>
+</html>

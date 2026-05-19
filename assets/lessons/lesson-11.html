@@ -1,0 +1,1891 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧈 زبدة — الدرس الحادي عشر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --butter:#F5C842;
+    --butter-soft:#FBE197;
+    --butter-deep:#E0A800;
+    --butter-glow:#FFF4D6;
+    --cream:#FFFBF0;
+    --cream-warm:#FFF7E0;
+    --dark:#1C0F00;
+    --dark-soft:#3a2a14;
+    --muted:#7a6852;
+    --line:#EADFC4;
+    --green:#2E8B57;
+    --green-bg:#E8F5EC;
+    --red:#C0392B;
+    --red-bg:#FCEAE7;
+    --blue:#3B82F6;
+    --blue-bg:#EFF6FF;
+    --shadow-sm:0 2px 8px rgba(28,15,0,.06);
+    --shadow:0 6px 24px rgba(28,15,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{
+    background:var(--cream);
+    color:var(--dark);
+    font-family:'IBM Plex Sans Arabic',sans-serif;
+    font-weight:400;
+    line-height:1.8;
+    -webkit-font-smoothing:antialiased;
+    font-size:16px;
+  }
+  body{padding:20px 14px;min-height:100vh}
+  .stage{max-width:760px;margin:0 auto}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding:0 4px}
+  .brand{font-weight:700;font-size:22px;display:flex;align-items:center;gap:10px}
+  .brand .logo{width:36px;height:36px;background:var(--butter);border-radius:11px;display:grid;place-items:center;font-size:20px;box-shadow:0 4px 14px rgba(245,200,66,.5)}
+  .lesson-meta{color:var(--muted);font-size:13px;font-weight:500}
+
+  .nav-bar{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;display:flex;gap:8px;margin-bottom:20px;box-shadow:var(--shadow-sm)}
+  .nav-step{flex:1;padding:10px 14px;border-radius:11px;text-align:center;font-size:13px;font-weight:600;color:var(--muted);background:transparent;border:none;cursor:pointer;transition:all .25s ease;display:flex;align-items:center;justify-content:center;gap:6px;font-family:inherit}
+  .nav-step:hover:not(.locked){background:var(--cream-warm)}
+  .nav-step.active{background:var(--dark);color:var(--butter)}
+  .nav-step.completed{color:var(--green)}
+  .nav-step.completed::before{content:"✓ ";font-weight:700}
+  .nav-step.locked{color:#bbb;cursor:not-allowed}
+  .nav-step.locked::before{content:"🔒 "}
+
+  .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:32px 28px;box-shadow:var(--shadow);margin-bottom:18px;position:relative}
+
+  .intro-card{background:linear-gradient(140deg,#fff 0%,var(--butter-glow) 100%);overflow:hidden;position:relative}
+  .intro-card::before{content:"";position:absolute;top:-40px;right:-40px;width:180px;height:180px;background:radial-gradient(circle,var(--butter-soft) 0%,transparent 70%);opacity:.5}
+  .chapter-tag{display:inline-block;font-size:12px;font-weight:700;color:var(--butter-deep);background:var(--butter-glow);border:1px solid var(--butter-soft);padding:6px 14px;border-radius:99px;letter-spacing:.3px;margin-bottom:18px;position:relative;z-index:1}
+  .intro-card h1{font-weight:700;font-size:30px;line-height:1.3;color:var(--dark);margin-bottom:12px;position:relative;z-index:1}
+  .intro-card .subtitle{font-size:15px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .intro-card .why-box{background:rgba(255,255,255,.7);border-right:4px solid var(--butter);padding:16px 18px;border-radius:10px;font-size:15px;line-height:1.85;color:var(--dark-soft);margin-bottom:22px;position:relative;z-index:1}
+  .intro-card .meta-row{display:flex;gap:18px;color:var(--muted);font-size:13px;margin-bottom:22px;position:relative;z-index:1;flex-wrap:wrap}
+
+  .rule-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px 26px;margin-bottom:16px;box-shadow:var(--shadow-sm);animation:slideUp .4s ease}
+  @keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  .rule-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+  .rule-number{width:42px;height:42px;background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;flex-shrink:0;box-shadow:0 4px 12px rgba(245,200,66,.4)}
+  .rule-label{font-size:11px;font-weight:600;color:var(--butter-deep);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px}
+  .rule-title{font-weight:700;font-size:21px;color:var(--dark);line-height:1.4}
+
+  .step-block{background:var(--cream-warm);border-radius:14px;padding:20px 22px;margin-bottom:14px}
+  .step-num-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .step-num{width:28px;height:28px;background:var(--butter);color:var(--dark);border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:14px;flex-shrink:0}
+  .step-title{font-weight:600;font-size:16px;color:var(--dark)}
+  .step-content{font-size:15.5px;line-height:1.9;color:var(--dark-soft);padding-right:38px}
+  .step-content strong{color:var(--dark);font-weight:600}
+
+  .write-prompt{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:20px;padding:28px 24px;margin:18px 0;text-align:center;box-shadow:0 8px 24px rgba(245,200,66,.4);position:relative;overflow:hidden;animation:slideUp .4s ease}
+  .write-prompt .write-icon{font-size:38px;margin-bottom:8px}
+  .write-prompt .write-headline{font-weight:700;font-size:17px;margin-bottom:14px;color:var(--dark)}
+  .write-prompt .write-content{background:rgba(255,255,255,.9);border:2px dashed var(--dark);border-radius:14px;padding:18px 16px;margin:14px 0;font-weight:600;font-size:18px;color:var(--dark);line-height:1.6}
+  .write-prompt .write-instruction{font-size:14px;color:var(--dark-soft);margin-bottom:18px;font-weight:500}
+
+  .mistake-box{background:var(--red-bg);border-right:4px solid var(--red);border-radius:12px;padding:14px 18px;margin:14px 0}
+  .mistake-box .label{font-weight:700;color:var(--red);font-size:13px;margin-bottom:6px}
+  .mistake-box .text{font-size:14px;color:var(--dark-soft);line-height:1.7}
+
+  .exercise-box{background:var(--blue-bg);border:1px solid #BFDBFE;border-radius:16px;padding:22px 20px;margin-top:18px}
+  .exercise-box .ex-label{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+  .exercise-box .ex-counter{color:var(--muted);font-weight:500;font-size:13px;margin-bottom:14px}
+  .exercise-box .question{font-weight:600;font-size:18px;color:var(--dark);margin-bottom:18px;line-height:1.6;text-align:center;padding:14px;background:#fff;border-radius:10px;unicode-bidi:plaintext}
+  .options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+  @media (max-width:480px){.options{grid-template-columns:1fr}}
+  .option{background:#fff;border:2px solid var(--line);border-radius:12px;padding:14px 16px;font-family:inherit;font-weight:600;font-size:16px;color:var(--dark);cursor:pointer;transition:all .2s ease;text-align:center}
+  .option:hover:not(.locked){border-color:var(--butter);transform:translateY(-2px);box-shadow:var(--shadow-sm)}
+  .option.correct{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+  .option.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red)}
+  .option.locked{cursor:not-allowed;opacity:.5}
+  .option.locked.correct{opacity:1}
+  .option.locked.wrong{opacity:1}
+
+  .feedback{margin-top:14px;padding:14px 16px;border-radius:12px;font-size:14px;line-height:1.7;display:none}
+  .feedback.show{display:block;animation:slideUp .3s ease}
+  .feedback.success{background:var(--green-bg);color:var(--green);border-right:4px solid var(--green)}
+  .feedback.error{background:var(--red-bg);color:var(--red);border-right:4px solid var(--red)}
+
+  .solution-block{margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;display:none}
+  .solution-block.show{display:block;animation:slideUp .3s ease}
+  .sol-step{padding:16px 20px;border-bottom:1px dashed var(--line)}
+  .sol-step:last-child{border-bottom:none}
+  .sol-step-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .sol-step-num{width:24px;height:24px;background:var(--butter);color:var(--dark);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:12px}
+  .sol-step-label{font-weight:700;font-size:12px;color:var(--butter-deep);letter-spacing:.5px}
+  .sol-step-content{font-size:14.5px;line-height:1.85;color:var(--dark-soft);padding-right:34px}
+
+  .btn{font-family:inherit;font-weight:600;border:none;border-radius:13px;padding:13px 26px;font-size:15px;cursor:pointer;transition:all .2s ease;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+  .btn-primary{background:var(--dark);color:var(--butter)}
+  .btn-primary:hover{background:#000;transform:translateY(-2px)}
+  .btn-butter{background:var(--butter);color:var(--dark);box-shadow:0 4px 14px rgba(245,200,66,.4)}
+  .btn-butter:hover{background:var(--butter-deep);transform:translateY(-2px);box-shadow:0 6px 18px rgba(245,200,66,.5)}
+  .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .btn-ghost:hover{color:var(--dark);border-color:var(--dark)}
+  .btn-block{width:100%}
+  .btn-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+  .btn-row.center{justify-content:center}
+
+  .golden-rule{background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);color:var(--dark);border-radius:14px;padding:18px 22px;margin:14px 0;box-shadow:0 6px 18px rgba(245,200,66,.35)}
+  .golden-rule .label{font-size:11px;font-weight:700;letter-spacing:1px;opacity:.7;margin-bottom:4px}
+  .golden-rule .text{font-weight:700;font-size:16px;line-height:1.5}
+
+  .butter-summary{background:linear-gradient(140deg,var(--butter-glow) 0%,#FFF9E0 100%);border:2px solid var(--butter-soft);border-radius:22px;padding:28px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+  .butter-summary h2{font-weight:700;font-size:22px;margin-bottom:6px;color:var(--dark);position:relative;z-index:1}
+  .butter-summary .subtitle{font-size:13px;color:var(--muted);margin-bottom:18px;position:relative;z-index:1}
+  .butter-summary ul{list-style:none;position:relative;z-index:1}
+  .butter-summary li{padding:10px 0;border-bottom:1px dashed var(--butter-soft);font-size:15px;color:var(--dark-soft);line-height:1.7}
+  .butter-summary li:last-child{border-bottom:none}
+  .butter-summary li strong{color:var(--dark);font-weight:700}
+
+  .progress-dots{display:flex;justify-content:center;gap:7px;margin-bottom:16px}
+  .dot{width:32px;height:6px;background:var(--line);border-radius:99px;transition:background .3s ease}
+  .dot.done{background:var(--butter)}
+  .dot.current{background:var(--dark)}
+
+  .exam-header{text-align:center;margin-bottom:20px}
+  .exam-header h2{font-weight:700;font-size:24px;margin-bottom:6px}
+  .exam-warning{background:#FEF3C7;border-right:4px solid #D97706;padding:14px 18px;border-radius:12px;font-size:14px;color:#92400E;line-height:1.7;margin-bottom:18px}
+  .exam-question-num{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px}
+
+  .completion{text-align:center;padding:40px 20px}
+  .completion .big-emoji{font-size:80px;margin-bottom:12px;display:block}
+  .completion h2{font-weight:700;font-size:30px;margin-bottom:10px}
+  .completion .score{font-weight:700;font-size:54px;color:var(--butter-deep);margin:14px 0}
+  .completion .msg{color:var(--muted);font-size:16px;margin-bottom:24px;line-height:1.7}
+
+  .hidden{display:none !important}
+  .math-expr{unicode-bidi:plaintext}
+
+  /* منطقة الفيديو الافتتاحي */
+  .video-intro{
+    background:rgba(255,255,255,.85);
+    border:1px solid var(--butter-soft);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:18px;
+    position:relative;
+    z-index:1;
+  }
+  .video-intro .video-label{
+    font-size:13px;
+    font-weight:600;
+    color:var(--butter-deep);
+    margin-bottom:10px;
+    text-align:center;
+  }
+  .video-wrapper{
+    position:relative;
+    padding-bottom:56.25%;
+    height:0;
+    overflow:hidden;
+    border-radius:10px;
+    background:var(--dark);
+  }
+  .video-wrapper iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    border:0;
+    border-radius:10px;
+  }
+
+  /* مؤقّت الاختبار */
+  .exam-timer{
+    position:sticky;
+    top:10px;
+    background:linear-gradient(135deg,var(--butter) 0%,var(--butter-deep) 100%);
+    color:var(--dark);
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+    font-size:16px;
+    text-align:center;
+    box-shadow:0 4px 14px rgba(245,200,66,.4);
+    margin-bottom:16px;
+    z-index:10;
+  }
+  .exam-timer.warning{
+    background:linear-gradient(135deg,#FFA500 0%,#FF7700 100%);
+    color:#fff;
+    animation:pulse 1s infinite;
+  }
+  .exam-timer.danger{
+    background:linear-gradient(135deg,var(--red) 0%,#8B0000 100%);
+    color:#fff;
+    animation:pulse 0.5s infinite;
+  }
+  @keyframes pulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.03)}
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo">🧈</div>
+      <span>زبدة</span>
+    </div>
+    <div class="lesson-meta">الدرس 11 من 18</div>
+  </div>
+
+  <div class="nav-bar">
+    <button class="nav-step active" id="nav-lesson" onclick="navigateTo('lesson')">الشرح</button>
+    <button class="nav-step locked" id="nav-comprehensive" onclick="navigateTo('comprehensive')">التمارين</button>
+    <button class="nav-step locked" id="nav-exam" onclick="navigateTo('exam')">الاختبار</button>
+  </div>
+
+  <section id="stage-intro">
+    <div class="card intro-card">
+      <span class="chapter-tag">الباب صفر — مهارات قبل التأسيس</span>
+      <h1 id="lessonTitle">العمليات الحسابية على الأعداد الكبيرة</h1>
+      <p class="subtitle" id="lessonSubtitle">أول خطوة في رحلة تأسيس الكمي</p>
+      <div class="meta-row">
+        <span>⏱️ <span id="lessonDuration">45</span> دقيقة</span>
+        <span>📚 <span id="rulesCount">8</span> قواعد</span>
+        <span>📝 41 سؤال</span>
+      </div>
+      <div class="why-box" id="lessonWhy">—</div>
+
+      <!-- منطقة الفيديو الافتتاحي -->
+      <div class="video-intro" id="videoIntroBox">
+        <div class="video-label">🎬 شاهد المقدمة (٢ دقيقة)</div>
+        <div class="video-wrapper">
+          <iframe id="introVideo" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startLesson()">يلا نبدأ ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-lesson" class="hidden">
+    <div id="currentRuleContainer"></div>
+  </section>
+
+  <section id="stage-summary" class="hidden">
+    <div class="butter-summary">
+      <h2>🧈 الزبدة المركّزة</h2>
+      <p class="subtitle">ملخص الدرس كاملاً في مكان واحد — احفظه</p>
+      <ul id="summaryList"></ul>
+    </div>
+    <div class="card">
+      <h3 style="font-weight:700;font-size:18px;color:var(--red);margin-bottom:14px">⚠️ الأخطاء الشائعة</h3>
+      <ul id="mistakesList" style="list-style:none"></ul>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="goToComprehensive()">جاهز للتمارين الشاملة ←</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-comprehensive" class="hidden">
+    <div class="card">
+      <div class="progress-dots" id="compDots"></div>
+      <div id="compCounter" style="text-align:center;margin-bottom:14px;color:var(--muted);font-size:13px;font-weight:600"></div>
+      <div id="compQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:18px;text-align:center;padding:18px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="compOptions"></div>
+      <div class="feedback" id="compFeedback"></div>
+      <div class="solution-block" id="compSolution"></div>
+    </div>
+  </section>
+
+  <section id="stage-exam-intro" class="hidden">
+    <div class="card">
+      <div class="exam-header">
+        <h2>✅ اختبار الدرس</h2>
+        <p style="color:var(--muted)">حان وقت اختبار نفسك</p>
+      </div>
+      <div class="exam-warning">
+        ⚠️ <strong>تنبيه:</strong> هذا اختبار جدّي. لن تستطيع الرجوع للشرح أثناء الاختبار، ولن يكون عندك زر "عطني الزبدة". اعتمد على نفسك.
+        <br><br>
+        🎯 <strong>الهدف:</strong> 5 من 7 إجابات صحيحة على الأقل لاجتياز الاختبار.
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-butter btn-block" onclick="startExam()">بسم الله — ابدأ الاختبار</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-exam" class="hidden">
+    <div class="card">
+      <div class="exam-question-num" id="examCounter"></div>
+      <div id="examQuestion" style="font-weight:600;font-size:19px;color:var(--dark);margin-bottom:20px;text-align:center;padding:20px;background:var(--cream-warm);border-radius:12px;unicode-bidi:plaintext"></div>
+      <div class="options" id="examOptions"></div>
+    </div>
+  </section>
+
+  <section id="stage-done" class="hidden">
+    <div class="card">
+      <div class="completion">
+        <span class="big-emoji">🧈</span>
+        <h2 id="doneTitle">أحسنت!</h2>
+        <div class="score" id="doneScore">7/7</div>
+        <p class="msg" id="doneMsg">خلصت أول درس في زبدة. باقي 17 درس وأنت في الطريق.</p>
+        <div id="doneActions">
+          <button class="btn btn-butter" onclick="location.reload()">الدرس التالي ←</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stage-mistakes" class="hidden">
+    <div class="card">
+      <h2 style="font-weight:700;font-size:22px;color:var(--dark);margin-bottom:8px;text-align:center">⚠️ مراجعة أخطاءك</h2>
+      <p style="color:var(--muted);font-size:14px;text-align:center;margin-bottom:20px" id="mistakesCounter">—</p>
+      <div id="mistakesList"></div>
+      <div class="btn-row center" style="margin-top:20px">
+        <button class="btn btn-butter" onclick="location.reload()">فهمت — الدرس التالي ←</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const LESSON_DATA = {
+  "id": "lesson_11",
+  "chapter": "fifth",
+  "chapter_title": "استيعاب المقروء",
+  "chapter_color": "#F97316",
+  "order": 11,
+  "title": "التطبيق الشامل + اختبار الباب",
+  "subtitle": "محاكاة كاملة لجزء استيعاب المقروء في قياس",
+  "why": "في الدرسين السابقين تعلّمت كل ما يخص استيعاب المقروء: الأساسيات والمتقدّم. الحين وقت الحقيقة. هذا الدرس محاكاة شبه كاملة لجزء استيعاب المقروء في قياس: ٤ نصوص متنوعة الأطوال، ٢٠ سؤال، تحت ضغط الوقت. اعتبره بروفة نهائية قبل الاختبار الحقيقي.",
+  "video_url": "https://www.youtube.com/embed/PLACEHOLDER_VIDEO_ID?rel=0&modestbranding=1",
+  "estimated_minutes": 60,
+
+  "rules": [
+    {
+      "id": "rule_1",
+      "number": 1,
+      "title": "نص علمي + ٥ أسئلة",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "النص الأول — علمي",
+          "content": "**اقرأ النص بعناية:**\n\n> اكتُشف 'الجهاز اللمفاوي' في الدماغ عام ٢٠١٥، وهو اكتشاف غيّر فهمنا للأعصاب جذرياً. فقد ظنّ العلماء لعقود أن الدماغ ليس له نظام لتصريف الفضلات كباقي أعضاء الجسم، لكن باحثين من جامعة فيرجينيا أثبتوا وجود شبكة دقيقة من القنوات اللمفاوية تُخلّص الدماغ من البروتينات الضارّة أثناء النوم.\n>\n> ولعلّ ما يلفت في هذا الاكتشاف، أنّه كشف العلاقة بين قلّة النوم والأمراض العصبية كالزهايمر. فحين لا ينام الإنسان بكفاية، تتراكم البروتينات السامّة في الدماغ، مما يُمهّد لتطوّر المرض. وقد أثبتت دراسات لاحقة أن النوم العميق ليس مجرّد راحة، بل **عملية تنظيف دماغية ضرورية**.\n>\n> غير أنّ الاكتشاف يطرح سؤالاً مُحرجاً للطب الحديث: كيف فاتنا اكتشاف نظام بهذي الأهمية حتى عام ٢٠١٥؟ الإجابة، كما يقول الباحثون، تكشف عن **حدود افتراضاتنا**؛ فقد كنّا نبحث عن الجهاز اللمفاوي في الأماكن المعتادة، ولم نتوقّع وجوده في الدماغ، فلم نَره."
+        },
+        {
+          "step": 2,
+          "title": "كيف تتعامل مع هذا النص؟",
+          "content": "**استراتيجية الحل:**\n\n١. **اقرأ النص كاملاً مرة واحدة** (دقيقة)\n\n٢. **حدّد الفكرة الرئيسية:**\n   - اكتشاف الجهاز اللمفاوي في الدماغ وأهميته\n\n٣. **حدّد النقاط الفرعية:**\n   - تاريخ الاكتشاف: ٢٠١٥\n   - الوظيفة: تصريف البروتينات الضارّة\n   - العلاقة بالنوم والزهايمر\n   - الدرس: حدود افتراضاتنا\n\n٤. **انتقل للأسئلة** مع الرجوع للنص عند الحاجة"
+        },
+        {
+          "step": 3,
+          "title": "تنبيهات قبل البدء",
+          "content": "**انتبه لـ ٣ نقاط:**\n\n🔹 **التواريخ والأرقام** (٢٠١٥، جامعة فيرجينيا) — أسئلة تفاصيل\n\n🔹 **العلاقات السببية** (قلة النوم → تراكم البروتينات → الزهايمر) — أسئلة استنتاج\n\n🔹 **الجمل التحليلية** ('حدود افتراضاتنا') — أسئلة تحليل\n\n**خذ نفساً عميقاً، وابدأ التمارين.**"
+        },
+        {
+          "step": 4,
+          "title": "جاهز؟",
+          "content": "**٥ أسئلة قادمة على هذا النص.**\n\nاستخدم كل ما تعلّمته من الدروس ٩ و ١٠:\n- الفكرة الرئيسية\n- التفاصيل\n- الاستنتاج\n- المفردات في السياق\n- التحليل"
+        }
+      ],
+      "golden_law": "اقرأ النص مرة → حدّد الفكرة الرئيسية → النقاط الفرعية → انتقل للأسئلة مع الرجوع للنص.",
+      "common_mistake": "الاستعجال في القراءة وتفويت التفاصيل المهمة (التواريخ، الأرقام، العلاقات السببية).",
+      "quick_exercises": [
+        {
+          "id": "r1_q1",
+          "question": "ما الفكرة الرئيسية للنص؟",
+          "options": [
+            "كيفية النوم بشكل صحيح",
+            "اكتشاف نظام لمفاوي في الدماغ وأهميته",
+            "تاريخ جامعة فيرجينيا",
+            "كل أمراض الدماغ"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "النص يتمحور حول الاكتشاف + أهميته"},
+            {"step": 2, "content": "**اكتشاف نظام لمفاوي في الدماغ وأهميته** ✓"}
+          ]
+        },
+        {
+          "id": "r1_q2",
+          "question": "متى اكتُشف الجهاز اللمفاوي في الدماغ؟",
+          "options": [
+            "عام ٢٠٠٥",
+            "عام ٢٠١٥",
+            "عام ٢٠٢٥",
+            "غير محدد"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "النص صريح: 'اكتُشف عام ٢٠١٥'"},
+            {"step": 2, "content": "**عام ٢٠١٥** ✓"}
+          ]
+        },
+        {
+          "id": "r1_q3",
+          "question": "ما الذي يستنتج عن العلاقة بين النوم والزهايمر؟",
+          "options": [
+            "لا توجد علاقة",
+            "النوم الجيد قد يقي من الزهايمر",
+            "الزهايمر يسبب قلّة النوم",
+            "النوم الطويل يسبب الزهايمر"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**استنتاج:** قلة النوم → تراكم البروتينات → الزهايمر"},
+            {"step": 2, "content": "إذاً النوم الجيد → تنظيف البروتينات → وقاية من الزهايمر ✓"}
+          ]
+        },
+        {
+          "id": "r1_q4",
+          "question": "ما المقصود بـ 'حدود افتراضاتنا' في النص؟",
+          "options": [
+            "أن العلماء جهلاء",
+            "أن افتراضاتنا المسبقة قد تمنعنا من اكتشاف الحقيقة",
+            "أن الطب الحديث فاشل",
+            "أن الافتراضات لا تهم"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** النص يفسّر تأخّر الاكتشاف بأن العلماء لم يتوقّعوا وجوده في الدماغ"},
+            {"step": 2, "content": "**افتراضاتنا المسبقة قد تمنعنا من اكتشاف الحقيقة** ✓"}
+          ]
+        },
+        {
+          "id": "r1_q5",
+          "question": "لماذا وصف الكاتب السؤال بأنه 'مُحرج للطب الحديث'؟",
+          "options": [
+            "لأن الطب فاشل",
+            "لأنه يكشف عن قصور في منهج البحث رغم التقدّم",
+            "لأن الأطباء جهلاء",
+            "لذمّ الطب"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** الطب 'الحديث' عنده موارد وتقنيات، ومع ذلك فاته اكتشاف مهم"},
+            {"step": 2, "content": "**يكشف عن قصور في منهج البحث رغم التقدّم** ✓"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_2",
+      "number": 2,
+      "title": "نص أدبي/فلسفي + ٥ أسئلة",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "النص الثاني — فلسفي",
+          "content": "**اقرأ النص بعناية:**\n\n> يَعتقد كثير من الناس أنّ السعادة غاية تُطلَب لذاتها، وأنّ كلّ ما نفعله إنّما هو وسيلة للوصول إليها. لكنّ المفارقة التي رصدها علماء النفس الإيجابي خلال العقود الأخيرة هي أنّ **السعي المباشر للسعادة كثيراً ما يُنتج عكسها**. فالذي يستيقظ كلّ صباح متسائلاً: 'هل أنا سعيد اليوم؟'، يجد نفسه أقلّ سعادة من ذاك الذي ينشغل بعمل ذي معنى دون أن يفكّر بالسعادة أصلاً.\n>\n> وقد أطلق الفيلسوف الإنجليزي جون ستيوارت ميل على هذه الظاهرة 'مفارقة المتعة'. وذكر في سيرته الذاتية كيف أنّه حين سأل نفسه ذات يوم: 'لو أنّ كلّ ما تحلم بتحقيقه أصبح حقيقة، هل ستكون سعيداً؟'، فأجاب بصدق: 'لا'. هذي اللحظة، كما يقول، كانت أزمته الكبرى التي علّمته أنّ الحياة الجيّدة ليست في **مطاردة الإشباع**، بل في **خدمة شيء أكبر من الذات**.\n>\n> وفي عصرنا، حيث تُروَّج السعادة كسلعة يمكن شراؤها أو الوصول إليها بخطوات بسيطة، يبدو درس ميل أكثر حاجةً من أيّ وقت. فالسعادة، إذن، **منتج ثانوي** لحياة معنى، لا هدف يُطارَد."
+        },
+        {
+          "step": 2,
+          "title": "النقاط المحورية",
+          "content": "**ابحث عن:**\n\n🔹 **المفارقة الأساسية:** السعي المباشر للسعادة يُنتج عكسها\n\n🔹 **الاستشهاد:** جون ستيوارت ميل وتجربته\n\n🔹 **الرسالة:** السعادة منتج ثانوي لحياة معنى\n\n🔹 **النقد الاجتماعي:** ترويج السعادة كسلعة\n\n**انتقل للأسئلة.**"
+        }
+      ],
+      "golden_law": "في النصوص الفلسفية: ابحث عن المفارقة + الاستشهاد + الرسالة الختامية.",
+      "common_mistake": "تفويت الرسالة في الفقرة الأخيرة (عادة تحتوي الخلاصة).",
+      "quick_exercises": [
+        {
+          "id": "r2_q1",
+          "question": "ما 'مفارقة المتعة' التي يطرحها النص؟",
+          "options": [
+            "السعادة وهم",
+            "السعي المباشر للسعادة يُنتج عكسها",
+            "السعادة مكلفة",
+            "الفلاسفة تعساء"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص صريح:** 'السعي المباشر للسعادة كثيراً ما يُنتج عكسها'"},
+            {"step": 2, "content": "**السعي المباشر للسعادة يُنتج عكسها** ✓"}
+          ]
+        },
+        {
+          "id": "r2_q2",
+          "question": "لماذا استشهد الكاتب بتجربة جون ستيوارت ميل؟",
+          "options": [
+            "لأن ميل مشهور",
+            "لأن تجربته تجسّد المفارقة بدليل شخصي",
+            "لإطالة النص",
+            "لأن ميل إنجليزي"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** ميل فيلسوف عاش المفارقة في حياته الشخصية، فأصبحت دليلاً حياً"},
+            {"step": 2, "content": "**تجربته تجسّد المفارقة بدليل شخصي** ✓"}
+          ]
+        },
+        {
+          "id": "r2_q3",
+          "question": "ما المقصود بأن السعادة 'منتج ثانوي'؟",
+          "options": [
+            "أنها رخيصة",
+            "أنها تأتي تلقائياً عند العيش بمعنى، دون أن تُطلَب مباشرةً",
+            "أنها لا توجد",
+            "أنها منتج صناعي"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** 'منتج ثانوي' = نتيجة جانبية لشيء آخر"},
+            {"step": 2, "content": "**تأتي تلقائياً عند العيش بمعنى، دون أن تُطلَب مباشرةً** ✓"}
+          ]
+        },
+        {
+          "id": "r2_q4",
+          "question": "ما موقف الكاتب من ترويج السعادة في عصرنا؟",
+          "options": [
+            "يؤيّده",
+            "ناقد له",
+            "محايد",
+            "ساخر منه فقط"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**العبارة:** 'تُروَّج السعادة كسلعة' (نبرة سلبية)"},
+            {"step": 2, "content": "**ناقد له** ✓"}
+          ]
+        },
+        {
+          "id": "r2_q5",
+          "question": "ما الدرس الذي يستخلصه الكاتب من تجربة ميل؟",
+          "options": [
+            "أن الفلسفة تعيسة",
+            "أن الحياة الجيدة في خدمة شيء أكبر من الذات",
+            "أن الأحلام لا تتحقق",
+            "أن الإنسان لا يعرف ما يريد"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص الصريح:** 'الحياة الجيّدة... في خدمة شيء أكبر من الذات'"},
+            {"step": 2, "content": "**في خدمة شيء أكبر من الذات** ✓"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_3",
+      "number": 3,
+      "title": "نص تاريخي + ٥ أسئلة",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "النص الثالث — تاريخي",
+          "content": "**اقرأ النص بعناية:**\n\n> لم يكن طريق الحرير مجرّد طريق تجاري، بل كان شرياناً حضارياً عظيماً ربط الشرق بالغرب لما يزيد على ألف وخمسمئة عام. امتدّ من مدينة شيآن الصينية، عابراً صحاري آسيا الوسطى، حتى وصل إلى البحر المتوسط في الإسكندرية وأنطاكية. ومع أنّ اسمه يوحي بأنّه طريق الحرير الصيني، فإنّ ما عبر فيه أعظم من الحرير بكثير: الورق والبوصلة من الصين، والرياضيات والفلك من الحضارة الإسلامية، والفلسفة والفنون من اليونان والهند.\n>\n> ومن المفارقات اللافتة أنّ هذا الطريق نقل أيضاً **ما لم يكن في الحسبان**: نقل الأمراض. فقد ساهم في انتشار الطاعون الأسود في القرن الرابع عشر، الذي قضى على ثلث سكان أوروبا تقريباً. لكنّه نقل في الوقت نفسه طب ابن سينا، وفلسفة الفارابي، وفنون الخط العربي، فأَثرى الحضارات أكثر مما أضرّ بها.\n>\n> وقد بدأ أفول هذا الطريق في القرن الخامس عشر، حين اكتشف البرتغاليون طرقاً بحرية أسرع وأرخص. غير أنّ أثره ظلّ حاضراً في الحضارات التي عبر بها. **فالحضارات لا تُبنى في عزلة، بل في تبادل**؛ والطريق الذي قد يبدو مجرّد ممر تجاري، قد يكون في الحقيقة محرّك تطوّر إنساني."
+        },
+        {
+          "step": 2,
+          "title": "النقاط المحورية",
+          "content": "**ابحث عن:**\n\n🔹 **التعريف:** طريق الحرير شريان حضاري (مو تجاري فقط)\n\n🔹 **الامتداد الجغرافي:** من شيآن إلى المتوسط\n\n🔹 **ما نقله:** أكثر من الحرير (ورق، رياضيات، فلسفة، أمراض)\n\n🔹 **النهاية:** الطرق البحرية البرتغالية\n\n🔹 **الرسالة:** الحضارات تُبنى في تبادل، لا عزلة"
+        }
+      ],
+      "golden_law": "في النصوص التاريخية: انتبه للتواريخ، الأحداث، والرسالة العامة في النهاية.",
+      "common_mistake": "حفظ التواريخ بدون فهم السياق العام والرسالة.",
+      "quick_exercises": [
+        {
+          "id": "r3_q1",
+          "question": "ما الذي يميّز طريق الحرير حسب الكاتب؟",
+          "options": [
+            "أنه طريق تجاري عادي",
+            "أنه شريان حضاري نقل أكثر من الحرير",
+            "أنه طريق قصير",
+            "أنه ينتمي للصين فقط"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص الصريح:** 'لم يكن مجرّد طريق تجاري، بل كان شرياناً حضارياً'"},
+            {"step": 2, "content": "**شريان حضاري نقل أكثر من الحرير** ✓"}
+          ]
+        },
+        {
+          "id": "r3_q2",
+          "question": "أيّ من التالي **لم يُذكر** بأنّه نُقل عبر طريق الحرير؟",
+          "options": [
+            "الورق",
+            "البوصلة",
+            "البارود",
+            "الرياضيات"
+          ],
+          "correct_index": 2,
+          "solution": [
+            {"step": 1, "content": "النص ذكر: الورق، البوصلة، الرياضيات، الفلك، الفلسفة"},
+            {"step": 2, "content": "**البارود** لم يُذكر ✓"}
+          ]
+        },
+        {
+          "id": "r3_q3",
+          "question": "لماذا ذكر الكاتب الطاعون الأسود؟",
+          "options": [
+            "لإخافة القارئ",
+            "ليُظهر أنّ الطريق نقل أشياء إيجابية وسلبية",
+            "لذمّ الطريق",
+            "لأنّ الطاعون مهم في التاريخ"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** الكاتب ذكر 'ما لم يكن في الحسبان' كمفارقة"},
+            {"step": 2, "content": "**ليُظهر أنّ الطريق نقل أشياء إيجابية وسلبية** ✓"}
+          ]
+        },
+        {
+          "id": "r3_q4",
+          "question": "ما سبب أفول طريق الحرير؟",
+          "options": [
+            "الحروب فقط",
+            "اكتشاف البرتغاليين لطرق بحرية أسرع وأرخص",
+            "الطاعون",
+            "فقدان الاهتمام"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص الصريح:** 'حين اكتشف البرتغاليون طرقاً بحرية أسرع وأرخص'"},
+            {"step": 2, "content": "**اكتشاف البرتغاليين لطرق بحرية أسرع وأرخص** ✓"}
+          ]
+        },
+        {
+          "id": "r3_q5",
+          "question": "ما الرسالة العامة للنص؟",
+          "options": [
+            "التجارة مهمة",
+            "الحضارات تُبنى بالتبادل لا بالعزلة",
+            "الصين أعظم حضارة",
+            "الطرق البحرية أفضل"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**الفقرة الأخيرة:** 'الحضارات لا تُبنى في عزلة، بل في تبادل'"},
+            {"step": 2, "content": "**الحضارات تُبنى بالتبادل لا بالعزلة** ✓"}
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rule_4",
+      "number": 4,
+      "title": "الخطوة الأخيرة في الباب — اختبار شامل لاستيعاب المقروء",
+      "explanation_steps": [
+        {
+          "step": 1,
+          "title": "وصلت لنهاية الباب الخامس!",
+          "content": "🎉 ممتاز يا أبو الياس!\n\n**خلصت الباب الخامس كاملاً:**\n\n📘 الدرس ٩: الأساسيات\n📘 الدرس ١٠: المتقدّم  \n📘 الدرس ١١: التطبيق الشامل (هذا الدرس)\n\n**أصبحت تتقن:**\n- الفكرة الرئيسية\n- التفاصيل والاستنتاج (البسيط والعميق)\n- موقف الكاتب والنبرة\n- التحليل النقدي\n- المفردات في السياق\n- إدارة الوقت\n\n**الحين، اختبار شامل نهائي للباب.**"
+        },
+        {
+          "step": 2,
+          "title": "ما الذي ينتظرك؟",
+          "content": "**التطبيق الأخير قبل الاختبار النهائي:**\n\n🔹 نصّان جديدان (اجتماعي + علمي معاصر)\n🔹 ١٠ أسئلة متنوّعة\n🔹 كل أنواع الأسئلة (فكرة، تفاصيل، استنتاج، تحليل، موقف، نبرة، مفردات)\n\n**الاختبار النهائي:**\n🔹 ٢ نصوص جديدة (متنوعة الأطوال والصعوبة)\n🔹 ١٠ أسئلة\n🔹 Timer ٢٥ دقيقة\n🔹 محاكاة شبه كاملة لقياس"
+        },
+        {
+          "step": 3,
+          "title": "نصائح أخيرة",
+          "content": "**قبل ما تبدأ الاختبار:**\n\n🔹 **خذ نفساً عميقاً** (٤-٤-٤)\n\n🔹 **تذكّر استراتيجيتك:**\n- اقرأ بذكاء\n- علّم الصعب وارجع له\n- خمّن بحكمة (لا تترك سؤالاً فارغاً)\n\n🔹 **ثق بنفسك:** درست وتدرّبت، أنت جاهز\n\n🔹 **لا تستعجل في الأسئلة الأولى** — تضمن إجاباتك الصحيحة"
+        },
+        {
+          "step": 4,
+          "title": "بسم الله، يلا نبدأ",
+          "content": "**هذا التطبيق سيكشف:**\n\n✅ نقاط قوتك في استيعاب المقروء\n✅ نقاط الضعف اللي تحتاج مراجعة\n✅ مستواك الحالي مقارنةً بمتطلبات قياس\n\n**بعد هذا الدرس،** تكون قد أتقنت ٨٠٪+ من المهارات اللفظية. يبقى الباب السادس (المراجعة الشاملة + المحاكاة الكاملة).\n\n**هيا!**"
+        }
+      ],
+      "golden_law": "هذي بروفتك النهائية. طبّق كل ما تعلّمته بثقة وهدوء.",
+      "common_mistake": "التوتر الزائد. تذكّر: أنت تدرّبت على هذا، والاختبار مجرد تطبيق لما تعرفه.",
+      "quick_exercises": [
+        {
+          "id": "r4_q1",
+          "question": "النص: \"شهدت منصّات التواصل الاجتماعي تحوّلاً جذرياً منذ ٢٠٢٠، حين بدأت تعتمد أكثر فأكثر على خوارزميات الذكاء الاصطناعي لاختيار ما يراه المستخدم. ومع أنّ هذي الخوارزميات تَعِد بتجربة 'مخصّصة' تناسب اهتمامات كل فرد، فإنّها في الواقع تُنتج ما يُعرف بـ 'فقاعة الفلتر': نظام يعرض للمستخدم فقط ما يتّفق مع آرائه السابقة، فيتعزّز التحيّز ويختفي التنوّع.\"\n\nما 'فقاعة الفلتر'؟",
+          "options": [
+            "نوع من الحلوى",
+            "نظام يعرض للمستخدم ما يتّفق مع آرائه فقط",
+            "خوارزمية تنظيف",
+            "ميزة مفيدة في المنصّات"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص يعرّفها:** 'نظام يعرض للمستخدم فقط ما يتّفق مع آرائه السابقة'"},
+            {"step": 2, "content": "**نظام يعرض للمستخدم ما يتّفق مع آرائه فقط** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q2",
+          "question": "نفس النص:\n\nما المفارقة التي يطرحها الكاتب؟",
+          "options": [
+            "الخوارزميات بطيئة",
+            "ما يُسوَّق كـ'تخصيص' يُنتج في الواقع تحيّزاً وانعزالاً فكرياً",
+            "الذكاء الاصطناعي ضعيف",
+            "المنصّات مجانية"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** 'تَعِد بتجربة مخصّصة' لكن النتيجة 'يتعزّز التحيّز ويختفي التنوّع'"},
+            {"step": 2, "content": "**ما يُسوَّق كـ'تخصيص' يُنتج في الواقع تحيّزاً وانعزالاً فكرياً** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q3",
+          "question": "النص: \"تعتمد الزراعة الذكية على دمج التقنية في كل مراحل الإنتاج: من استشعار رطوبة التربة، إلى الطائرات بدون طيار التي ترشّ المحاصيل بدقّة عالية، إلى الذكاء الاصطناعي الذي يتنبّأ بالأمراض النباتية قبل ظهورها. ويُقدّر الخبراء أنّ هذي الثورة قد تزيد إنتاج الغذاء العالمي بنسبة ٧٠٪ بحلول ٢٠٥٠، وهو ما تحتاجه البشرية لمواجهة النمو السكاني المتسارع.\"\n\nما الفكرة الرئيسية؟",
+          "options": [
+            "الطائرات بدون طيار مفيدة",
+            "الزراعة الذكية ودورها في مواجهة تحدّيات الغذاء",
+            "النمو السكاني خطر",
+            "الذكاء الاصطناعي يفسد الزراعة"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "النص يطرح: الزراعة الذكية + دورها في زيادة الإنتاج + مواجهة النمو السكاني"},
+            {"step": 2, "content": "**الزراعة الذكية ودورها في مواجهة تحدّيات الغذاء** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q4",
+          "question": "نفس النص:\n\nما الذي يستنتج عن العلاقة بين التقنية وأمن الغذاء؟",
+          "options": [
+            "التقنية تضرّ بالزراعة",
+            "التقنية أداة محتملة لحلّ أزمة الغذاء العالمي",
+            "التقنية مكلفة جداً",
+            "لا علاقة بينهما"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**استنتاج:** زيادة الإنتاج ٧٠٪ + مواجهة النمو السكاني = حلّ محتمل"},
+            {"step": 2, "content": "**التقنية أداة محتملة لحلّ أزمة الغذاء العالمي** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q5",
+          "question": "النص: \"يُعدّ كتاب 'كليلة ودمنة' من أعجب ما تركه ابن المقفّع في الأدب العربي. ترجمه عن الفارسية، التي بدورها ترجمت عن السنسكريتية الهندية، فأصبح هذا الكتاب جسراً ثقافياً بين ثلاث حضارات. ومع أنّ ظاهره قصص حيوانات بسيطة، فإنّ باطنه يحمل حكمة سياسية عميقة، تُعلّم الحاكم كيف يحكم، والإنسان كيف يتعامل مع غيره.\"\n\nلماذا وصف الكاتب 'كليلة ودمنة' بأنه 'جسر ثقافي'؟",
+          "options": [
+            "لأنه طويل",
+            "لأنه عبر ثلاث حضارات: الهندية والفارسية والعربية",
+            "لأنه مترجم",
+            "لأنه عن الحيوانات"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص:** 'تُرجم عن الفارسية، التي بدورها ترجمت عن السنسكريتية' = ٣ حضارات"},
+            {"step": 2, "content": "**عبر ثلاث حضارات: الهندية والفارسية والعربية** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q6",
+          "question": "نفس النص:\n\nما المقصود بأنّ 'باطن الكتاب يحمل حكمة سياسية'؟",
+          "options": [
+            "أنّ الكتاب صعب الفهم",
+            "أنّ القصص الظاهرة تخفي دروساً سياسية عميقة",
+            "أنّ الكتاب ممنوع",
+            "أنّ ابن المقفّع كان سياسياً"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**التحليل:** 'ظاهره قصص بسيطة، باطنه حكمة سياسية'"},
+            {"step": 2, "content": "**القصص الظاهرة تخفي دروساً سياسية عميقة** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q7",
+          "question": "النص: \"في القرن العشرين، طرح الفيلسوف الفرنسي ألبير كامو فكرة 'العبث' في الحياة: أنّ الإنسان يبحث طوال حياته عن معنى، بينما الكون نفسه صامت لا يردّ. ومع ذلك، رفض كامو الانتحار كحلّ، ودعا إلى ما سمّاه 'التمرّد': الاستمرار في الحياة بكامل وعي العبث، لكن مع الإصرار على بناء معنى ذاتي رغم كل شيء.\"\n\nما موقف كامو من 'العبث'؟",
+          "options": [
+            "ينكره",
+            "يعترف به لكن يدعو للتمرّد عليه بصنع معنى",
+            "يستسلم له",
+            "يدعو للانتحار"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص:** 'رفض الانتحار + دعا إلى التمرّد + الإصرار على بناء معنى'"},
+            {"step": 2, "content": "**يعترف به لكن يدعو للتمرّد عليه بصنع معنى** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q8",
+          "question": "نفس النص:\n\nما المقصود بـ 'الكون صامت لا يردّ'؟",
+          "options": [
+            "أنّ الكون فعلاً صامت صوتياً",
+            "أنّ الكون لا يقدّم معنى جاهزاً للإنسان",
+            "أنّ الكون فارغ",
+            "أنّ الكون لا يهتم بنا"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**السياق:** 'الإنسان يبحث عن معنى + الكون صامت لا يردّ'"},
+            {"step": 2, "content": "**أنّ الكون لا يقدّم معنى جاهزاً للإنسان** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q9",
+          "question": "النص: \"شهدت صناعة السيارات الكهربائية طفرة هائلة في العقد الأخير. ومع أنّ ثمنها لا يزال أعلى من السيارات التقليدية، فإنّ تكاليف تشغيلها أقلّ بكثير على المدى الطويل. وتُقدّر الدراسات أنّ مالك السيارة الكهربائية يوفّر ما يعادل ١٥ ألف ريال سنوياً مقارنة بمالك السيارة التقليدية، بسبب فروق الوقود والصيانة.\"\n\nما المقصود بـ 'على المدى الطويل'؟",
+          "options": [
+            "بعد سنة واحدة",
+            "بعد سنوات عديدة من الاستخدام",
+            "بعد شهر",
+            "غير محدد"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**السياق:** التوفير 'سنوياً' = يتراكم على مدى سنوات"},
+            {"step": 2, "content": "**بعد سنوات عديدة من الاستخدام** ✓"}
+          ]
+        },
+        {
+          "id": "r4_q10",
+          "question": "نفس النص:\n\nما الذي يستنتج عن المقارنة الاقتصادية بين السيارتين؟",
+          "options": [
+            "السيارات التقليدية أرخص دائماً",
+            "السيارات الكهربائية أغلى في الشراء، أرخص في التشغيل",
+            "السيارات الكهربائية أرخص في كل شيء",
+            "لا يمكن المقارنة"
+          ],
+          "correct_index": 1,
+          "solution": [
+            {"step": 1, "content": "**النص:** 'ثمنها أعلى... تكاليف تشغيلها أقلّ'"},
+            {"step": 2, "content": "**أغلى في الشراء، أرخص في التشغيل** ✓"}
+          ]
+        }
+      ]
+    }
+  ],
+
+  "butter_summary": [
+    "**خلصت الباب الخامس!** ١٠ دروس من ١٣ مكتملة",
+    "**أصبحت تتقن:** الفكرة الرئيسية، التفاصيل، الاستنتاج، التحليل، الموقف، النبرة، المفردات",
+    "**استراتيجيات الوقت:** اقرأ بذكاء، علّم الصعب، خمّن بحكمة",
+    "**يبقى:** درسين في الباب السادس (المراجعة الشاملة + المحاكاة الكاملة)",
+    "**أنت جاهز** لتقدّم الاختبار النهائي للباب الخامس"
+  ],
+
+  "common_mistakes": [
+    "التوتر الزائد قبل الاختبار - تنفس بعمق",
+    "الاستعجال في النصوص الأولى وتفويت التفاصيل",
+    "ترك سؤال فارغ - خمّن بذكاء دائماً",
+    "إضاعة وقت كبير على سؤال واحد",
+    "نسيان الرجوع للنص في أسئلة التفاصيل"
+  ],
+
+  "comprehensive_exercises": [
+    {
+      "id": "comp_1",
+      "question": "النص: \"يَعتقد كثير من الناس أنّ السعادة غاية تُطلَب لذاتها. لكنّ المفارقة التي رصدها علماء النفس الإيجابي هي أنّ السعي المباشر للسعادة كثيراً ما يُنتج عكسها. فالذي يستيقظ كل صباح متسائلاً 'هل أنا سعيد اليوم؟'، يجد نفسه أقلّ سعادة من ذاك الذي ينشغل بعمل ذي معنى.\"\n\nما الذي يستنتج عن السعادة؟",
+      "options": [
+        "السعادة وهم",
+        "السعادة تأتي عرضاً عند الانشغال بمعنى",
+        "السعادة تطلب",
+        "السعادة مستحيلة"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** المنشغل بمعنى أسعد من الباحث المباشر"},
+        {"step": 2, "content": "**تأتي عرضاً عند الانشغال بمعنى** ✓"}
+      ]
+    },
+    {
+      "id": "comp_2",
+      "question": "النص: \"اكتُشف الجهاز اللمفاوي في الدماغ عام ٢٠١٥، وهو اكتشاف غيّر فهمنا للأعصاب. فقد ظنّ العلماء لعقود أن الدماغ ليس له نظام لتصريف الفضلات، لكن باحثين من جامعة فيرجينيا أثبتوا وجود شبكة دقيقة من القنوات اللمفاوية.\"\n\nما الذي يستنتج عن الافتراضات العلمية السابقة؟",
+      "options": [
+        "كانت صحيحة",
+        "كانت خاطئة، وكشف الاكتشاف عن قصورها",
+        "لم تكن مهمة",
+        "كانت قديمة"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**النص:** 'ظنّ العلماء... لكن أثبتوا' = الافتراض كان خاطئاً"},
+        {"step": 2, "content": "**كانت خاطئة، وكشف الاكتشاف عن قصورها** ✓"}
+      ]
+    },
+    {
+      "id": "comp_3",
+      "question": "النص: \"امتدّ طريق الحرير من مدينة شيآن الصينية، عابراً صحاري آسيا الوسطى، حتى وصل إلى البحر المتوسط. ومع أنّ اسمه يوحي بأنّه طريق الحرير الصيني، فإنّ ما عبر فيه أعظم من الحرير بكثير: الورق والبوصلة من الصين، والرياضيات من الحضارة الإسلامية، والفلسفة من اليونان والهند.\"\n\nلماذا اعتبر الكاتب أنّ اسم الطريق 'مضلِّل'؟",
+      "options": [
+        "لأن الطريق ليس فيه حرير",
+        "لأن ما نُقل عبره أوسع وأهم من الحرير",
+        "لأن الطريق قصير",
+        "لأن الحرير ليس مهماً"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** 'يوحي بأنّه طريق الحرير، لكن أعظم من الحرير'"},
+        {"step": 2, "content": "**ما نُقل عبره أوسع وأهم من الحرير** ✓"}
+      ]
+    },
+    {
+      "id": "comp_4",
+      "question": "النص: \"ومع أنّ هذي الخوارزميات تَعِد بتجربة 'مخصّصة' تناسب اهتمامات كل فرد، فإنّها في الواقع تُنتج ما يُعرف بـ 'فقاعة الفلتر': نظام يعرض للمستخدم فقط ما يتّفق مع آرائه السابقة، فيتعزّز التحيّز ويختفي التنوّع.\"\n\nما الموقف الضمني للكاتب من خوارزميات التواصل؟",
+      "options": [
+        "مؤيد لها بقوة",
+        "ناقد لها رغم ظاهرها الإيجابي",
+        "محايد",
+        "ساخر منها"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** 'تَعِد' (ظاهر إيجابي) لكن 'في الواقع تُنتج تحيّزاً' (نقد)"},
+        {"step": 2, "content": "**ناقد لها رغم ظاهرها الإيجابي** ✓"}
+      ]
+    },
+    {
+      "id": "comp_5",
+      "question": "النص: \"تعتمد الزراعة الذكية على دمج التقنية في كل مراحل الإنتاج: من استشعار رطوبة التربة، إلى الطائرات بدون طيار، إلى الذكاء الاصطناعي. ويُقدّر الخبراء أنّ هذي الثورة قد تزيد إنتاج الغذاء العالمي بنسبة ٧٠٪ بحلول ٢٠٥٠.\"\n\nما العلاقة بين 'النمو السكاني' و 'الزراعة الذكية' حسب النص؟",
+      "options": [
+        "لا توجد علاقة",
+        "الزراعة الذكية ضرورة لمواجهة احتياجات النمو السكاني",
+        "النمو السكاني يدمّر الزراعة",
+        "الزراعة الذكية تقلّل السكان"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**النص:** 'يحتاجه البشرية لمواجهة النمو السكاني المتسارع'"},
+        {"step": 2, "content": "**ضرورة لمواجهة احتياجات النمو السكاني** ✓"}
+      ]
+    },
+    {
+      "id": "comp_6",
+      "question": "النص: \"يُعدّ كتاب 'كليلة ودمنة' من أعجب ما تركه ابن المقفّع. ترجمه عن الفارسية، التي بدورها ترجمت عن السنسكريتية الهندية، فأصبح هذا الكتاب جسراً ثقافياً بين ثلاث حضارات.\"\n\nما الذي يستنتج عن دور الترجمة في الحضارة الإنسانية؟",
+      "options": [
+        "الترجمة عمل تقني فقط",
+        "الترجمة جسر يربط الحضارات وينقل المعرفة",
+        "الترجمة تُفسد النصوص",
+        "الترجمة غير ضرورية"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** 'جسر ثقافي بين ثلاث حضارات' = الترجمة تربط"},
+        {"step": 2, "content": "**جسر يربط الحضارات وينقل المعرفة** ✓"}
+      ]
+    },
+    {
+      "id": "comp_7",
+      "question": "النص: \"رفض كامو الانتحار كحلّ، ودعا إلى ما سمّاه 'التمرّد': الاستمرار في الحياة بكامل وعي العبث، لكن مع الإصرار على بناء معنى ذاتي رغم كل شيء.\"\n\nما المقصود بـ 'التمرّد' عند كامو؟",
+      "options": [
+        "الثورة السياسية",
+        "صنع المعنى رغم اعتراف الإنسان بالعبث",
+        "رفض كل شيء",
+        "الانعزال"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**النص:** 'الاستمرار... مع الإصرار على بناء معنى ذاتي'"},
+        {"step": 2, "content": "**صنع المعنى رغم اعتراف الإنسان بالعبث** ✓"}
+      ]
+    },
+    {
+      "id": "comp_8",
+      "question": "النص: \"شهدت صناعة السيارات الكهربائية طفرة هائلة. ومع أنّ ثمنها أعلى، فإنّ تكاليف تشغيلها أقلّ بكثير. وتُقدّر الدراسات أنّ المالك يوفّر ١٥ ألف ريال سنوياً.\"\n\nما الذي يستنتج عن قرار شراء سيارة كهربائية؟",
+      "options": [
+        "قرار خاسر مادياً",
+        "استثمار قصير المدى",
+        "استثمار طويل المدى يعوّض الثمن العالي",
+        "قرار غير منطقي"
+      ],
+      "correct_index": 2,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** ثمن عالٍ مرة + توفير ١٥ ألف سنوياً = استثمار طويل المدى"},
+        {"step": 2, "content": "**استثمار طويل المدى يعوّض الثمن العالي** ✓"}
+      ]
+    },
+    {
+      "id": "comp_9",
+      "question": "النص: \"حين سأل ميل نفسه ذات يوم: 'لو أنّ كلّ ما تحلم بتحقيقه أصبح حقيقة، هل ستكون سعيداً؟'، فأجاب بصدق: 'لا'.\"\n\nلماذا يصف الكاتب هذه اللحظة بأنها 'أزمة كبرى' لميل؟",
+      "options": [
+        "لأنه كان مكتئباً",
+        "لأنها كشفت له بطلان فلسفته في طلب السعادة المباشرة",
+        "لأنه فشل في حياته",
+        "لأنه مرض"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**التحليل:** اللحظة 'علّمته أنّ الحياة الجيدة... ليست في مطاردة الإشباع'"},
+        {"step": 2, "content": "**كشفت له بطلان فلسفته في طلب السعادة المباشرة** ✓"}
+      ]
+    },
+    {
+      "id": "comp_10",
+      "question": "النص: \"الحضارات لا تُبنى في عزلة، بل في تبادل؛ والطريق الذي قد يبدو مجرّد ممر تجاري، قد يكون في الحقيقة محرّك تطوّر إنساني.\"\n\nما الرسالة الفلسفية في هذه الجملة؟",
+      "options": [
+        "التجارة سيئة",
+        "التبادل بين الحضارات أساس التطوّر الإنساني",
+        "العزلة مفيدة",
+        "الطرق التجارية غير مهمة"
+      ],
+      "correct_index": 1,
+      "solution": [
+        {"step": 1, "content": "**الفقرة الأخيرة:** تحوي الرسالة الفلسفية"},
+        {"step": 2, "content": "**التبادل بين الحضارات أساس التطوّر الإنساني** ✓"}
+      ]
+    }
+  ],
+
+  "final_exam": {
+    "title": "اختبار الباب الخامس - استيعاب المقروء الشامل",
+    "duration_minutes": 25,
+    "pass_threshold": 7,
+    "has_timer": true,
+    "questions": [
+      {
+        "id": "exam_1",
+        "question": "النص: \"تُعدّ الموسيقى من أقدم أشكال التعبير الإنساني، فآثار الآلات الموسيقية المكتشفة في الكهوف تعود إلى أكثر من ٤٠ ألف عام. ومع أنّها قد تبدو ترفاً ثقافياً، فإنّ الأبحاث الحديثة كشفت أنّ للموسيقى أثراً عميقاً على الدماغ: فهي تُحسّن الذاكرة، وتُقلّل التوتر، بل وتساعد في علاج بعض أمراض الجهاز العصبي كالباركنسون. ومن هنا، تطوّر علم جديد يُسمّى 'العلاج بالموسيقى'، يُستخدم اليوم في مستشفيات كبرى حول العالم.\"\n\nما الفكرة الرئيسية؟",
+        "options": [
+          "تاريخ الموسيقى",
+          "الموسيقى بين الترف والعلاج الطبي",
+          "الباركنسون مرض خطير",
+          "علاج الأمراض بالكهوف"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** الفكرة الرئيسية\n\nالنص يطرح: الموسيقى قديمة + قد تبدو ترفاً + لكن لها فوائد طبية = الموسيقى بين الترف والعلاج."
+      },
+      {
+        "id": "exam_2",
+        "question": "نفس النص:\n\nما الذي يستنتج عن النظرة التقليدية للموسيقى؟",
+        "options": [
+          "كانت صحيحة",
+          "كانت ناقصة لأنها لم ترَ الفائدة الطبية",
+          "كانت خاطئة تماماً",
+          "النص لم يطرحها"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** استنتاج\n\nالنص: 'قد تبدو ترفاً، لكن لها أثر عميق' = النظرة التقليدية ناقصة."
+      },
+      {
+        "id": "exam_3",
+        "question": "النص: \"ظلّ مفهوم 'الذكاء' محصوراً في القدرات الرياضية واللغوية، حتى طرح هاورد جاردنر عام ١٩٨٣ نظرية 'الذكاءات المتعدّدة'. اقترح جاردنر أنّ الإنسان لا يملك ذكاءً واحداً، بل ثمانية أنواع منه: ذكاء لغوي، رياضي، مكاني، موسيقي، حركي، اجتماعي، ذاتي، وطبيعي. ومع أنّ النظرية وُجّهت لها انتقادات من بعض علماء النفس، فإنّ تطبيقاتها التربوية كانت ثورية، وغيّرت طريقة فهم قدرات الطلاب.\"\n\nما الذي ميّز نظرية جاردنر؟",
+        "options": [
+          "اختصرت الذكاء في نوع واحد",
+          "وسّعت مفهوم الذكاء ليشمل ثمانية أنواع",
+          "ركّزت على الرياضيات فقط",
+          "ألغت الذكاء"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** تفاصيل + تحليل\n\nالنص صريح: قبل جاردنر كان 'محصوراً'، جاردنر طرح 'ثمانية أنواع'."
+      },
+      {
+        "id": "exam_4",
+        "question": "نفس النص:\n\nما موقف الكاتب من نظرية جاردنر؟",
+        "options": [
+          "ناقد لها",
+          "متوازن (يذكر الانتقادات + الفوائد)",
+          "محايد",
+          "ساخر منها"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** موقف الكاتب\n\nالنص: 'وُجّهت لها انتقادات' + 'تطبيقاتها كانت ثورية' = توازن."
+      },
+      {
+        "id": "exam_5",
+        "question": "النص: \"في أعماق المحيطات، تعيش كائنات لم نكن نعرف بوجودها قبل عقدين. منها الحبّار الضخم، الذي يصل طوله إلى ١٣ متراً، ومنها سمك التنّين الأسود الذي يضيء في الظلام بفضل بكتيريا متعايشة معه. ومما يثير الدهشة أنّ ٨٠٪ من محيطات الأرض لا يزال غير مُستكشف، أي أنّ ما نعرفه عن كائنات البحر قد لا يتجاوز ٢٠٪.\"\n\nما الذي يستنتج عن معرفتنا بالمحيطات؟",
+        "options": [
+          "نعرف كل شيء",
+          "نعرف القليل جداً مقارنةً بحجم المحيطات",
+          "المحيطات فارغة",
+          "المحيطات مستكشفة كاملة"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** استنتاج\n\nالنص: '٨٠٪ غير مُستكشف' = نعرف فقط ٢٠٪ = القليل جداً."
+      },
+      {
+        "id": "exam_6",
+        "question": "نفس النص:\n\nلماذا ذكر الكاتب الحبّار الضخم وسمك التنّين؟",
+        "options": [
+          "ليُهدّد القارئ",
+          "كأمثلة على الكائنات المدهشة المكتشفة حديثاً",
+          "ليخبرنا عن الصيد",
+          "لإطالة النص"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** تحليل\n\nالأمثلة تخدم فكرة 'كائنات لم نكن نعرف بوجودها' = إثبات بأمثلة."
+      },
+      {
+        "id": "exam_7",
+        "question": "النص: \"مع تسارع وتيرة الحياة الحديثة، صار 'الملل' عملةً نادرة. فالإنسان يهرب من أيّ لحظة فراغ بفتح هاتفه، ومتابعة محتوى لا ينقطع. ومع أنّ هذا يبدو نشاطاً ذهنياً، فإنّ الأبحاث تُظهر العكس: الدماغ يحتاج لحظات ملل ليُعيد ترتيب نفسه، وأن أعظم الأفكار الإبداعية تأتي عادةً في لحظات الفراغ، لا الانشغال.\"\n\nما المقصود بأنّ 'الملل عملة نادرة'؟",
+        "options": [
+          "الملل ثمين",
+          "الإنسان لم يعد يجد فرصة للملل بسبب الانشغال الدائم",
+          "الملل قديم",
+          "الملل لا يوجد"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** معنى مفردة في السياق\n\nالسياق: 'يهرب من أيّ لحظة فراغ' = لا يجد فرصة للملل."
+      },
+      {
+        "id": "exam_8",
+        "question": "نفس النص:\n\nما الذي يستنتج عن العلاقة بين الملل والإبداع؟",
+        "options": [
+          "الملل يقتل الإبداع",
+          "الملل ضروري لتحرّر العقل وإنتاج الأفكار الإبداعية",
+          "الملل والإبداع لا يجتمعان",
+          "الإبداع يحتاج للانشغال"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** استنتاج عميق\n\nالنص: 'أعظم الأفكار الإبداعية تأتي في لحظات الفراغ' = الملل يُحرّر."
+      },
+      {
+        "id": "exam_9",
+        "question": "النص: \"لم يكن الإمام الشافعي مجرد فقيه، بل كان عالماً موسوعياً يجمع بين الفقه والشعر واللغة والطب. ومن طرائفه أنّه حين سُئل عن المعرفة، أجاب: 'العلم ما نفع، لا ما حُفظ'. هذه العبارة، ببساطتها الظاهرة، تحمل ثورة فكرية: فالعلم ليس متاحف للحفظ، بل أدوات للتطبيق.\"\n\nما المقصود بـ 'ثورة فكرية' في النص؟",
+        "options": [
+          "ثورة سياسية",
+          "تحوّل جذري في مفهوم العلم من الحفظ إلى التطبيق",
+          "تغيير في النحو",
+          "حرب"
+        ],
+        "correct_index": 1,
+        "explanation": "**نوع السؤال:** تحليل\n\nالنص يفسّر: 'العلم ليس متاحف للحفظ، بل أدوات للتطبيق' = تحوّل جذري."
+      },
+      {
+        "id": "exam_10",
+        "question": "نفس النص:\n\nما نبرة الكاتب تجاه الإمام الشافعي؟",
+        "options": [
+          "محايدة",
+          "ناقدة",
+          "معجبة",
+          "ساخرة"
+        ],
+        "correct_index": 2,
+        "explanation": "**نوع السؤال:** نبرة الكاتب\n\nالنص: 'عالماً موسوعياً' + 'ثورة فكرية' = نبرة معجبة."
+      }
+    ]
+  },
+
+  "next_lesson_id": "lesson_12"
+}
+;
+
+// حماية عامة ضد الضغط المزدوج على نفس الزر
+let isProcessing = false;
+function withGuard(fn){
+  return function(...args){
+    if(isProcessing) return;
+    isProcessing = true;
+    try {
+      fn.apply(this, args);
+    } finally {
+      setTimeout(()=>{ isProcessing = false; }, 150);
+    }
+  };
+}
+
+let state = {
+  currentRuleIdx: 0,
+  currentStepIdx: 0,
+  ruleExerciseIdx: 0,
+  ruleExerciseAnswered: false,
+  ruleExerciseSolutionIdx: 0,
+  compExerciseIdx: 0,
+  compExerciseAnswered: false,
+  compExerciseSolutionIdx: 0,
+  compCorrect: 0,
+  examQuestionIdx: 0,
+  examAnswers: [],
+  examTimerInterval: null,
+  examTimedOut: false,
+  examMistakes: [],
+  stagesCompleted: { lesson:false, comprehensive:false, exam:false }
+};
+
+function md(text){
+  if(!text) return '';
+  return text
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\n/g,'<br>');
+}
+
+function scrollToTop(){
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToBottom(){
+  setTimeout(()=>{
+    window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+  },80);
+}
+
+function showStage(name){
+  ['intro','lesson','summary','comprehensive','exam-intro','exam','done','mistakes'].forEach(s=>{
+    const el = document.getElementById('stage-'+s);
+    if(el) el.classList.add('hidden');
+  });
+  const target = document.getElementById('stage-'+name);
+  if(target) target.classList.remove('hidden');
+  scrollToTop();
+}
+
+function navigateTo(target){
+  if(target === 'comprehensive' && !state.stagesCompleted.lesson) return;
+  if(target === 'exam' && !state.stagesCompleted.comprehensive) return;
+
+  if(target === 'lesson'){
+    showStage('lesson');
+    setActive('nav-lesson');
+  } else if(target === 'comprehensive'){
+    showStage('comprehensive');
+    setActive('nav-comprehensive');
+    if(state.compExerciseIdx === 0) renderCompExercise();
+  } else if(target === 'exam'){
+    showStage('exam-intro');
+    setActive('nav-exam');
+  }
+}
+
+function setActive(id){
+  document.querySelectorAll('.nav-step').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function init(){
+  document.getElementById('lessonTitle').textContent = LESSON_DATA.title;
+  document.getElementById('lessonSubtitle').textContent = LESSON_DATA.subtitle;
+  document.getElementById('lessonWhy').textContent = LESSON_DATA.why;
+  document.getElementById('lessonDuration').textContent = LESSON_DATA.estimated_minutes;
+  document.getElementById('rulesCount').textContent = LESSON_DATA.rules.length;
+}
+
+function startLesson(){
+  showStage('lesson');
+  setActive('nav-lesson');
+  state.currentRuleIdx = 0;
+  state.currentStepIdx = 0;
+  renderCurrentRule();
+}
+
+function renderCurrentRule(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const container = document.getElementById('currentRuleContainer');
+  container.innerHTML = '';
+
+  const card = document.createElement('div');
+  card.className = 'rule-card';
+  card.innerHTML = `
+    <div class="rule-header">
+      <div class="rule-number">${rule.number}</div>
+      <div>
+        <div class="rule-label">القاعدة ${rule.number} من ${LESSON_DATA.rules.length}</div>
+        <div class="rule-title">${rule.title}</div>
+      </div>
+    </div>
+    <div id="ruleStepsContainer"></div>
+  `;
+  container.appendChild(card);
+
+  state.currentStepIdx = 0;
+  renderRuleStep();
+  scrollToTop();
+}
+
+function renderRuleStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const step = rule.explanation_steps[state.currentStepIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const stepDiv = document.createElement('div');
+  stepDiv.className = 'step-block';
+  stepDiv.innerHTML = `
+    <div class="step-num-row">
+      <div class="step-num">${step.step}</div>
+      <div class="step-title">${step.title}</div>
+    </div>
+    <div class="step-content">${md(step.content)}</div>
+  `;
+  stepsContainer.appendChild(stepDiv);
+
+  const isLastStep = state.currentStepIdx === rule.explanation_steps.length - 1;
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-primary" onclick="advanceRuleStep()">${isLastStep ? 'فهمت — وريني القانون 🧈' : 'فهمت — كمّل ←'}</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function advanceRuleStep(){
+  // مسح كل الأزرار الحية فوراً لمنع الضغط المزدوج
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.currentStepIdx++;
+
+  if(state.currentStepIdx < rule.explanation_steps.length){
+    renderRuleStep();
+  } else {
+    showRuleClosing();
+  }
+}
+
+function showRuleClosing(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض القاعدة الذهبية (بارزة بصرياً)
+  const goldenDiv = document.createElement('div');
+  goldenDiv.className = 'golden-rule';
+  goldenDiv.id = 'goldenRuleBox';
+  goldenDiv.innerHTML = `
+    <div class="label">🌟 القاعدة الذهبية</div>
+    <div class="text">${rule.golden_law}</div>
+  `;
+  stepsContainer.appendChild(goldenDiv);
+
+  // زر الانتقال للتمارين مباشرة (بدون كتابة باليد)
+  const btnRow = document.createElement('div');
+  btnRow.className = 'btn-row live';
+  btnRow.innerHTML = `<button class="btn btn-butter" onclick="afterGoldenRule()">فهمت — يلا تمارين ←</button>`;
+  stepsContainer.appendChild(btnRow);
+
+  scrollToBottom();
+}
+
+function afterGoldenRule(){
+  // مسح زر "فهمت" بعد الضغط
+  document.querySelectorAll('.btn-row.live').forEach(el=>el.remove());
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  // عرض تنبيه الخطأ الشائع
+  const mistakeDiv = document.createElement('div');
+  mistakeDiv.className = 'mistake-box';
+  mistakeDiv.innerHTML = `
+    <div class="label">⚠️ احذر — الخطأ الشائع</div>
+    <div class="text">${rule.common_mistake}</div>
+  `;
+  stepsContainer.appendChild(mistakeDiv);
+
+  // بدء التمارين الفورية
+  state.ruleExerciseIdx = 0;
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+  renderRuleExercise();
+  scrollToBottom();
+}
+
+function renderRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const stepsContainer = document.getElementById('ruleStepsContainer');
+
+  const oldEx = stepsContainer.querySelector('.exercise-box');
+  if(oldEx) oldEx.remove();
+
+  state.ruleExerciseAnswered = false;
+  state.ruleExerciseSolutionIdx = 0;
+
+  const exDiv = document.createElement('div');
+  exDiv.className = 'exercise-box';
+  exDiv.id = 'currentExerciseBox';
+  exDiv.innerHTML = `
+    <div class="ex-label">تطبيق سريع</div>
+    <div class="ex-counter">تمرين ${state.ruleExerciseIdx + 1} من ${rule.quick_exercises.length}</div>
+    <div class="question math-expr">${ex.question}</div>
+    <div class="options" id="currentRuleOpts">
+      ${ex.options.map((opt,i)=>`<button class="option math-expr" data-idx="${i}" onclick="answerRuleExercise(${i})">${opt}</button>`).join('')}
+    </div>
+    <div class="feedback" id="currentRuleFeedback"></div>
+    <div class="solution-block" id="currentRuleSolution"></div>
+  `;
+  stepsContainer.appendChild(exDiv);
+  scrollToBottom();
+}
+
+function answerRuleExercise(idx){
+  if(state.ruleExerciseAnswered) return;
+  state.ruleExerciseAnswered = true;
+
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+
+  const buttons = document.querySelectorAll('#currentRuleOpts .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('currentRuleFeedback');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح — للزبدة 🧈' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  if(idx === ex.correct_index){
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showRuleSolution()">عطني الزبدة 🧈</button>
+      </div>
+    `;
+  }
+  scrollToBottom();
+}
+
+function showRuleSolution(){
+  state.ruleExerciseSolutionIdx = 0;
+  document.getElementById('currentRuleFeedback').classList.remove('show');
+  const sol = document.getElementById('currentRuleSolution');
+  sol.innerHTML = '';
+  sol.classList.add('show');
+  renderRuleSolutionStep();
+}
+
+function renderRuleSolutionStep(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  const ex = rule.quick_exercises[state.ruleExerciseIdx];
+  const sol = document.getElementById('currentRuleSolution');
+  const isLast = state.ruleExerciseIdx === rule.quick_exercises.length - 1;
+  const isLastRule = state.currentRuleIdx === LESSON_DATA.rules.length - 1;
+  const nextLabel = isLast ? (isLastRule ? 'انتهيت من الشرح ←' : 'انتقل للقاعدة التالية ←') : 'التمرين التالي ←';
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.ruleExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextRuleExercise()">${nextLabel}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    scrollToBottom();
+    return;
+  }
+
+  const step = ex.solution[state.ruleExerciseSolutionIdx];
+  const isLastSolutionStep = state.ruleExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceRuleSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+  scrollToBottom();
+}
+
+function advanceRuleSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('currentRuleSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.ruleExerciseSolutionIdx++;
+  renderRuleSolutionStep();
+}
+
+function nextRuleExercise(){
+  const rule = LESSON_DATA.rules[state.currentRuleIdx];
+  state.ruleExerciseIdx++;
+
+  if(state.ruleExerciseIdx >= rule.quick_exercises.length){
+    state.currentRuleIdx++;
+
+    if(state.currentRuleIdx >= LESSON_DATA.rules.length){
+      finishLessonExplain();
+    } else {
+      renderCurrentRule();
+    }
+  } else {
+    renderRuleExercise();
+  }
+}
+
+function finishLessonExplain(){
+  state.stagesCompleted.lesson = true;
+
+  const summaryList = document.getElementById('summaryList');
+  summaryList.innerHTML = LESSON_DATA.butter_summary.map(item=>`<li>${md(item)}</li>`).join('');
+
+  const mistakesList = document.getElementById('mistakesList');
+  mistakesList.innerHTML = LESSON_DATA.common_mistakes.map(m=>`<li style="padding:10px 0;border-bottom:1px dashed var(--line);font-size:14.5px;color:var(--dark-soft);line-height:1.7">• ${m}</li>`).join('');
+
+  document.getElementById('nav-lesson').classList.add('completed');
+  document.getElementById('nav-comprehensive').classList.remove('locked');
+
+  showStage('summary');
+}
+
+function goToComprehensive(){
+  showStage('comprehensive');
+  setActive('nav-comprehensive');
+  state.compExerciseIdx = 0;
+  state.compCorrect = 0;
+  renderCompExercise();
+}
+
+function renderCompExercise(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  state.compExerciseAnswered = false;
+  state.compExerciseSolutionIdx = 0;
+
+  const dots = document.getElementById('compDots');
+  dots.innerHTML = '';
+  LESSON_DATA.comprehensive_exercises.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot' + (i < state.compExerciseIdx ? ' done' : (i === state.compExerciseIdx ? ' current' : ''));
+    dots.appendChild(d);
+  });
+
+  document.getElementById('compCounter').textContent = `تمرين شامل ${state.compExerciseIdx + 1} من ${LESSON_DATA.comprehensive_exercises.length}`;
+  document.getElementById('compQuestion').innerHTML = `<span class="math-expr">${ex.question}</span>`;
+
+  const opts = document.getElementById('compOptions');
+  opts.innerHTML = '';
+  ex.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerCompExercise(i);
+    opts.appendChild(b);
+  });
+
+  document.getElementById('compFeedback').className = 'feedback';
+  document.getElementById('compFeedback').innerHTML = '';
+  document.getElementById('compSolution').className = 'solution-block';
+  document.getElementById('compSolution').innerHTML = '';
+  scrollToTop();
+}
+
+function answerCompExercise(idx){
+  if(state.compExerciseAnswered) return;
+  state.compExerciseAnswered = true;
+
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const buttons = document.querySelectorAll('#compOptions .option');
+  buttons.forEach((b,i)=>{
+    b.classList.add('locked');
+    if(i === ex.correct_index) b.classList.add('correct');
+    if(i === idx && i !== ex.correct_index) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('compFeedback');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  if(idx === ex.correct_index){
+    state.compCorrect++;
+    fb.className = 'feedback show success';
+    fb.innerHTML = `
+      <strong>✅ ممتاز!</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت من التمارين 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+  } else {
+    fb.className = 'feedback show error';
+    fb.innerHTML = `
+      <strong>❌ الإجابة غلط.</strong> الصحيحة: <strong>${ex.options[ex.correct_index]}</strong>
+      <div class="btn-row" style="margin-top:10px">
+        <button class="btn btn-butter" onclick="showCompSolution()">عطني الزبدة 🧈</button>
+        <button class="btn btn-ghost" onclick="nextCompExercise()">تخطي</button>
+      </div>
+    `;
+  }
+}
+
+function showCompSolution(){
+  state.compExerciseSolutionIdx = 0;
+  document.getElementById('compFeedback').classList.remove('show');
+  document.getElementById('compSolution').innerHTML = '';
+  document.getElementById('compSolution').classList.add('show');
+  renderCompSolutionStep();
+}
+
+function renderCompSolutionStep(){
+  const ex = LESSON_DATA.comprehensive_exercises[state.compExerciseIdx];
+  const sol = document.getElementById('compSolution');
+  const isLast = state.compExerciseIdx === LESSON_DATA.comprehensive_exercises.length - 1;
+
+  // مسح كل الأزرار من الخطوات السابقة قبل أي إضافة
+  sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  if(state.compExerciseSolutionIdx >= ex.solution.length){
+    const lastBtn = document.createElement('div');
+    lastBtn.className = 'sol-step';
+    lastBtn.innerHTML = `
+      <div class="btn-row center" style="margin:0">
+        <button class="btn btn-butter" onclick="nextCompExercise()">${isLast ? 'انتهيت 🎉' : 'التمرين التالي ←'}</button>
+      </div>
+    `;
+    sol.appendChild(lastBtn);
+    return;
+  }
+
+  const step = ex.solution[state.compExerciseSolutionIdx];
+  const isLastSolutionStep = state.compExerciseSolutionIdx === ex.solution.length - 1;
+  const div = document.createElement('div');
+  div.className = 'sol-step';
+  div.innerHTML = `
+    <div class="sol-step-head">
+      <div class="sol-step-num">${step.step}</div>
+      <div class="sol-step-label">خطوة ${step.step}</div>
+    </div>
+    <div class="sol-step-content math-expr">${md(step.content)}</div>
+    <div class="btn-row" style="margin-top:10px">
+      <button class="btn btn-primary" onclick="advanceCompSolution()">${isLastSolutionStep ? 'فهمت ✓' : 'فهمت — كمّل ←'}</button>
+    </div>
+  `;
+  sol.appendChild(div);
+}
+
+function advanceCompSolution(){
+  // امسح الزر فوراً لمنع الضغط المزدوج
+  const sol = document.getElementById('compSolution');
+  if(sol) sol.querySelectorAll('.btn-row').forEach(b => b.remove());
+
+  state.compExerciseSolutionIdx++;
+  renderCompSolutionStep();
+}
+
+function nextCompExercise(){
+  state.compExerciseIdx++;
+  if(state.compExerciseIdx >= LESSON_DATA.comprehensive_exercises.length){
+    state.stagesCompleted.comprehensive = true;
+    document.getElementById('nav-comprehensive').classList.add('completed');
+    document.getElementById('nav-exam').classList.remove('locked');
+    showStage('exam-intro');
+    setActive('nav-exam');
+  } else {
+    renderCompExercise();
+  }
+}
+
+function startExam(){
+  state.examQuestionIdx = 0;
+  state.examAnswers = [];
+  state.examTimedOut = false;
+  showStage('exam');
+  startExamTimer();
+  renderExamQuestion();
+}
+
+function startExamTimer(){
+  // فحص إذا كان الاختبار يحتوي على Timer
+  if(!LESSON_DATA.final_exam.has_timer) return;
+
+  const durationMinutes = LESSON_DATA.final_exam.duration_minutes || 15;
+  let remainingSeconds = durationMinutes * 60;
+
+  // إنشاء عنصر Timer
+  const examScreen = document.getElementById('stage-exam');
+  let timerEl = document.getElementById('examTimer');
+  if(!timerEl){
+    timerEl = document.createElement('div');
+    timerEl.id = 'examTimer';
+    timerEl.className = 'exam-timer';
+    // إضافة الـ Timer في بداية أول card داخل stage-exam
+    const firstCard = examScreen.querySelector('.card');
+    if(firstCard){
+      firstCard.insertBefore(timerEl, firstCard.firstChild);
+    } else {
+      examScreen.insertBefore(timerEl, examScreen.firstChild);
+    }
+  }
+
+  function updateTimer(){
+    const mins = Math.floor(remainingSeconds / 60);
+    const secs = remainingSeconds % 60;
+    timerEl.textContent = `⏱️ متبقي: ${mins}:${secs.toString().padStart(2,'0')}`;
+
+    // تحذير برتقالي عند 3 دقائق
+    if(remainingSeconds <= 180 && remainingSeconds > 60){
+      timerEl.className = 'exam-timer warning';
+    }
+    // خطر أحمر عند دقيقة واحدة
+    else if(remainingSeconds <= 60){
+      timerEl.className = 'exam-timer danger';
+    }
+    else {
+      timerEl.className = 'exam-timer';
+    }
+
+    if(remainingSeconds <= 0){
+      clearInterval(state.examTimerInterval);
+      state.examTimedOut = true;
+      // عند انتهاء الوقت: إنهاء الاختبار تلقائياً
+      // ملء الإجابات الباقية كخاطئة
+      while(state.examAnswers.length < LESSON_DATA.final_exam.questions.length){
+        state.examAnswers.push(-1);
+      }
+      finishExam();
+      return;
+    }
+    remainingSeconds--;
+  }
+
+  updateTimer(); // عرض فوري
+  state.examTimerInterval = setInterval(updateTimer, 1000);
+}
+
+function stopExamTimer(){
+  if(state.examTimerInterval){
+    clearInterval(state.examTimerInterval);
+    state.examTimerInterval = null;
+  }
+}
+
+function renderExamQuestion(){
+  const q = LESSON_DATA.final_exam.questions[state.examQuestionIdx];
+  document.getElementById('examCounter').textContent = `السؤال ${state.examQuestionIdx + 1} من ${LESSON_DATA.final_exam.questions.length}`;
+  document.getElementById('examQuestion').innerHTML = `<span class="math-expr">${q.question}</span>`;
+
+  const opts = document.getElementById('examOptions');
+  opts.innerHTML = '';
+  q.options.forEach((opt,i)=>{
+    const b = document.createElement('button');
+    b.className = 'option math-expr';
+    b.textContent = opt;
+    b.onclick = ()=>answerExamQuestion(i);
+    opts.appendChild(b);
+  });
+  scrollToTop();
+}
+
+function answerExamQuestion(idx){
+  state.examAnswers.push(idx);
+  state.examQuestionIdx++;
+  if(state.examQuestionIdx >= LESSON_DATA.final_exam.questions.length){
+    finishExam();
+  } else {
+    renderExamQuestion();
+  }
+}
+
+function finishExam(){
+  stopExamTimer();
+
+  let correct = 0;
+  const mistakes = [];
+  LESSON_DATA.final_exam.questions.forEach((q,i)=>{
+    if(state.examAnswers[i] === q.correct_index){
+      correct++;
+    } else {
+      mistakes.push({
+        questionIdx: i,
+        question: q,
+        userAnswer: state.examAnswers[i]
+      });
+    }
+  });
+
+  state.examMistakes = mistakes;
+
+  const total = LESSON_DATA.final_exam.questions.length;
+  state.stagesCompleted.exam = true;
+  const passed = correct >= LESSON_DATA.final_exam.pass_threshold;
+
+  // عنوان النتيجة
+  let titleText = '';
+  if(state.examTimedOut){
+    titleText = '⏰ انتهى الوقت!';
+  } else if(passed){
+    titleText = '🎉 نجحت!';
+  } else {
+    titleText = '💪 تحتاج مراجعة';
+  }
+  document.getElementById('doneTitle').textContent = titleText;
+  document.getElementById('doneScore').textContent = `${correct}/${total}`;
+
+  // رسالة النتيجة
+  let msg = '';
+  const lessonNum = LESSON_DATA.order;
+  const remaining = 18 - lessonNum;
+  if(state.examTimedOut){
+    msg = `انتهى الوقت قبل ما تخلص. تحتاج تتدرّب أكثر على السرعة. راجع الدرس وأعد المحاولة.`;
+  } else if(correct === total){
+    msg = `نتيجة كاملة! إتقان تام للدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else if(passed){
+    msg = `أحسنت — نجحت في اختبار الدرس ${lessonNum}. باقي ${remaining} درس وأنت في الطريق.`;
+  } else {
+    msg = 'لا بأس — راجع الشرح مرة ثانية، وأعد الاختبار. التمكّن خير من السرعة.';
+  }
+  document.getElementById('doneMsg').textContent = msg;
+
+  // بناء الأزرار: لو فيه أخطاء، يظهر زر "شوف أخطاءك"
+  const actionsDiv = document.getElementById('doneActions');
+  actionsDiv.innerHTML = '';
+
+  if(mistakes.length > 0){
+    const reviewBtn = document.createElement('button');
+    reviewBtn.className = 'btn btn-butter';
+    reviewBtn.textContent = `⚠️ شوف أخطاءك (${mistakes.length})`;
+    reviewBtn.onclick = ()=>showMistakesReview();
+    actionsDiv.appendChild(reviewBtn);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-ghost';
+    nextBtn.textContent = 'تخطّى للدرس التالي ←';
+    nextBtn.style.marginRight = '10px';
+    nextBtn.onclick = ()=>location.reload();
+    actionsDiv.appendChild(nextBtn);
+  } else {
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'btn btn-butter';
+    nextBtn.textContent = 'الدرس التالي ←';
+    nextBtn.onclick = ()=>location.reload();
+    actionsDiv.appendChild(nextBtn);
+  }
+
+  showStage('done');
+}
+
+function showMistakesReview(){
+  const mistakes = state.examMistakes || [];
+  const total = LESSON_DATA.final_exam.questions.length;
+
+  document.getElementById('mistakesCounter').textContent =
+    `أخطأت في ${mistakes.length} من ${total}. لا تستعجل، اقرأ كل شرح بهدوء.`;
+
+  const list = document.getElementById('mistakesList');
+  list.innerHTML = '';
+
+  mistakes.forEach((m,idx)=>{
+    const q = m.question;
+    const userAnswerText = m.userAnswer >= 0
+      ? q.options[m.userAnswer]
+      : '(لم تجب — انتهى الوقت)';
+    const correctText = q.options[q.correct_index];
+
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:14px;animation:slideUp .3s ease';
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="width:32px;height:32px;background:var(--red-bg);color:var(--red);border-radius:50%;display:grid;place-items:center;font-weight:700;flex-shrink:0">${m.questionIdx + 1}</div>
+        <div style="font-weight:600;font-size:15px;color:var(--dark);line-height:1.6" class="math-expr">${q.question}</div>
+      </div>
+
+      <div style="background:var(--red-bg);border-right:3px solid var(--red);padding:10px 14px;border-radius:8px;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:4px">❌ إجابتك</div>
+        <div class="math-expr" style="font-size:14px;color:var(--dark-soft)">${userAnswerText}</div>
+      </div>
+
+      <div style="background:var(--green-bg);border-right:3px solid var(--green);padding:10px 14px;border-radius:8px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px">✅ الصحيحة</div>
+        <div class="math-expr" style="font-size:14px;color:var(--dark)">${correctText}</div>
+      </div>
+
+      <div style="background:var(--butter-glow);border-right:3px solid var(--butter-deep);padding:12px 14px;border-radius:8px">
+        <div style="font-size:12px;font-weight:700;color:var(--butter-deep);margin-bottom:6px">💡 السبب</div>
+        <div style="font-size:14px;color:var(--dark-soft);line-height:1.8" class="math-expr">${md(q.explanation || 'لا يوجد شرح متاح')}</div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+
+  showStage('mistakes');
+}
+
+init();
+</script>
+</body>
+</html>
