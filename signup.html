@@ -440,7 +440,7 @@
 
         <div class="auth-divider">أو سجّل بإيميلك</div>
 
-        <form id="signupForm" onsubmit="return handleSignup(event)">
+        <form id="signupForm">
           <div class="field">
             <label class="field-label" for="name">الاسم الكامل</label>
             <input
@@ -578,13 +578,21 @@
 
   </main>
 
-  <script>
-    function togglePassword() {
-      const input = document.getElementById('password');
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
+  <script type="module">
+    import { signUpWithEmail, signInWithGoogle as firebaseGoogleSignIn } from './assets/js/auth.js';
 
-    function updateStrength(val) {
+    // عناصر الواجهة
+    const form = document.getElementById('signupForm');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = form.querySelector('.btn-submit');
+
+    // إظهار/إخفاء كلمة المرور
+    window.togglePassword = function() {
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    };
+
+    // مقياس قوة كلمة المرور
+    window.updateStrength = function(val) {
       const bars = document.querySelectorAll('.strength-bar');
       const label = document.getElementById('strengthLabel');
       let score = 0;
@@ -600,21 +608,82 @@
 
       const labels = ['استخدم خليط من الأحرف والأرقام', 'ضعيفة', 'متوسطة', 'قوية', 'قوية جداً'];
       label.textContent = labels[score];
+    };
+
+    // عرض رسالة خطأ
+    function showError(message) {
+      // إزالة أي رسالة سابقة
+      const existing = document.querySelector('.auth-error');
+      if (existing) existing.remove();
+
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'auth-error';
+      errorDiv.style.cssText = 'background:#FDEEEE;border:1px solid #F5C5C5;color:#B84545;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;text-align:right;';
+      errorDiv.textContent = message;
+
+      const formElement = document.getElementById('signupForm');
+      formElement.insertBefore(errorDiv, formElement.firstChild);
     }
 
-    function signUpWithGoogle() {
-      console.log('[auth] Google signup clicked');
-      alert('قريباً — التسجيل عبر Google. الآن استخدم البريد وكلمة المرور.');
-    }
-
-    function handleSignup(e) {
+    // التسجيل بالإيميل
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      console.log('[auth] signup:', { name, email });
-      window.location.href = 'dashboard.html';
-      return false;
-    }
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = passwordInput.value;
+      const termsAccepted = form.querySelector('input[name="terms"]').checked;
+
+      // تحقّقات بسيطة
+      if (!termsAccepted) {
+        showError('لازم توافق على الشروط للمتابعة.');
+        return;
+      }
+      if (name.length < 2) {
+        showError('اكتب اسمك الكامل من فضلك.');
+        return;
+      }
+      if (password.length < 8) {
+        showError('كلمة المرور لازم تكون ٨ أحرف على الأقل.');
+        return;
+      }
+
+      // تعطيل الزر وعرض حالة التحميل
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>جاري إنشاء حسابك...</span>';
+
+      const result = await signUpWithEmail(email, password, name);
+
+      if (result.success) {
+        console.log('[signup] success:', result.user.uid);
+        window.location.href = 'dashboard.html';
+      } else {
+        showError(result.error);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'إنشاء حسابي <span class="arrow">←</span>';
+      }
+    });
+
+    // التسجيل عبر Google
+    window.signUpWithGoogle = async function() {
+      const googleBtn = document.querySelector('.btn-google');
+      googleBtn.disabled = true;
+      googleBtn.style.opacity = '0.6';
+
+      const result = await firebaseGoogleSignIn();
+
+      if (result.success) {
+        console.log('[signup] Google success:', result.user.uid);
+        window.location.href = 'dashboard.html';
+      } else {
+        showError(result.error);
+        googleBtn.disabled = false;
+        googleBtn.style.opacity = '1';
+      }
+    };
+
+    // دالة legacy (لو في زر يستخدم الاسم القديم)
+    window.handleSignup = function() { return false; };
   </script>
 
 </body>

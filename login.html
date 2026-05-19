@@ -417,7 +417,7 @@
 
         <div class="auth-divider">أو سجّل بإيميلك</div>
 
-        <form id="loginForm" onsubmit="return handleLogin(event)">
+        <form id="loginForm">
           <div class="field">
             <label class="field-label" for="email">البريد الإلكتروني</label>
             <input
@@ -544,27 +544,77 @@
 
   </main>
 
-  <script>
-    function togglePassword() {
-      const input = document.getElementById('password');
-      input.type = input.type === 'password' ? 'text' : 'password';
+  <script type="module">
+    import { signInWithEmail, signInWithGoogle as firebaseGoogleSignIn } from './assets/js/auth.js';
+
+    const form = document.getElementById('loginForm');
+    const passwordInput = document.getElementById('password');
+    const submitBtn = form.querySelector('.btn-submit');
+
+    window.togglePassword = function() {
+      passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
+    };
+
+    function showError(message) {
+      const existing = document.querySelector('.auth-error');
+      if (existing) existing.remove();
+
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'auth-error';
+      errorDiv.style.cssText = 'background:#FDEEEE;border:1px solid #F5C5C5;color:#B84545;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;text-align:right;';
+      errorDiv.textContent = message;
+
+      const formElement = document.getElementById('loginForm');
+      formElement.insertBefore(errorDiv, formElement.firstChild);
     }
 
-    function signInWithGoogle() {
-      // Placeholder — Firebase Auth integration later
-      console.log('[auth] Google sign-in clicked');
-      alert('قريباً — تسجيل الدخول عبر Google. الآن استخدم البريد وكلمة المرور.');
-    }
-
-    function handleLogin(e) {
+    // الدخول بالإيميل
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      console.log('[auth] login attempt:', email);
-      // Placeholder — redirect to dashboard
-      window.location.href = 'dashboard.html';
-      return false;
-    }
+
+      const email = document.getElementById('email').value.trim();
+      const password = passwordInput.value;
+
+      if (!email || !password) {
+        showError('املأ البريد وكلمة المرور.');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>جاري الدخول...</span>';
+
+      const result = await signInWithEmail(email, password);
+
+      if (result.success) {
+        console.log('[login] success:', result.user.uid);
+        window.location.href = 'dashboard.html';
+      } else {
+        showError(result.error);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'تسجيل الدخول <span class="arrow">←</span>';
+      }
+    });
+
+    // الدخول عبر Google
+    window.signInWithGoogle = async function() {
+      const googleBtn = document.querySelector('.btn-google');
+      googleBtn.disabled = true;
+      googleBtn.style.opacity = '0.6';
+
+      const result = await firebaseGoogleSignIn();
+
+      if (result.success) {
+        console.log('[login] Google success:', result.user.uid);
+        window.location.href = 'dashboard.html';
+      } else {
+        showError(result.error);
+        googleBtn.disabled = false;
+        googleBtn.style.opacity = '1';
+      }
+    };
+
+    // دالة legacy
+    window.handleLogin = function() { return false; };
   </script>
 
 </body>

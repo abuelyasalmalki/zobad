@@ -1016,5 +1016,95 @@
 
   </div>
 
+  <script type="module">
+    import { watchAuthState, getUserData, logOut } from './assets/js/auth.js';
+
+    // حماية الصفحة — لو ما فيه مستخدم مسجّل، رجّعه للدخول
+    watchAuthState(async (user) => {
+      if (!user) {
+        console.log('[dashboard] no user, redirecting to login');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      console.log('[dashboard] user authenticated:', user.uid);
+
+      // تحديث الاسم في الواجهة
+      updateUserDisplay(user);
+
+      // قراءة بيانات المستخدم من Firestore
+      const result = await getUserData(user.uid);
+      if (result.success) {
+        updateDashboardData(result.data);
+      } else {
+        console.error('[dashboard] failed to load user data:', result.error);
+      }
+    });
+
+    function updateUserDisplay(user) {
+      const name = user.displayName || 'طالب';
+      const firstName = name.split(' ')[0];
+      const initial = firstName.charAt(0);
+
+      // تحديث الترحيب
+      const titleEl = document.querySelector('.main-title');
+      if (titleEl) {
+        titleEl.innerHTML = `يلا نكمّل يا ${firstName} 👋`;
+      }
+
+      // تحديث الـ avatar
+      document.querySelectorAll('.avatar').forEach(av => {
+        av.textContent = initial;
+      });
+
+      // تحديث الاسم في الـ sidebar
+      const userNameEl = document.querySelector('.user-name');
+      if (userNameEl) userNameEl.textContent = firstName;
+    }
+
+    function updateDashboardData(data) {
+      // تحديث حالة الاشتراك في الـ sidebar
+      const userPlanEl = document.querySelector('.user-plan');
+      if (userPlanEl && data.subscription) {
+        const status = data.subscription.status;
+        if (status === 'paid') {
+          userPlanEl.textContent = 'عضو • ٦ شهور';
+        } else if (status === 'free') {
+          userPlanEl.textContent = 'الباقة المجانية';
+        } else {
+          userPlanEl.textContent = 'انتهى الاشتراك';
+        }
+      }
+
+      // تحديث التقدّم لو متوفر
+      if (data.progress) {
+        const completed = (data.progress.completedLessons || []).length;
+        const totalQuestions = data.progress.totalQuestionsSolved || 0;
+
+        // تحديث الإحصائيات
+        const statVals = document.querySelectorAll('.stat-val');
+        if (statVals[0]) statVals[0].textContent = `${convertToArabicNumerals(completed)} / ١٥`;
+        if (statVals[1]) statVals[1].textContent = convertToArabicNumerals(totalQuestions);
+      }
+    }
+
+    function convertToArabicNumerals(num) {
+      const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return String(num).split('').map(d => arabicNumerals[parseInt(d)] || d).join('');
+    }
+
+    // تسجيل الخروج عند الضغط على بطاقة المستخدم
+    document.querySelector('.sidebar-user')?.addEventListener('click', async () => {
+      if (confirm('هل تريد تسجيل الخروج؟')) {
+        const result = await logOut();
+        if (result.success) {
+          window.location.href = 'index.html';
+        } else {
+          alert('حدث خطأ: ' + result.error);
+        }
+      }
+    });
+  </script>
+
 </body>
 </html>

@@ -323,23 +323,71 @@
     </main>
   </div>
 
-  <script>
-    function handleReset(e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value;
-      document.getElementById('sentEmail').textContent = email;
-      document.getElementById('formState').classList.add('hidden');
-      document.getElementById('successState').classList.add('active');
-      console.log('[forgot] reset email sent to:', email);
-      return false;
+  <script type="module">
+    import { resetPassword } from './assets/js/auth.js';
+
+    const formState = document.getElementById('formState');
+    const successState = document.getElementById('successState');
+    const emailInput = document.getElementById('email');
+
+    function showError(message) {
+      const existing = document.querySelector('.auth-error');
+      if (existing) existing.remove();
+
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'auth-error';
+      errorDiv.style.cssText = 'background:#FDEEEE;border:1px solid #F5C5C5;color:#B84545;padding:12px 16px;border-radius:10px;font-size:14px;margin-bottom:16px;text-align:right;';
+      errorDiv.textContent = message;
+
+      const form = formState.querySelector('form');
+      form.insertBefore(errorDiv, form.firstChild);
     }
 
-    function resetForm() {
-      document.getElementById('formState').classList.remove('hidden');
-      document.getElementById('successState').classList.remove('active');
-      document.getElementById('email').value = '';
-      document.getElementById('email').focus();
-    }
+    window.handleReset = async function(e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      if (!email) {
+        showError('اكتب بريدك الإلكتروني.');
+        return false;
+      }
+
+      const submitBtn = e.target.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      const originalContent = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span>جاري الإرسال...</span>';
+
+      const result = await resetPassword(email);
+
+      if (result.success) {
+        document.getElementById('sentEmail').textContent = email;
+        formState.classList.add('hidden');
+        successState.classList.add('active');
+        console.log('[forgot] reset email sent to:', email);
+      } else {
+        showError(result.error);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalContent;
+      }
+
+      return false;
+    };
+
+    window.resetForm = function() {
+      formState.classList.remove('hidden');
+      successState.classList.remove('active');
+      emailInput.value = '';
+      emailInput.focus();
+
+      // إزالة رسائل الخطأ
+      const existing = document.querySelector('.auth-error');
+      if (existing) existing.remove();
+
+      // إعادة الزر لحالته الأصلية
+      const submitBtn = formState.querySelector('.btn-submit');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'أرسل رابط الاستعادة <span class="arrow">←</span>';
+    };
   </script>
 
 </body>
