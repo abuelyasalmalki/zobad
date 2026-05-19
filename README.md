@@ -1,218 +1,205 @@
-# 🔥 Firebase Integration — حزمة الربط
+# 📊 حزمة تقدّم الطالب — زُبَد
 
-## 📂 الملفات في هذي الحزمة
+## 🎯 ما الذي تفعله هذي الحزمة
+
+- ✅ حفظ نتائج الدروس في Firestore (كتابة واحدة لكل درس)
+- ✅ تحليل نقاط الضعف تلقائياً (بناءً على أنواع الأسئلة)
+- ✅ Dashboard ديناميكي يقرأ بيانات حقيقية
+- ✅ تتبّع: الدروس المكتملة، الأسئلة المحلولة، الأخطاء، الأيام المتتالية
+- ✅ صفحة اختبار `test-progress.html` لمحاكاة كل شي
+
+---
+
+## 📂 الملفات
 
 ```
-firebase-package/
-├── README.md              ← هذا الملف
-├── signup.html            ← صفحة التسجيل (محدّثة)
-├── login.html             ← صفحة الدخول (محدّثة)
-├── forgot.html            ← نسيت كلمة المرور (محدّثة)
-├── dashboard.html         ← لوحة الطالب (محدّثة)
+progress-package/
+├── README.md                          ← هذا الملف
+├── firestore-rules.txt                ← قواعد الأمان (مهم!)
+├── dashboard.html                     ← محدّث، يقرأ بيانات حقيقية
+├── test-progress.html                 ← صفحة اختبار مؤقتة
 └── assets/
     └── js/
-        ├── firebase-config.js   ← إعدادات Firebase (جديد)
-        └── auth.js              ← دوال المصادقة (جديد)
+        └── firestore.js               ← جديد — دوال التقدّم
 ```
 
 ---
 
-## 🚀 خطوات التنصيب على GitHub
+## 🚀 خطوات الرفع على GitHub
 
-### **١. ارفع الملفات على GitHub في repo زُبَد (zobad)**
+### **١. ارفع `firestore.js` في `assets/js/`**
 
-كل ملف يروح لمكانه:
-
-| الملف | المكان على GitHub |
+| الملف | المسار على GitHub |
 |---|---|
-| `signup.html` | الجذر (يستبدل الموجود) |
-| `login.html` | الجذر (يستبدل الموجود) |
-| `forgot.html` | الجذر (يستبدل الموجود) |
-| `dashboard.html` | الجذر (يستبدل الموجود) |
-| `firebase-config.js` | `assets/js/firebase-config.js` (جديد) |
-| `auth.js` | `assets/js/auth.js` (جديد) |
+| `firestore.js` | `assets/js/firestore.js` (جديد) |
 
-### **٢. تأكّد من بنية المجلدات على GitHub**
+### **٢. ارفع `dashboard.html` في الجذر**
 
-بعد الرفع، لازم تكون:
+(يستبدل القديم)
+
+### **٣. ارفع `test-progress.html` في الجذر**
+
+(صفحة جديدة — للاختبار فقط)
+
+---
+
+## ⚠️ مهم: حدّث Firestore Security Rules
+
+### **الخطوات:**
+
+1. ادخل Firebase Console → Firestore Database
+2. اضغط تبويب **Rules**
+3. **احذف الكود القديم**
+4. الصق محتوى `firestore-rules.txt`
+5. اضغط **Publish**
+
+### **لماذا؟**
+
+أضفنا `subcollection` جديد اسمه `lessonProgress` لكل مستخدم. القواعد القديمة ما تشمله، لذا التحديث ضروري وإلا التقدّم ما ينحفظ.
+
+---
+
+## 🧪 طريقة الاختبار
+
+### **١. افتح صفحة الاختبار:**
 
 ```
-zobad/
-├── index.html
-├── signup.html        ← المحدّث
-├── login.html         ← المحدّث
-├── forgot.html        ← المحدّث
-├── dashboard.html     ← المحدّث
-├── curriculum.html
-├── about.html
-└── assets/
-    ├── images/
-    │   └── logo.svg
-    └── js/             ← جديد
-        ├── firebase-config.js
-        └── auth.js
+https://abuelyasalmalki.github.io/zobad/test-progress.html
 ```
 
-### **٣. انتظر دقيقتين**
+### **٢. جرّب السيناريوهات:**
 
-GitHub Pages يحدّث الموقع تلقائياً.
+#### **سيناريو أ: إكمال دروس متتالية**
 
----
+1. اضغط "١. مدخل اللفظي" → الدرس يتمّ ١٨/٢٠
+2. اضغط "٢. أنواع العلاقات" → الدرس يتمّ
+3. ارجع لـ `dashboard.html`
+4. لازم تشوف:
+   - "٢ / ١٥" في إحصائية الدروس
+   - "كمّل الدرس ٣" في البطاقة الكبيرة
+   - الدرسين الأولين بعلامة ✓ خضراء
+   - الدرس ٣ بأيقونة ▶️ (current)
 
-## 🧪 الاختبار
+#### **سيناريو ب: نتيجة منخفضة**
 
-### **الاختبار ١: التسجيل**
+1. اختر "الدرس ٤" في القسم المخصص
+2. اكتب: ١٠ صحيحة من ٢٠ (٥٠٪)
+3. احفظ
+4. النتيجة: الدرس **لا** يكتمل (لأن أقل من ٧٠٪)
+5. لكن الأسئلة تنحسب في الإحصائيات
 
-1. افتح `abuelyasalmalki.github.io/zobad/signup.html`
-2. اكتب اسم، إيميل، كلمة مرور (٨ أحرف+)
-3. علّم على الشروط
-4. اضغط "إنشاء حسابي"
-5. لو نجح → تنتقل لـ `dashboard.html` تلقائياً
-6. لو فشل → رسالة خطأ بالعربي
+#### **سيناريو ج: تشخيص نقاط الضعف**
 
-**تحقّق في Firebase:**
-- ادخل Firebase Console → Authentication → Users
-- لازم تشوف الإيميل اللي سجّلته
-- ادخل Firestore Database → users → لازم تشوف document للمستخدم
+1. اضغط "خطأ سياقي (٤/١٠)"
+2. اضغط "تناظر (٦/١٠)"
+3. اضغط "إكمال (٩/١٠)"
+4. ارجع لـ Dashboard
+5. لازم تشوف نقاط الضعف:
+   - الخطأ السياقي: ٤٠٪ (ضعيف، أحمر)
+   - التناظر: ٦٠٪ (متوسط، برتقالي)
+   - إكمال: ٩٠٪ (ممتاز، أخضر)
 
-### **الاختبار ٢: الدخول**
+#### **سيناريو د: مسح وإعادة بداية**
 
-1. اضغط تسجيل خروج من Dashboard
-2. ادخل `login.html`
-3. اكتب نفس الإيميل وكلمة المرور
-4. لازم تدخل Dashboard بنجاح
-
-### **الاختبار ٣: Google Sign-in**
-
-1. ادخل `signup.html` أو `login.html`
-2. اضغط زر Google
-3. اختار حساب Google
-4. لازم تنتقل Dashboard
-
-### **الاختبار ٤: نسيت كلمة المرور**
-
-1. ادخل `forgot.html`
-2. اكتب إيميل مسجّل
-3. اضغط "أرسل رابط الاستعادة"
-4. تطلع شاشة النجاح
-5. تحقّق من بريدك (وSpam) — لازم يجي إيميل من Firebase
-
-### **الاختبار ٥: حماية Dashboard**
-
-1. سجّل خروج (Logout)
-2. حاول تفتح `dashboard.html` مباشرة
-3. لازم يرجّعك للـ login تلقائياً
+1. اضغط "احذف كل تقدّمي"
+2. أكّد
+3. كل شي يرجع لـ ٠
 
 ---
 
-## ⚠️ مشاكل شائعة وحلولها
+## 📊 ما يُحفظ في Firestore بعد إكمال درس
 
-### **١. "Firebase: Error (auth/operation-not-allowed)"**
+### **في `users/{userId}`:**
 
-السبب: ما فعّلت طريقة الدخول في Firebase Console.
+```json
+{
+  "progress": {
+    "completedLessons": ["lesson-01", "lesson-02"],
+    "currentLesson": "lesson-03",
+    "totalQuestionsSolved": 40,
+    "totalCorrectAnswers": 36,
+    "totalMistakes": 4,
+    "lastStudyDate": "..."
+  },
+  "weaknesses": {
+    "analogy": { "total": 16, "correct": 14, "accuracy": 88 },
+    "completion": { "total": 8, "correct": 8, "accuracy": 100 },
+    "contextError": { "total": 8, "correct": 6, "accuracy": 75 }
+  }
+}
+```
 
-الحل:
-- Firebase Console → Authentication → Sign-in method
-- فعّل Email/Password و Google
+### **في `users/{userId}/lessonProgress/lesson-01`:**
 
-### **٢. "auth/unauthorized-domain"**
-
-السبب: GitHub Pages domain غير مضاف للنطاقات المخوّلة.
-
-الحل:
-- Firebase Console → Authentication → Settings → Authorized domains
-- Add domain: `abuelyasalmalki.github.io`
-
-### **٣. الصفحة فاضية / Console يطلع أخطاء "Module not found"**
-
-السبب: الملفات في مسار خطأ.
-
-الحل: تأكّد من بنية المجلدات أعلاه. `firebase-config.js` و `auth.js` لازم يكونان في `assets/js/`.
-
-### **٤. Google Sign-in popup يطلع ثم يقفل**
-
-السبب: المتصفح يمنع النوافذ المنبثقة.
-
-الحل: اسمح للنوافذ المنبثقة في إعدادات المتصفح.
-
-### **٥. "Missing or insufficient permissions" (Firestore)**
-
-السبب: Security Rules غير صحيحة.
-
-الحل: تأكّد إنك نشرت الـ Rules اللي عطيتك في Firestore Database → Rules.
-
----
-
-## 🎯 ماذا يفعل كل ملف؟
-
-### **`firebase-config.js`**
-- يربط الموقع بـ Firebase
-- يستخدم Firebase SDK v10 عبر CDN (بدون npm)
-- يصدّر `auth`, `db`, `googleProvider`
-
-### **`auth.js`**
-دوال جاهزة للاستخدام:
-- `signUpWithEmail(email, password, name)` — تسجيل جديد
-- `signInWithEmail(email, password)` — دخول
-- `signInWithGoogle()` — دخول/تسجيل عبر Google
-- `logOut()` — تسجيل خروج
-- `resetPassword(email)` — استعادة كلمة المرور
-- `watchAuthState(callback)` — مراقبة حالة المستخدم
-- `getUserData(userId)` — قراءة بيانات المستخدم
-
-### **`signup.html`**
-- يستخدم Firebase لإنشاء حساب جديد
-- يحفظ بيانات المستخدم في Firestore تلقائياً
-- ينتقل لـ Dashboard بعد النجاح
-
-### **`login.html`**
-- يستخدم Firebase للدخول
-- يحدّث `lastLogin` في Firestore
-- ينتقل لـ Dashboard
-
-### **`forgot.html`**
-- يرسل إيميل استعادة فعلي من Firebase
-- يعرض شاشة نجاح بعد الإرسال
-
-### **`dashboard.html`**
-- محمي — يرجّع غير المسجّلين للدخول
-- يقرأ بيانات المستخدم من Firestore
-- يعرض الاسم، حالة الاشتراك، التقدّم
-- زر تسجيل خروج بالضغط على بطاقة المستخدم
+```json
+{
+  "lessonId": "lesson-01",
+  "completed": true,
+  "score": "18/20",
+  "percentage": 90,
+  "correctAnswers": 18,
+  "mistakes": 2,
+  "totalQuestions": 20,
+  "questions": [...],
+  "attempts": 1,
+  "completedAt": "...",
+  "lastAttemptAt": "..."
+}
+```
 
 ---
 
-## 🛡️ الأمان
-
-- ✅ كلمات المرور تُحفظ مشفّرة في Firebase (لا تُخزّن نص صريح)
-- ✅ كل مستخدم يقدر يصل لبياناته فقط (Firestore Rules)
-- ✅ Authorized domains تمنع المواقع الأخرى من الاتصال بـ Firebase
-- ✅ Firebase API key آمنة في الـ frontend (محمية بـ Authorized domains + Rules)
-
----
-
-## 📊 هيكل البيانات في Firestore
+## 💰 التكلفة المتوقّعة
 
 ```
-firestore/
-└── users/
-    └── {userId}/
-        ├── uid: string
-        ├── name: "محمد العتيبي"
-        ├── email: "..."
-        ├── photoURL: string | null
-        ├── createdAt: timestamp
-        ├── lastLogin: timestamp
-        ├── subscription: {
-        │     status: "free" | "paid" | "expired"
-        │     paidAt: timestamp | null
-        │     expiresAt: timestamp | null
-        │     amount: 0
-        │   }
-        └── progress: {
-              currentLesson: 1,
-              completedLessons: [],
-              totalQuestionsSolved: 0,
-              lastStudyDate: timestamp | null
-            }
+لكل طالب نشط يومياً:
+- ٢ قراءة عند فتح Dashboard
+- ١ كتابة عند إكمال درس
+- ١ قراءة عند فتح Test page (للاختبار)
+
+الإجمالي اليومي مع ١٠٠٠ طالب:
+- ٢٠٠٠ قراءة (٤٪ من ٥٠ ألف مجاناً)
+- ١٠٠٠ كتابة (٥٪ من ٢٠ ألف مجاناً)
 ```
+
+**✅ ضمن الحد المجاني بكل أريحية.**
+
+---
+
+## 🔧 المشاكل الشائعة وحلولها
+
+### **١. "Missing or insufficient permissions"**
+**السبب:** Security Rules ما حدّثت  
+**الحل:** انسخ `firestore-rules.txt` وانشره
+
+### **٢. Dashboard يظهر بيانات وهمية ثابتة**
+**السبب:** ما رفعت `dashboard.html` الجديد  
+**الحل:** أعد الرفع، Cmd+Shift+R في المتصفح
+
+### **٣. test-progress.html يقول "لازم تسجّل دخول"**
+**السبب:** ما فيه مستخدم مسجّل  
+**الحل:** ادخل من `login.html` أولاً
+
+### **٤. الأرقام في Dashboard لا تتغيّر بعد الاختبار**
+**السبب:** الكاش  
+**الحل:** Cmd+Shift+R لتفريغ الكاش
+
+---
+
+## 🎯 الخطوة التالية (بعد التأكد من الاختبار)
+
+بعد ما تتأكد إن كل شي يشتغل:
+
+1. ✅ **حماية الدروس** — تفعيل التحقق من الاشتراك
+2. ✅ **ربط الدروس الفعلية** بدوال `saveLessonResult()`
+3. ✅ **بناء صفحة الدفع**
+
+---
+
+## ⚠️ قبل الإطلاق التجاري
+
+**لا تنسى:**
+
+- 🗑️ **احذف `test-progress.html`** — هذي للتطوير فقط
+- 🔒 **شيك Firestore Rules** — تأكد إنها محكمة
+- 🧪 **اختبر مع حساب نظيف** — سجّل بإيميل جديد وجرّب التدفّق الكامل

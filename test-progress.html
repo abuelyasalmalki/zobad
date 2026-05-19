@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧪 اختبار التقدّم — زُبَد</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --ink: #0F0F0E;
+      --ink-soft: #4A4A47;
+      --ink-mute: #8A8A85;
+      --line: #E8E6DE;
+      --accent: #E8B84A;
+      --accent-deep: #B8902F;
+      --accent-glow: #FBF3DA;
+      --green: #2D7D5F;
+      --red: #B84545;
+      --blue: #3B82F6;
+      --orange: #F97316;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Tajawal', sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      padding: 24px;
+    }
+    button { font-family: inherit; cursor: pointer; border: 0; }
+    a { color: inherit; text-decoration: none; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .warning-banner {
+      background: #FFF3CD;
+      border: 2px solid #F0C36D;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      color: #856404;
+    }
+    .warning-banner strong { color: #533F03; }
+
+    .header {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 24px;
+      font-weight: 900;
+      margin: 0 0 8px;
+    }
+    .header p {
+      color: rgba(250,250,247,0.7);
+      margin: 0;
+      font-size: 14px;
+    }
+    .nav-link {
+      display: inline-block;
+      margin-top: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 18px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+    .section .desc {
+      color: var(--ink-mute);
+      font-size: 14px;
+      margin: 0 0 16px;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      background: var(--bg);
+      border: 1.5px solid var(--line);
+      color: var(--ink);
+      transition: all .2s ease;
+      text-align: center;
+    }
+    .btn:hover {
+      border-color: var(--ink);
+      transform: translateY(-1px);
+    }
+    .btn.success { background: var(--green); color: white; border-color: var(--green); }
+    .btn.warning { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+    .btn.danger { background: var(--red); color: white; border-color: var(--red); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .lesson-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px;
+    }
+
+    .state-box {
+      background: var(--bg);
+      border: 1px dashed var(--line);
+      border-radius: 12px;
+      padding: 16px;
+      font-family: 'SF Mono', Monaco, monospace;
+      font-size: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .input-row input, .input-row select {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+    }
+
+    .log {
+      background: var(--ink);
+      color: #98F5BE;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-family: 'SF Mono', monospace;
+      font-size: 12px;
+      margin-top: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      direction: ltr;
+      text-align: left;
+    }
+    .log-entry { margin-bottom: 4px; }
+    .log-entry.error { color: #FFA5A5; }
+    .log-entry.success { color: #98F5BE; }
+    .log-entry.info { color: #A5D9FF; }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .stat-box {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 16px;
+    }
+    .stat-num {
+      font-size: 24px;
+      font-weight: 900;
+      color: var(--ink);
+      font-feature-settings: 'tnum';
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--ink-mute);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Warning -->
+    <div class="warning-banner">
+      <strong>⚠️ صفحة اختبار مؤقتة</strong> — هذي الصفحة للتطوير فقط. تُحذف قبل الإطلاق.
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <h1>🧪 اختبار نظام التقدّم</h1>
+      <p>محاكاة إنهاء الدروس، إضافة أخطاء وهمية، واختبار نقاط الضعف</p>
+      <a href="dashboard.html" class="nav-link">← الرجوع للداش بورد</a>
+    </div>
+
+    <!-- Current State -->
+    <div class="section">
+      <h2>📊 الحالة الحالية</h2>
+      <p class="desc">قراءة مباشرة من Firestore</p>
+
+      <div class="stat-grid" id="quickStats">
+        <div class="stat-box">
+          <div class="stat-num" id="completedCount">٠</div>
+          <div class="stat-label">دروس مكتملة</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="currentLesson">١</div>
+          <div class="stat-label">الدرس الحالي</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="totalQuestions">٠</div>
+          <div class="stat-label">أسئلة محلولة</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" id="totalMistakes">٠</div>
+          <div class="stat-label">إجمالي الأخطاء</div>
+        </div>
+      </div>
+
+      <div class="state-box" id="stateView">Loading...</div>
+
+      <div style="margin-top: 12px;">
+        <button class="btn" onclick="refreshState()">🔄 تحديث الحالة</button>
+      </div>
+    </div>
+
+    <!-- Test 1: Complete Lessons -->
+    <div class="section">
+      <h2>✅ اختبار ١: إكمال الدروس</h2>
+      <p class="desc">اضغط زر = الدرس يتمّ بنتيجة ١٨/٢٠ (مع ٢ أخطاء وهمية)</p>
+
+      <div class="lesson-buttons" id="lessonButtons">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Test 2: Custom Result -->
+    <div class="section">
+      <h2>🎯 اختبار ٢: نتيجة مخصصة</h2>
+      <p class="desc">حدّد النتيجة بدقة لاختبار حالات معيّنة</p>
+
+      <div class="input-row">
+        <select id="customLesson">
+          <option value="lesson-01">الدرس ١ - مدخل اللفظي</option>
+          <option value="lesson-02">الدرس ٢ - أنواع العلاقات</option>
+          <option value="lesson-03">الدرس ٣ - العلاقات النادرة</option>
+          <option value="lesson-04">الدرس ٤ - الفراغ الواحد</option>
+          <option value="lesson-05">الدرس ٥ - الفراغان</option>
+          <option value="lesson-06">الدرس ٦ - الفراغات الثلاثة</option>
+          <option value="lesson-07">الدرس ٧ - الخطأ السياقي</option>
+          <option value="lesson-08">الدرس ٨ - المفردة الشاذة</option>
+          <option value="lesson-09">الدرس ٩ - الاستيعاب أساسيات</option>
+          <option value="lesson-10">الدرس ١٠ - متقدّمة</option>
+          <option value="lesson-15">الدرس ١٥ - المحاكاة</option>
+        </select>
+        <input type="number" id="customCorrect" placeholder="صحيحة" value="15" min="0" max="20">
+        <input type="number" id="customTotal" placeholder="الإجمالي" value="20" min="1" max="100">
+      </div>
+      <button class="btn warning" onclick="submitCustom()">💾 احفظ النتيجة المخصصة</button>
+    </div>
+
+    <!-- Test 3: Weakness Type -->
+    <div class="section">
+      <h2>📈 اختبار ٣: نقاط الضعف</h2>
+      <p class="desc">أضف أسئلة بأنواع مختلفة لاختبار التشخيص</p>
+
+      <div class="btn-row">
+        <button class="btn" onclick="addWeaknessTest('analogy', 10, 6)">تناظر (٦/١٠)</button>
+        <button class="btn" onclick="addWeaknessTest('completion', 10, 9)">إكمال (٩/١٠)</button>
+        <button class="btn" onclick="addWeaknessTest('contextError', 10, 4)">خطأ سياقي (٤/١٠)</button>
+        <button class="btn" onclick="addWeaknessTest('odd', 10, 7)">شاذة (٧/١٠)</button>
+        <button class="btn" onclick="addWeaknessTest('comprehension', 10, 8)">استيعاب (٨/١٠)</button>
+      </div>
+    </div>
+
+    <!-- Reset -->
+    <div class="section">
+      <h2>🗑️ مسح كل شي</h2>
+      <p class="desc">يحذف كل تقدّمك (Firestore + localStorage). يبدأ من الصفر.</p>
+      <button class="btn danger" onclick="resetAll()">⚠️ احذف كل تقدّمي</button>
+    </div>
+
+    <!-- Log -->
+    <div class="section">
+      <h2>📜 السجلّ</h2>
+      <p class="desc">آخر العمليات (مفيد للتشخيص)</p>
+      <div class="log" id="log">Ready...</div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { watchAuthState } from './assets/js/auth.js';
+    import {
+      saveLessonResult,
+      getUserProgress,
+      getAllLessonsProgress,
+      resetAllProgress,
+      LESSONS_META,
+      QUESTION_TYPES
+    } from './assets/js/firestore.js';
+
+    let currentUser = null;
+
+    watchAuthState(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      currentUser = user;
+      log('✅ تم تسجيل الدخول: ' + user.email, 'success');
+      generateLessonButtons();
+      refreshState();
+    });
+
+    // ───── دالة Logging ─────
+    function log(msg, type = 'info') {
+      const logEl = document.getElementById('log');
+      const time = new Date().toLocaleTimeString('en-US');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${time}] ${msg}`;
+      logEl.prepend(entry);
+    }
+
+    // ───── توليد أزرار الدروس ─────
+    function generateLessonButtons() {
+      const container = document.getElementById('lessonButtons');
+      container.innerHTML = Object.values(LESSONS_META).map(lesson => `
+        <button class="btn" onclick="completeLesson('${lesson.id}')">
+          ${toArabic(lesson.num)}. ${lesson.title.substring(0, 12)}${lesson.title.length > 12 ? '..' : ''}
+        </button>
+      `).join('');
+    }
+
+    // ───── إكمال درس وهمي ─────
+    window.completeLesson = async function(lessonId) {
+      log(`📚 جاري إكمال ${lessonId}...`);
+
+      // أسئلة وهمية: ١٨ صحيحة، ٢ خطأ
+      const questions = [];
+      const typeKeys = Object.keys(QUESTION_TYPES);
+      for (let i = 0; i < 20; i++) {
+        questions.push({
+          questionId: `q${i + 1}`,
+          type: typeKeys[i % typeKeys.length],
+          correct: i < 18 // أول ١٨ صحيحة، آخر ٢ خطأ
+        });
+      }
+
+      const result = await saveLessonResult(lessonId, {
+        correct: 18,
+        total: 20,
+        questions
+      });
+
+      if (result.success) {
+        log(`✅ ${lessonId}: ${result.score} (${result.percentage}٪) — ${result.isCompleted ? 'مكتمل' : 'غير مكتمل'}`, 'success');
+        refreshState();
+      } else {
+        log(`❌ فشل: ${result.error}`, 'error');
+      }
+    };
+
+    // ───── نتيجة مخصصة ─────
+    window.submitCustom = async function() {
+      const lessonId = document.getElementById('customLesson').value;
+      const correct = parseInt(document.getElementById('customCorrect').value);
+      const total = parseInt(document.getElementById('customTotal').value);
+
+      if (isNaN(correct) || isNaN(total) || correct > total) {
+        log('❌ أدخل أرقام صحيحة', 'error');
+        return;
+      }
+
+      log(`📝 حفظ ${lessonId}: ${correct}/${total}...`);
+
+      const questions = [];
+      const typeKeys = Object.keys(QUESTION_TYPES);
+      for (let i = 0; i < total; i++) {
+        questions.push({
+          questionId: `q${i + 1}`,
+          type: typeKeys[i % typeKeys.length],
+          correct: i < correct
+        });
+      }
+
+      const result = await saveLessonResult(lessonId, { correct, total, questions });
+
+      if (result.success) {
+        log(`✅ ${lessonId}: ${result.score} (${result.percentage}٪)`, 'success');
+        refreshState();
+      } else {
+        log(`❌ فشل: ${result.error}`, 'error');
+      }
+    };
+
+    // ───── اختبار نقاط الضعف ─────
+    window.addWeaknessTest = async function(type, total, correct) {
+      log(`📊 إضافة ${total} سؤال من نوع ${type} (${correct} صحيحة)`);
+
+      const questions = [];
+      for (let i = 0; i < total; i++) {
+        questions.push({
+          questionId: `${type}_q${i + 1}`,
+          type,
+          correct: i < correct
+        });
+      }
+
+      // نحفظها كدرس وهمي
+      const lessonId = `test-weakness-${type}`;
+      const result = await saveLessonResult(lessonId, { correct, total, questions });
+
+      if (result.success) {
+        log(`✅ تمت إضافة ${total} سؤال`, 'success');
+        refreshState();
+      } else {
+        log(`❌ فشل: ${result.error}`, 'error');
+      }
+    };
+
+    // ───── إعادة تعيين ─────
+    window.resetAll = async function() {
+      if (!confirm('متأكد؟ راح يُحذف كل تقدّمك.')) return;
+
+      log('🗑️ جاري الحذف...');
+      const result = await resetAllProgress();
+
+      if (result.success) {
+        log('✅ تم حذف كل التقدّم', 'success');
+        refreshState();
+      } else {
+        log(`❌ فشل: ${result.error}`, 'error');
+      }
+    };
+
+    // ───── تحديث العرض ─────
+    window.refreshState = async function() {
+      const [progress, lessons] = await Promise.all([
+        getUserProgress(),
+        getAllLessonsProgress()
+      ]);
+
+      if (!progress.success) {
+        document.getElementById('stateView').textContent = 'No data';
+        return;
+      }
+
+      const data = progress.data;
+      const userProgress = data.progress || {};
+
+      // تحديث الإحصائيات السريعة
+      document.getElementById('completedCount').textContent = toArabic((userProgress.completedLessons || []).length);
+      const currentLessonNum = (LESSONS_META[userProgress.currentLesson]?.num) || 1;
+      document.getElementById('currentLesson').textContent = toArabic(currentLessonNum);
+      document.getElementById('totalQuestions').textContent = toArabic(userProgress.totalQuestionsSolved || 0);
+      document.getElementById('totalMistakes').textContent = toArabic(userProgress.totalMistakes || 0);
+
+      // عرض الـ JSON
+      const stateView = {
+        progress: userProgress,
+        weaknesses: data.weaknesses || {},
+        subscription: data.subscription,
+        lessonProgress: lessons.success ? lessons.data : {}
+      };
+      document.getElementById('stateView').textContent = JSON.stringify(stateView, null, 2);
+    };
+
+    // Helpers
+    function toArabic(num) {
+      const ar = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return String(num).split('').map(d => ar[parseInt(d)] || d).join('');
+    }
+  </script>
+
+</body>
+</html>

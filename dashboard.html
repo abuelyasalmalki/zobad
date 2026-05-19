@@ -1017,9 +1017,19 @@
   </div>
 
   <script type="module">
-    import { watchAuthState, getUserData, logOut } from './assets/js/auth.js';
+    import { watchAuthState, logOut } from './assets/js/auth.js';
+    import {
+      getUserProgress,
+      getAllLessonsProgress,
+      checkSubscription,
+      LESSONS_META,
+      TOTAL_LESSONS,
+      QUESTION_TYPES
+    } from './assets/js/firestore.js';
 
-    // حماية الصفحة — لو ما فيه مستخدم مسجّل، رجّعه للدخول
+    // ─────────────────────────────────────────
+    //  حماية الصفحة + جلب البيانات
+    // ─────────────────────────────────────────
     watchAuthState(async (user) => {
       if (!user) {
         console.log('[dashboard] no user, redirecting to login');
@@ -1028,72 +1038,293 @@
       }
 
       console.log('[dashboard] user authenticated:', user.uid);
-
-      // تحديث الاسم في الواجهة
       updateUserDisplay(user);
 
-      // قراءة بيانات المستخدم من Firestore
-      const result = await getUserData(user.uid);
-      if (result.success) {
-        updateDashboardData(result.data);
-      } else {
-        console.error('[dashboard] failed to load user data:', result.error);
+      // قراءتان فقط من Firestore لكل تحميل صفحة
+      const [progressResult, lessonsResult] = await Promise.all([
+        getUserProgress(),
+        getAllLessonsProgress()
+      ]);
+
+      if (progressResult.success) {
+        updateMainStats(progressResult.data);
+        updateContinueCard(progressResult.data, lessonsResult.data || {});
+        updateWeaknesses(progressResult.data.weaknesses || {});
+      }
+
+      if (lessonsResult.success) {
+        updateLessonsGrid(lessonsResult.data, progressResult.data?.progress?.currentLesson);
       }
     });
 
+    // ─────────────────────────────────────────
+    //  تحديث معلومات المستخدم
+    // ─────────────────────────────────────────
     function updateUserDisplay(user) {
       const name = user.displayName || 'طالب';
       const firstName = name.split(' ')[0];
       const initial = firstName.charAt(0);
 
-      // تحديث الترحيب
       const titleEl = document.querySelector('.main-title');
-      if (titleEl) {
-        titleEl.innerHTML = `يلا نكمّل يا ${firstName} 👋`;
-      }
+      if (titleEl) titleEl.innerHTML = `يلا نكمّل يا ${firstName} 👋`;
 
-      // تحديث الـ avatar
-      document.querySelectorAll('.avatar').forEach(av => {
-        av.textContent = initial;
-      });
+      document.querySelectorAll('.avatar').forEach(av => av.textContent = initial);
 
-      // تحديث الاسم في الـ sidebar
       const userNameEl = document.querySelector('.user-name');
       if (userNameEl) userNameEl.textContent = firstName;
     }
 
-    function updateDashboardData(data) {
-      // تحديث حالة الاشتراك في الـ sidebar
+    // ─────────────────────────────────────────
+    //  تحديث الإحصائيات الرئيسية
+    // ─────────────────────────────────────────
+    function updateMainStats(userData) {
+      // حالة الاشتراك
       const userPlanEl = document.querySelector('.user-plan');
-      if (userPlanEl && data.subscription) {
-        const status = data.subscription.status;
-        if (status === 'paid') {
-          userPlanEl.textContent = 'عضو • ٦ شهور';
-        } else if (status === 'free') {
-          userPlanEl.textContent = 'الباقة المجانية';
+      if (userPlanEl && userData.subscription) {
+        const status = userData.subscription.status;
+        if (status === 'paid') userPlanEl.textContent = 'عضو • ٦ شهور';
+        else if (status === 'free') userPlanEl.textContent = 'الباقة المجانية';
+        else userPlanEl.textContent = 'انتهى الاشتراك';
+      }
+
+      const progress = userData.progress || {};
+      const completed = (progress.completedLessons || []).length;
+      const totalQuestions = progress.totalQuestionsSolved || 0;
+      const mistakes = progress.totalMistakes || 0;
+
+      // حساب الأيام المتتالية
+      const streak = calculateStreak(progress.lastStudyDate);
+
+      // تحديث البطاقات الأربعة
+      const statVals = document.querySelectorAll('.stat-val');
+      if (statVals[0]) statVals[0].textContent = `${toArabic(completed)} / ١٥`;
+      if (statVals[1]) statVals[1].textContent = toArabic(totalQuestions);
+      if (statVals[2]) statVals[2].textContent = toArabic(mistakes);
+      if (statVals[3]) statVals[3].textContent = toArabic(streak);
+
+      // تحديث الـ badge في الـ nav (الأخطاء)
+      const mistakesBadge = document.querySelector('a[href="#mistakes"] .badge');
+      if (mistakesBadge) {
+        if (mistakes > 0) {
+          mistakesBadge.textContent = toArabic(mistakes);
+          mistakesBadge.style.display = '';
         } else {
-          userPlanEl.textContent = 'انتهى الاشتراك';
+          mistakesBadge.style.display = 'none';
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────
+    //  تحديث بطاقة "كمّل الدرس"
+    // ─────────────────────────────────────────
+    function updateContinueCard(userData, lessonsProgress) {
+      const currentLessonId = userData.progress?.currentLesson || 'lesson-01';
+      const lessonMeta = LESSONS_META[currentLessonId];
+      if (!lessonMeta) return;
+
+      const currentLessonData = lessonsProgress[currentLessonId] || {};
+      const percentage = currentLessonData.percentage || 0;
+
+      // العنوان
+      const titleEl = document.querySelector('.continue-title');
+      if (titleEl) titleEl.textContent = `${toArabic(lessonMeta.num)}. ${lessonMeta.title}`;
+
+      // الوصف
+      const descEl = document.querySelector('.continue-desc');
+      if (descEl) {
+        if (percentage > 0 && percentage < 100) {
+          descEl.textContent = `وصلت لنسبة ${toArabic(percentage)}٪. كمّل من حيث وقفت.`;
+        } else if (currentLessonData.completed) {
+          descEl.textContent = 'الدرس مكتمل. ابدأ الدرس التالي.';
+        } else {
+          descEl.textContent = 'ابدأ الدرس الآن وخذ خطوة جديدة في رحلتك.';
         }
       }
 
-      // تحديث التقدّم لو متوفر
-      if (data.progress) {
-        const completed = (data.progress.completedLessons || []).length;
-        const totalQuestions = data.progress.totalQuestionsSolved || 0;
+      // شريط التقدّم
+      const progressFill = document.querySelector('.progress-fill');
+      const progressText = document.querySelector('.progress-text');
+      if (progressFill) progressFill.style.width = `${percentage}%`;
+      if (progressText) progressText.textContent = `${toArabic(percentage)}٪`;
 
-        // تحديث الإحصائيات
-        const statVals = document.querySelectorAll('.stat-val');
-        if (statVals[0]) statVals[0].textContent = `${convertToArabicNumerals(completed)} / ١٥`;
-        if (statVals[1]) statVals[1].textContent = convertToArabicNumerals(totalQuestions);
+      // رابط الزر
+      const continueBtn = document.querySelector('.btn-continue');
+      if (continueBtn) {
+        continueBtn.href = `lessons/${currentLessonId}.html`;
       }
     }
 
-    function convertToArabicNumerals(num) {
-      const arabicNumerals = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
-      return String(num).split('').map(d => arabicNumerals[parseInt(d)] || d).join('');
+    // ─────────────────────────────────────────
+    //  تحديث نقاط الضعف
+    // ─────────────────────────────────────────
+    function updateWeaknesses(weaknesses) {
+      const weakList = document.querySelector('.weak-list');
+      if (!weakList) return;
+
+      // إذا ما فيه بيانات بعد
+      if (!weaknesses || Object.keys(weaknesses).length === 0) {
+        weakList.innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--ink-mute);font-size:14px">
+            ابدأ بحلّ التمارين عشان نشخّص نقاط ضعفك
+          </div>
+        `;
+        return;
+      }
+
+      // ترتيب الأنواع بناءً على الدقة (الأضعف أولاً)
+      const sorted = Object.entries(weaknesses)
+        .filter(([type, data]) => data.total > 0)
+        .sort(([, a], [, b]) => a.accuracy - b.accuracy);
+
+      if (sorted.length === 0) {
+        weakList.innerHTML = `
+          <div style="text-align:center;padding:20px;color:var(--ink-mute);font-size:14px">
+            ابدأ بحلّ التمارين عشان نشخّص نقاط ضعفك
+          </div>
+        `;
+        return;
+      }
+
+      weakList.innerHTML = sorted.map(([type, data]) => {
+        const title = QUESTION_TYPES[type] || type;
+        const accuracy = data.accuracy || 0;
+        const mistakes = data.total - data.correct;
+
+        // اللون حسب الدقة
+        let color, label;
+        if (accuracy >= 90) { color = 'var(--green)'; label = 'ممتاز'; }
+        else if (accuracy >= 75) { color = 'var(--accent-deep)'; label = 'جيد'; }
+        else if (accuracy >= 60) { color = '#F97316'; label = 'متوسط'; }
+        else { color = 'var(--red)'; label = 'ضعيف'; }
+
+        return `
+          <div class="weak-item">
+            <div>
+              <div class="weak-label-row">
+                <span class="weak-label">${title}</span>
+                <span class="weak-count">${toArabic(mistakes)} أخطاء من ${toArabic(data.total)}</span>
+              </div>
+            </div>
+            <span style="font-size: 13px; font-weight: 800; color: ${color}; font-feature-settings: 'tnum'">${toArabic(accuracy)}٪</span>
+            <div class="weak-bar-track">
+              <div class="weak-bar-fill" style="width: ${accuracy}%; background: ${color}"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    // تسجيل الخروج عند الضغط على بطاقة المستخدم
+    // ─────────────────────────────────────────
+    //  تحديث شبكة الدروس
+    // ─────────────────────────────────────────
+    function updateLessonsGrid(lessonsProgress, currentLessonId) {
+      const grid = document.querySelector('.lessons-grid');
+      if (!grid) return;
+
+      const completedSet = new Set();
+      Object.entries(lessonsProgress).forEach(([id, data]) => {
+        if (data.completed) completedSet.add(id);
+      });
+
+      // أبني شبكة الدروس من البيانات
+      const lessonsHTML = Object.values(LESSONS_META).slice(0, 9).map(lesson => {
+        const lessonData = lessonsProgress[lesson.id] || {};
+        const isCompleted = completedSet.has(lesson.id);
+        const isCurrent = lesson.id === currentLessonId;
+        const percentage = lessonData.percentage || 0;
+        const chapterColor = getChapterColor(lesson.chapter);
+
+        let stateClass = 'locked';
+        let isClickable = false;
+
+        if (isCompleted) {
+          stateClass = 'completed';
+          isClickable = true;
+        } else if (isCurrent) {
+          stateClass = 'in-progress';
+          isClickable = true;
+        } else if (lesson.isFree) {
+          stateClass = '';
+          isClickable = true;
+        }
+
+        const tag = isClickable
+          ? `<a href="lessons/${lesson.id}.html" class="lesson-card ${stateClass}">`
+          : `<div class="lesson-card ${stateClass}">`;
+        const closeTag = isClickable ? '</a>' : '</div>';
+
+        const statusIcon = isCompleted
+          ? `<svg class="lesson-status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`
+          : isCurrent
+            ? `<svg class="lesson-status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>`
+            : `<svg class="lesson-status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`;
+
+        const subtitle = isCurrent && percentage > 0
+          ? `تكملة • ${toArabic(percentage)}٪`
+          : getChapterName(lesson.chapter);
+
+        return `
+          ${tag}
+            <div class="lesson-num-circle">${toArabic(lesson.num)}</div>
+            <div class="lesson-info">
+              <div class="lesson-title">${lesson.title}</div>
+              <div class="lesson-meta">
+                <span class="lesson-meta-dot" style="background:${chapterColor}"></span>
+                <span>${subtitle}</span>
+              </div>
+            </div>
+            ${statusIcon}
+          ${closeTag}
+        `;
+      }).join('');
+
+      grid.innerHTML = lessonsHTML;
+    }
+
+    // ─────────────────────────────────────────
+    //  دوال مساعدة
+    // ─────────────────────────────────────────
+    function toArabic(num) {
+      const ar = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+      return String(num).split('').map(d => ar[parseInt(d)] || d).join('');
+    }
+
+    function getChapterColor(chapter) {
+      const colors = {
+        1: '#3B82F6',
+        2: '#10B981',
+        3: '#E8B84A',
+        4: '#A855F7',
+        5: '#F97316',
+        6: '#B84545'
+      };
+      return colors[chapter] || '#888';
+    }
+
+    function getChapterName(chapter) {
+      const names = {
+        1: 'التأسيس',
+        2: 'التناظر',
+        3: 'إكمال الجمل',
+        4: 'الخطأ والشاذة',
+        5: 'استيعاب المقروء',
+        6: 'المراجعة والاختبار'
+      };
+      return names[chapter] || '';
+    }
+
+    function calculateStreak(lastStudyDate) {
+      if (!lastStudyDate) return 0;
+      const last = lastStudyDate.toDate ? lastStudyDate.toDate() : new Date(lastStudyDate);
+      const today = new Date();
+      const diffDays = Math.floor((today - last) / (1000 * 60 * 60 * 24));
+      // مبدئياً: لو درس آخر ٧ أيام، نعتبر له streak
+      return diffDays <= 1 ? 1 : 0;
+    }
+
+    // ─────────────────────────────────────────
+    //  تسجيل الخروج
+    // ─────────────────────────────────────────
     document.querySelector('.sidebar-user')?.addEventListener('click', async () => {
       if (confirm('هل تريد تسجيل الخروج؟')) {
         const result = await logOut();
