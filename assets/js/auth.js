@@ -92,6 +92,25 @@ export async function signInWithGoogle() {
 // ============================================
 export async function logOut() {
   try {
+    // 🧹 نظافة شاملة: مسح كل الـ state على client-side قبل signOut
+    if (typeof window !== 'undefined') {
+      // مسح window vars
+      delete window._zubadCurrentUser;
+      delete window._zubadDerivedCurrent;
+
+      // مسح localStorage (التقدّم اللحظي للدروس)
+      try {
+        const keys = Object.keys(localStorage);
+        for (const key of keys) {
+          if (key.startsWith('zubad_lesson_')) {
+            localStorage.removeItem(key);
+          }
+        }
+      } catch (e) {
+        console.warn('[auth] localStorage cleanup failed:', e);
+      }
+    }
+
     await signOut(auth);
     return { success: true };
   } catch (error) {
@@ -156,13 +175,18 @@ async function createUserDocument(user, additionalData = {}) {
       amount: 0
     },
 
-    // تقدّم الطالب
+    // تقدّم الطالب — هيكل كامل ومتسق مع firestore.js
     progress: {
-      currentLesson: 1,
+      currentLesson: "lesson-01",        // ✅ string بدل رقم
       completedLessons: [],
       totalQuestionsSolved: 0,
+      totalCorrectAnswers: 0,             // ✅ مضاف
+      totalMistakes: 0,                    // ✅ مضاف
       lastStudyDate: null
-    }
+    },
+
+    // نقاط الضعف (تشخيص ذكي)
+    weaknesses: {}                        // ✅ مضاف
   };
 
   await setDoc(userRef, userData);

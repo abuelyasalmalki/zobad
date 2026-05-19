@@ -207,12 +207,74 @@ export async function getUserProgress() {
   try {
     const userDoc = await getDoc(doc(db, "users", user.uid));
     if (!userDoc.exists()) {
+      console.warn('[firestore] user doc missing - this should not happen');
       return { success: false, error: 'البيانات غير موجودة' };
+    }
+
+    let data = userDoc.data();
+
+    // 🔧 إصلاح ذاتي: لو في بيانات قديمة أو ناقصة، نصلحها
+    let needsRepair = false;
+    const repairs = {};
+
+    // ١. تأكد إن progress موجود
+    if (!data.progress) {
+      data.progress = {};
+      needsRepair = true;
+    }
+
+    // ٢. تأكد إن currentLesson string (مش رقم)
+    if (typeof data.progress.currentLesson === 'number') {
+      const num = data.progress.currentLesson;
+      const fixedId = `lesson-${String(num).padStart(2, '0')}`;
+      data.progress.currentLesson = fixedId;
+      repairs['progress.currentLesson'] = fixedId;
+      needsRepair = true;
+      console.log('[firestore] fixed currentLesson (number → string):', fixedId);
+    }
+
+    // ٣. تأكد من وجود الحقول الأساسية
+    const defaults = {
+      'progress.currentLesson': 'lesson-01',
+      'progress.completedLessons': [],
+      'progress.totalQuestionsSolved': 0,
+      'progress.totalCorrectAnswers': 0,
+      'progress.totalMistakes': 0
+    };
+
+    for (const [path, defaultValue] of Object.entries(defaults)) {
+      const keys = path.split('.');
+      let val = data;
+      for (const k of keys) val = val?.[k];
+      if (val === undefined || val === null) {
+        repairs[path] = defaultValue;
+        needsRepair = true;
+        // نحدّث في الـ data المحلية للقراءة الفورية
+        if (keys.length === 2) {
+          if (!data[keys[0]]) data[keys[0]] = {};
+          data[keys[0]][keys[1]] = defaultValue;
+        }
+      }
+    }
+
+    // ٤. تأكد من weaknesses
+    if (!data.weaknesses) {
+      data.weaknesses = {};
+      repairs['weaknesses'] = {};
+      needsRepair = true;
+    }
+
+    // إصلاح Firestore في الخلفية (بدون انتظار)
+    if (needsRepair) {
+      console.log('[firestore] auto-repairing user doc:', repairs);
+      updateDoc(doc(db, "users", user.uid), repairs).catch(err => {
+        console.warn('[firestore] auto-repair failed:', err);
+      });
     }
 
     return {
       success: true,
-      data: userDoc.data()
+      data: data
     };
   } catch (error) {
     console.error('[firestore] getUserProgress error:', error);
