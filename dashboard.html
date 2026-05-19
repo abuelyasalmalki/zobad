@@ -1195,6 +1195,11 @@
       const currentLessonData = lessonsProgress[currentLessonId] || {};
       const percentage = currentLessonData.percentage || 0;
 
+      // التحقق من إمكانية الوصول للدرس الحالي
+      const isAdmin = isAdminUser(window._zubadCurrentUser);
+      const isPaid = userData.subscription?.status === 'paid';
+      const needsSubscription = !isAdmin && !isPaid && !lessonMeta.isFree;
+
       // العنوان
       const titleEl = document.querySelector('.continue-title');
       if (titleEl) titleEl.textContent = `${toArabic(lessonMeta.num)}. ${lessonMeta.title}`;
@@ -1202,7 +1207,9 @@
       // الوصف
       const descEl = document.querySelector('.continue-desc');
       if (descEl) {
-        if (percentage > 0 && percentage < 100) {
+        if (needsSubscription) {
+          descEl.textContent = `وصلت لمرحلة تحتاج اشتراك. اشترك علشان تكمّل رحلتك ٦ شهور كاملة.`;
+        } else if (percentage > 0 && percentage < 100) {
           descEl.textContent = `وصلت لنسبة ${toArabic(percentage)}٪. كمّل من حيث وقفت.`;
         } else if (currentLessonData.completed) {
           descEl.textContent = 'الدرس مكتمل. ابدأ الدرس التالي.';
@@ -1217,10 +1224,20 @@
       if (progressFill) progressFill.style.width = `${percentage}%`;
       if (progressText) progressText.textContent = `${toArabic(percentage)}٪`;
 
-      // رابط الزر
+      // الزر — لو يحتاج اشتراك يصير "اشترك الآن"
       const continueBtn = document.querySelector('.btn-continue');
       if (continueBtn) {
-        continueBtn.href = `lessons/${currentLessonId}.html`;
+        if (needsSubscription) {
+          continueBtn.href = 'subscribe.html';
+          continueBtn.innerHTML = '🔓 اشترك الآن <span style="font-size:18px">←</span>';
+          continueBtn.style.background = 'linear-gradient(135deg, var(--accent), var(--accent-deep))';
+        } else {
+          continueBtn.href = `lessons/${currentLessonId}.html`;
+          // نرجع النص الأصلي
+          const btnText = percentage > 0 ? 'كمّل الدرس' : 'ابدأ الآن';
+          continueBtn.innerHTML = `${btnText} <span style="font-size:18px">←</span>`;
+          continueBtn.style.background = '';
+        }
       }
     }
 
@@ -1342,12 +1359,16 @@
           stateClass = '';
           isClickable = true;
         } else {
+          // مقفل — يحتاج اشتراك
           stateClass = 'locked';
-          isClickable = false;
+          isClickable = true;  // يقدر يضغط → يفتح صفحة الاشتراك
         }
 
+        // الرابط: لو مقفل = صفحة الاشتراك، لو مفتوح = الدرس
+        const href = stateClass === 'locked' ? 'subscribe.html' : `lessons/${lesson.id}.html`;
+
         const tag = isClickable
-          ? `<a href="lessons/${lesson.id}.html" class="lesson-card ${stateClass}">`
+          ? `<a href="${href}" class="lesson-card ${stateClass}">`
           : `<div class="lesson-card ${stateClass}">`;
         const closeTag = isClickable ? '</a>' : '</div>';
 
@@ -1359,7 +1380,9 @@
 
         const subtitle = isCurrent && percentage > 0
           ? `تكملة • ${toArabic(percentage)}٪`
-          : getChapterName(lesson.chapter);
+          : stateClass === 'locked'
+            ? `🔒 يحتاج اشتراك`
+            : getChapterName(lesson.chapter);
 
         return `
           ${tag}
