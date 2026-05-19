@@ -1038,6 +1038,7 @@
       }
 
       console.log('[dashboard] user authenticated:', user.uid);
+      window._zubadCurrentUser = user;  // للوصول من updateMainStats
       updateUserDisplay(user);
 
       // قراءتان فقط من Firestore لكل تحميل صفحة
@@ -1075,16 +1076,34 @@
     }
 
     // ─────────────────────────────────────────
+    //  قائمة Admin emails (مطابقة لـ firestore.js)
+    // ─────────────────────────────────────────
+    const ADMIN_EMAILS = [
+      'abuelyasalmalki@gmail.com',
+      'molhaqat@gmail.com'
+    ];
+
+    function isAdminUser(user) {
+      return user && user.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
+    }
+
+    // ─────────────────────────────────────────
     //  تحديث الإحصائيات الرئيسية
     // ─────────────────────────────────────────
     function updateMainStats(userData) {
       // حالة الاشتراك
       const userPlanEl = document.querySelector('.user-plan');
-      if (userPlanEl && userData.subscription) {
-        const status = userData.subscription.status;
-        if (status === 'paid') userPlanEl.textContent = 'عضو • ٦ شهور';
-        else if (status === 'free') userPlanEl.textContent = 'الباقة المجانية';
-        else userPlanEl.textContent = 'انتهى الاشتراك';
+      const currentAuthUser = window._zubadCurrentUser;
+      if (userPlanEl) {
+        if (isAdminUser(currentAuthUser)) {
+          userPlanEl.textContent = '🛡️ Admin — وصول كامل';
+          userPlanEl.style.color = 'var(--accent-deep)';
+        } else if (userData.subscription) {
+          const status = userData.subscription.status;
+          if (status === 'paid') userPlanEl.textContent = 'عضو • ٦ شهور';
+          else if (status === 'free') userPlanEl.textContent = 'الباقة المجانية';
+          else userPlanEl.textContent = 'انتهى الاشتراك';
+        }
       }
 
       const progress = userData.progress || {};
