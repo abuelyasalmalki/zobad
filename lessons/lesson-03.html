@@ -576,6 +576,22 @@ watchAuthState(async (user) => {
   const firstName = (user.displayName || 'طالب').split(' ')[0];
   console.log('[lesson] welcome', firstName);
 
+  // 🎯 حماية ذاتية: نحدّث currentLesson لو الطالب فتح درس أعلى من اللي محفوظ
+  // (يحلّ مشكلة Dashboard ما يحدّث لما الطالب يتجاوز يدوياً)
+  try {
+    const progressResp = await getLessonProgress(CURRENT_LESSON_ID);
+    // نقرأ progress العام
+    const currentNum = parseInt(CURRENT_LESSON_ID.split('-')[1]);
+    if (!isNaN(currentNum) && currentNum > 1) {
+      // نحدّث currentLesson — بدون انتظار
+      updateCurrentLessonOnly(CURRENT_LESSON_ID).then(r => {
+        console.log('[lesson] auto-updated currentLesson to:', CURRENT_LESSON_ID, r);
+      }).catch(e => console.warn('[lesson] failed to auto-update currentLesson:', e));
+    }
+  } catch (e) {
+    console.warn('[lesson] auto-update check failed:', e);
+  }
+
   // التحقق من تقدّم محلي سابق
   const localProgress = getLessonLocalProgress(CURRENT_LESSON_ID);
   if (localProgress && localProgress.stage && localProgress.stage !== 'intro') {
