@@ -177,6 +177,27 @@ async function updateWeaknesses(userId, questions) {
 }
 
 /**
+ * تحديث الدرس الحالي فقط (بدون تسجيل إكمال)
+ * يُستخدم لما الطالب يختار "كمّل للتالي" بعد فشل
+ */
+export async function updateCurrentLessonOnly(nextLessonId) {
+  const user = auth.currentUser;
+  if (!user) return { success: false, error: 'لازم تسجّل دخول' };
+
+  try {
+    const userRef = doc(db, "users", user.uid);
+    await updateDoc(userRef, {
+      'progress.currentLesson': nextLessonId,
+      'progress.lastStudyDate': serverTimestamp()
+    });
+    return { success: true };
+  } catch (error) {
+    console.error('[firestore] updateCurrentLessonOnly error:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
  * جلب التقدّم الكامل للطالب
  */
 export async function getUserProgress() {
